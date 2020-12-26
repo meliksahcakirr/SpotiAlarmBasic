@@ -1,4 +1,4 @@
-package com.meliksahcakir.androidtemplate
+package com.meliksahcakir.spotialarm
 
 import android.os.Bundle
 import android.view.View

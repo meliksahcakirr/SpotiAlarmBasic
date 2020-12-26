@@ -20,7 +20,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = ("androidtemplate")
+rootProject.name = ("spotialarm")
 
 include(
     "app",

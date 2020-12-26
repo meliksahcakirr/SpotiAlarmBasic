@@ -36,6 +36,10 @@ android {
         isWarningsAsErrors = true
         isAbortOnError = true
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

@@ -4,8 +4,8 @@
     <color name="blueGrayDark">#354a67</color>
     <color name="blueGrayLightVariant">#718094</color>
     <color name="blueGrayLight">#5d6e85</color>
-    <color name="orangeLight">#fdb43a</color>
-    <color name="orangeDark">#f57a21</color>
+    <color name="green">#1DB954</color>
+    <color name="greenVariant">#1aa64b</color>
     <color name="redLight">#cf6679</color>
     <color name="redDark">#C62828</color>
     <!--<color name="grayLight">#808080</color>-->

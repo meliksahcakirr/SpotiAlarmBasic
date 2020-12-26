@@ -5,8 +5,8 @@
     <style name="Base.Theme.MyApp" parent="Base.Theme.App">
         <item name="colorPrimary">@color/blueGrayDark</item>
         <item name="colorPrimaryVariant">@color/blueGrayDarkVariant</item>
-        <item name="colorSecondary">@color/orangeLight</item>
-        <item name="colorSecondaryVariant">@color/orangeDark</item>
+        <item name="colorSecondary">@color/green</item>
+        <item name="colorSecondaryVariant">@color/greenVariant</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorError">@color/redDark</item>

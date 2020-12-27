@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.ActivityMainBinding
+import com.meliksahcakir.spotialarm.setNearestAlarm
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 class MainActivity : AppCompatActivity(), AlarmListener {
 
@@ -39,13 +42,30 @@ class MainActivity : AppCompatActivity(), AlarmListener {
             )
         }
         alarmAdapter.submitList(alarms)
+        findNearestAlarm()
     }
 
     override fun onClick(alarm: Alarm) {
-        // TODO not implemented yet
     }
 
-    override fun onAlarmEnableStatusChanged(enabled: Boolean) {
-        // TODO not implemented yet
+    override fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
+        alarm.enabled = enabled
+        findNearestAlarm()
+    }
+
+    private fun findNearestAlarm() {
+        var nearestAlarm: LocalDateTime? = null
+        var minDiff = Long.MAX_VALUE
+        val now = LocalDateTime.now()
+        for (alarm in alarmAdapter.currentList) {
+            if (!alarm.enabled) continue
+            val date = alarm.nearestDate(now)
+            val diff = ChronoUnit.MINUTES.between(now, date)
+            if (diff < minDiff) {
+                minDiff = diff
+                nearestAlarm = date
+            }
+        }
+        binding.setNearestAlarm(now, nearestAlarm)
     }
 }

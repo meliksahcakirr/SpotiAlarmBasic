@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 @Entity(tableName = "alarms")
@@ -16,7 +15,7 @@ data class Alarm(
     @ColumnInfo(name = "minute")
     val minute: Int = 0,
     @ColumnInfo(name = "enabled")
-    val enabled: Boolean = false,
+    var enabled: Boolean = false,
     @ColumnInfo(name = "days")
     val days: Int = 0,
     @ColumnInfo(name = "description")
@@ -47,10 +46,15 @@ data class Alarm(
 
     fun nearestDate(localDateTime: LocalDateTime? = null): LocalDateTime? {
         if (!enabled) return null
-        var nearestDate: LocalDateTime? = null
-        val today = LocalDate.now()
-        val time = localDateTime ?: today.atTime(LocalTime.now())
+        val time = localDateTime ?: LocalDateTime.now()
         var alarmDate = time.withHour(hour).withMinute(minute)
+        if (days == 0) {
+            if (alarmDate.isBefore(time)) {
+                alarmDate = alarmDate.plusDays(1)
+            }
+            return alarmDate
+        }
+        var nearestDate: LocalDateTime? = null
         var minTimeDiff = Long.MAX_VALUE
         for (i in DayOfWeek.values().indices) {
             val day = alarmDate.dayOfWeek

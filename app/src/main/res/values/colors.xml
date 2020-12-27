@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blueGrayDarkVariant">#466288</color>
-    <color name="blueGrayDark">#354a67</color>
+    <color name="blueGrayDarkVariant">#354a67</color>
+    <color name="blueGrayDark">#1a2533</color>
     <color name="blueGrayLightVariant">#718094</color>
     <color name="blueGrayLight">#5d6e85</color>
     <color name="green">#00BCD4</color>

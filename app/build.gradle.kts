@@ -39,6 +39,10 @@ android {
         isAbortOnError = true
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     buildFeatures {
         viewBinding = true
     }

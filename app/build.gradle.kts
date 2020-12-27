@@ -19,6 +19,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -61,6 +63,7 @@ dependencies {
     implementation(SupportLibs.COROUTINES_CORE)
     implementation(SupportLibs.COROUTINES_ANDROID)
     implementation(SupportLibs.TIMBER)
+    coreLibraryDesugaring(SupportLibs.DESUGAR)
 
     testImplementation(TestingLib.JUNIT)
 

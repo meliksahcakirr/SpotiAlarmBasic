@@ -20,6 +20,7 @@ object Versions {
     const val ROOM = "2.2.6"
     const val FRAGMENT = "1.2.5"
     const val TIMBER = "4.7.1"
+    const val DESUGAR = "1.0.9"
 }
 
 object BuildPluginsVersion {
@@ -46,6 +47,7 @@ object SupportLibs {
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
+    const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
 }
 
 object TestingLib {

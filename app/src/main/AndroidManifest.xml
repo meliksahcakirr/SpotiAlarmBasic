@@ -4,6 +4,7 @@
     package="com.meliksahcakir.spotialarm">
 
     <application
+        android:name=".SpotiAlarmApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_spotialarm"
         android:label="@string/app_name"
@@ -11,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:ignore="AllowBackup">
-        <activity android:name="com.meliksahcakir.spotialarm.MainActivity">
+        <activity android:name="com.meliksahcakir.spotialarm.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

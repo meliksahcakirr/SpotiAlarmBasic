@@ -4,11 +4,11 @@
     <color name="blueGrayDark">#354a67</color>
     <color name="blueGrayLightVariant">#718094</color>
     <color name="blueGrayLight">#5d6e85</color>
-    <color name="green">#1DB954</color>
-    <color name="greenVariant">#1aa64b</color>
+    <color name="green">#00BCD4</color>
+    <color name="greenVariant">#009688</color>
     <color name="redLight">#cf6679</color>
     <color name="redDark">#C62828</color>
-    <!--<color name="grayLight">#808080</color>-->
+    <color name="grayLight">#C0C0C0</color>
     <color name="grayDark">#202020</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

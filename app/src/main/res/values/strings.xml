@@ -5,4 +5,14 @@
     <string name="factorial_hint">Insert a number to compute his factorial</string>
     <string name="compute">Compute</string>
     <string name="notification_title">The Result is:</string>
+    <string name="add_alarm">Add alarm</string>
+    <string name="monday_abbr">M</string>
+    <string name="tuesday_abbr">T</string>
+    <string name="wednesday_abbr">W</string>
+    <string name="thursday_abbr">T</string>
+    <string name="friday_abbr">F</string>
+    <string name="saturday_abbr">S</string>
+    <string name="sunday_abbr">S</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
 </resources>

@@ -52,7 +52,8 @@ data class Alarm(
         val time = localDateTime ?: today.atTime(LocalTime.now())
         var alarmDate = time.withHour(hour).withMinute(minute)
         var minTimeDiff = Long.MAX_VALUE
-        for (day in DayOfWeek.values()) {
+        for (i in DayOfWeek.values().indices) {
+            val day = alarmDate.dayOfWeek
             if (days and (1 shl day.ordinal) > 0) {
                 val pair = getNormalizedDateAndTimeDiffPair(time, alarmDate)
                 if (pair.second < minTimeDiff) {

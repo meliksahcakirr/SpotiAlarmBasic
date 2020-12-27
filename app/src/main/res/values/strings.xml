@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">SpotiAlarm</string>
-    <string name="title">This is just a template</string>
-    <string name="description">You can compute a factorial using the library-kotlin module. The result will be also shown in a notification using the library-android module.</string>
-    <string name="factorial_hint">Insert a number to compute his factorial</string>
-    <string name="compute">Compute</string>
-    <string name="notification_title">The Result is:</string>
     <string name="add_alarm">Add alarm</string>
     <string name="monday_abbr">M</string>
     <string name="tuesday_abbr">T</string>
@@ -15,4 +10,5 @@
     <string name="sunday_abbr">S</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="alarm_image">Alarm Image</string>
 </resources>

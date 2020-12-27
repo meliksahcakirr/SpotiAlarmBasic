@@ -53,7 +53,7 @@
 
     <style name="AlarmMaterialCardViewStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">0dp</item>
-        <item name="cardElevation">8dp</item>
+        <item name="cardElevation">@dimen/base_grid_size</item>
     </style>
 
 </resources>

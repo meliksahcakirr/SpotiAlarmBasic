@@ -4,32 +4,34 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 @Entity(tableName = "alarms")
 data class Alarm(
     @ColumnInfo(name = "hour")
-    val hour: Int = 0,
+    var hour: Int = 0,
     @ColumnInfo(name = "minute")
-    val minute: Int = 0,
+    var minute: Int = 0,
     @ColumnInfo(name = "enabled")
     var enabled: Boolean = false,
     @ColumnInfo(name = "days")
-    val days: Int = 0,
+    var days: Int = 0,
+    @ColumnInfo(name = "vibrate")
+    var vibrate: Boolean = false,
+    @ColumnInfo(name = "snooze")
+    var snooze: Boolean = true,
     @ColumnInfo(name = "description")
-    val description: String = "",
+    var description: String = "",
     @ColumnInfo(name = "musicId")
-    val musicId: String = "",
+    var musicId: String = "",
     @ColumnInfo(name = "imageId")
-    val imageId: String = ""
+    var imageId: String = ""
 ) {
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "alarmId")
     val alarmId: String = java.util.UUID.randomUUID().toString()
-
-    val alarmDate: LocalDateTime get() = LocalDate.now().atTime(hour, minute)
 
     companion object {
         const val MONDAY = 0x01
@@ -43,6 +45,8 @@ data class Alarm(
         const val WEEKEND = 0x60
         const val ALL_DAYS = 0x7F
     }
+
+    val alarmTime: LocalTime get() = LocalTime.of(hour, minute)
 
     fun nearestDate(localDateTime: LocalDateTime? = null): LocalDateTime? {
         if (!enabled) return null

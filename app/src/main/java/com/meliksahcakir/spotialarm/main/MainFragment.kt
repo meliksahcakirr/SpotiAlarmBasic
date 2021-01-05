@@ -1,16 +1,20 @@
 package com.meliksahcakir.spotialarm.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.spotialarm.data.Alarm
-import com.meliksahcakir.spotialarm.databinding.ActivityMainBinding
+import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import com.meliksahcakir.spotialarm.setNearestAlarm
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-class MainActivity : AppCompatActivity(), AlarmListener {
+class MainFragment : Fragment(), AlarmListener {
 
     companion object {
         private const val ALARM_HOUR_1 = 8
@@ -20,32 +24,44 @@ class MainActivity : AppCompatActivity(), AlarmListener {
     }
 
     private lateinit var alarmAdapter: AlarmAdapter
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: FragmentMainBinding? = null
+    private val binding: FragmentMainBinding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMainBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val alarms = arrayListOf(
             Alarm(ALARM_HOUR_1, ALARM_MINUTE_1, false, Alarm.WEEKDAYS),
             Alarm(ALARM_HOUR_2, ALARM_MINUTE_2, false, Alarm.WEEKEND)
         )
         alarmAdapter = AlarmAdapter(this)
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = alarmAdapter
             addItemDecoration(
                 DividerItemDecoration(
-                    this@MainActivity,
+                    requireContext(),
                     DividerItemDecoration.VERTICAL
                 )
             )
         }
         alarmAdapter.submitList(alarms)
         findNearestAlarm()
+        binding.fab.setOnClickListener {
+            navigateToEditFragment()
+        }
     }
 
     override fun onClick(alarm: Alarm) {
+        navigateToEditFragment(alarm.alarmId)
     }
 
     override fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
@@ -67,5 +83,15 @@ class MainActivity : AppCompatActivity(), AlarmListener {
             }
         }
         binding.setNearestAlarm(now, nearestAlarm)
+    }
+
+    private fun navigateToEditFragment(id: String? = null) {
+        val direction = MainFragmentDirections.actionMainFragmentToAlarmEditFragment(id)
+        findNavController().navigate(direction)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

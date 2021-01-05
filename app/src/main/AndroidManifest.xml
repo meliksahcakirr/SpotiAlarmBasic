@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:ignore="AllowBackup">
-        <activity android:name="com.meliksahcakir.spotialarm.main.MainActivity">
+        <activity android:name="com.meliksahcakir.spotialarm.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

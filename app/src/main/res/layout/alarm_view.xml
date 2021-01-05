@@ -5,14 +5,12 @@
     style="@style/AlarmMaterialCardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background"
     android:padding="@dimen/doub_grid_size">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background"
         android:padding="@dimen/doub_grid_size">
 
         <ImageView
@@ -39,7 +37,7 @@
             tools:text="08:50" />
 
         <TextView
-            android:id="@+id/alarmTimeAmPmTextView"
+            android:id="@+id/alarmTimePeriodTextView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"

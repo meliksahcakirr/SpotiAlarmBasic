@@ -4,6 +4,7 @@ plugins {
     id("kotlin-android-extensions")
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-android")
 }
 
 android {
@@ -67,6 +68,7 @@ dependencies {
     implementation(SupportLibs.COROUTINES_CORE)
     implementation(SupportLibs.COROUTINES_ANDROID)
     implementation(SupportLibs.TIMBER)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     coreLibraryDesugaring(SupportLibs.DESUGAR)
 
     testImplementation(TestingLib.JUNIT)

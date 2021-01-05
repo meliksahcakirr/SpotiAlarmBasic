@@ -28,4 +28,11 @@
     <string name="in_hours_minutes">in %1$s, %2$s</string>
     <string name="in_minutes">in %1$s</string>
     <string name="now">Now</string>
+    <string name="add_music">Add Music</string>
+    <string name="enter_a_description">Enter a description</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="snooze">Snooze</string>
+    <string name="days">Days</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

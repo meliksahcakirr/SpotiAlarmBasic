@@ -4,14 +4,12 @@ import android.content.Context
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.view.size
-import com.google.android.material.button.MaterialButton
 import com.meliksahcakir.androidutils.drawable
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import java.time.Duration
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -43,7 +41,6 @@ fun AlarmViewBinding.bind(alarm: Alarm) {
 fun FragmentAlarmEditBinding.setup(alarm: Alarm) {
     val context = root.context
     alarm.enabled = true
-    var date = alarm.nearestDate() ?: LocalDateTime.of(LocalDate.now(), alarm.alarmTime)
     val formatter = DateTimeFormatter.ofPattern("hh:mm")
     alarmTimeTextView.text = alarm.alarmTime.format(formatter)
     if (alarm.hour >= NOON) {
@@ -51,7 +48,6 @@ fun FragmentAlarmEditBinding.setup(alarm: Alarm) {
     } else {
         alarmTimePeriodTextView.text = context.getString(R.string.am)
     }
-    durationTextView.text = calculateDurationString(context, LocalDateTime.now(), date)
     val days = alarm.days
     for (i in 0 until daysToggleGroup.size) {
         val view = daysToggleGroup[i]
@@ -61,20 +57,13 @@ fun FragmentAlarmEditBinding.setup(alarm: Alarm) {
     }
     vibrationFab.isChecked = alarm.vibrate
     snoozeFab.isChecked = alarm.snooze
-    daysToggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-        val button: MaterialButton = group.findViewById(checkedId)
-        val index = group.indexOfChild(button)
-        if (isChecked) {
-            alarm.days = alarm.days or (1 shl index)
-        } else {
-            alarm.days = alarm.days and (1 shl index).inv()
-        }
-        date = alarm.nearestDate() ?: LocalDate.now().atTime(alarm.hour, alarm.minute)
-        durationTextView.text = calculateDurationString(context, LocalDateTime.now(), date)
-    }
+    descriptionEditText.setText(alarm.description)
 }
 
-fun FragmentMainBinding.setNearestAlarm(now: LocalDateTime, nearestAlarm: LocalDateTime?) {
+fun FragmentMainBinding.setNearestAlarm(
+    nearestAlarm: LocalDateTime?,
+    now: LocalDateTime = LocalDateTime.now()
+) {
     val context = root.context
     if (nearestAlarm == null) {
         allAlarmsOffTextView.isVisible = true
@@ -82,7 +71,7 @@ fun FragmentMainBinding.setNearestAlarm(now: LocalDateTime, nearestAlarm: LocalD
     } else {
         allAlarmsOffTextView.isVisible = false
         nearestAlarmGroup.isVisible = true
-        val durationText = calculateDurationString(context, now, nearestAlarm)
+        val durationText = calculateDurationString(context, nearestAlarm, now)
         durationTextView.text = durationText
         val formatter = DateTimeFormatter.ofPattern("hh:mm")
         nearestAlarmTextView.text = nearestAlarm.format(formatter)
@@ -96,8 +85,8 @@ fun FragmentMainBinding.setNearestAlarm(now: LocalDateTime, nearestAlarm: LocalD
 
 fun calculateDurationString(
     context: Context,
-    now: LocalDateTime,
-    alarm: LocalDateTime
+    alarm: LocalDateTime,
+    now: LocalDateTime = LocalDateTime.now()
 ): String {
     val resources = context.resources
     var duration = Duration.between(now, alarm)

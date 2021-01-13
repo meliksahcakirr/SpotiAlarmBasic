@@ -31,7 +31,7 @@ data class Alarm(
 ) {
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "alarmId")
-    val alarmId: String = java.util.UUID.randomUUID().toString()
+    var alarmId: String = java.util.UUID.randomUUID().toString()
 
     companion object {
         const val MONDAY = 0x01
@@ -48,7 +48,7 @@ data class Alarm(
 
     val alarmTime: LocalTime get() = LocalTime.of(hour, minute)
 
-    fun nearestDate(localDateTime: LocalDateTime? = null): LocalDateTime? {
+    fun nearestDateTime(localDateTime: LocalDateTime? = null): LocalDateTime? {
         if (!enabled) return null
         val time = localDateTime ?: LocalDateTime.now()
         var alarmDate = time.withHour(hour).withMinute(minute)

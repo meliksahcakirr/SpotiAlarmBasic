@@ -17,6 +17,7 @@ import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
+import com.meliksahcakir.spotialarm.main.MainViewModel
 import com.meliksahcakir.spotialarm.setup
 
 class AlarmEditFragment : BottomSheetDialogFragment() {
@@ -28,7 +29,11 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentAlarmEditBinding? = null
     private val binding: FragmentAlarmEditBinding get() = _binding!!
 
-    private val viewModel: EditViewModel by viewModels {
+    private val mainViewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() }) {
+        ServiceLocator.provideViewModelFactory(requireContext())
+    }
+
+    private val editViewModel: EditViewModel by viewModels {
         ServiceLocator.provideViewModelFactory(requireContext())
     }
 
@@ -47,22 +52,23 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
         arguments?.let {
             val args = AlarmEditFragmentArgs.fromBundle(it)
             val alarmId = args.alarmId
-            viewModel.retrieveAlarm(alarmId)
+            editViewModel.retrieveAlarm(alarmId)
         }
 
-        viewModel.selectedAlarm.observe(viewLifecycleOwner) {
+        editViewModel.selectedAlarm.observe(viewLifecycleOwner) {
             setupView(it)
         }
 
-        viewModel.alarmDateTime.observe(viewLifecycleOwner) {
+        editViewModel.alarmDateTime.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.durationTextView.text = calculateDurationString(requireContext(), it)
             }
         }
 
-        viewModel.goToMainPageEvent.observe(
+        editViewModel.goToMainPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
+                mainViewModel.refreshData()
                 navigateToMainFragment()
             }
         )
@@ -74,16 +80,16 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
         binding.daysToggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
             val button: MaterialButton = group.findViewById(checkedId)
             val index = group.indexOfChild(button)
-            viewModel.updateAlarmDay(index, isChecked)
+            editViewModel.updateAlarmDay(index, isChecked)
         }
         binding.deleteFab.setOnClickListener {
-            viewModel.onDeleteClicked()
+            editViewModel.onDeleteClicked()
         }
         binding.saveFab.setOnClickListener {
             val description = binding.descriptionEditText.text.toString()
             val vibrate = binding.vibrationFab.isChecked
             val snooze = binding.snoozeFab.isChecked
-            viewModel.onSaveClicked(description, vibrate, snooze)
+            editViewModel.onSaveClicked(description, vibrate, snooze)
         }
     }
 

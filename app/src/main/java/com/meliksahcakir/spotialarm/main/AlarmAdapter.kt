@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meliksahcakir.spotialarm.bind
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
+import timber.log.Timber
 
 class AlarmAdapter(private val listener: AlarmListener) :
     ListAdapter<Alarm, AlarmViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<Alarm>() {
         override fun areItemsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
-            return oldItem === newItem
+            return oldItem.alarmId == newItem.alarmId
         }
 
         override fun areContentsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
@@ -26,15 +27,15 @@ class AlarmAdapter(private val listener: AlarmListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = AlarmViewBinding.inflate(inflater, parent, false)
-        return AlarmViewHolder(binding, listener)
+        return AlarmViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), listener)
     }
 }
 
-class AlarmViewHolder(private val binding: AlarmViewBinding, private val listener: AlarmListener) :
+class AlarmViewHolder(private val binding: AlarmViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     companion object {
@@ -42,13 +43,15 @@ class AlarmViewHolder(private val binding: AlarmViewBinding, private val listene
         const val DISABLED_ALPHA = 0.3f
     }
 
-    fun bind(alarm: Alarm) {
+    fun bind(alarm: Alarm, listener: AlarmListener) {
         binding.bind(alarm)
+        Timber.d("bind alarmId: ${alarm.alarmId}")
         updateViewsWithAlarmStatus(alarm.enabled)
         binding.root.setOnClickListener {
             listener.onClick(alarm)
         }
         binding.alarmSwitch.setOnCheckedChangeListener { _, b ->
+            Timber.d("switch checked: $b  alarmId: ${alarm.alarmId}")
             updateViewsWithAlarmStatus(b)
             listener.onAlarmEnableStatusChanged(alarm, b)
         }

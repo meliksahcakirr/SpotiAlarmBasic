@@ -21,8 +21,8 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
         private const val TIME_INTERVAL = 10000L
     }
 
-    private val _goToEditPageEvent = MutableLiveData<Event<String?>>()
-    val goToEditPageEvent: LiveData<Event<String?>> get() = _goToEditPageEvent
+    private val _goToEditPageEvent = MutableLiveData<Event<String>>()
+    val goToEditPageEvent: LiveData<Event<String>> get() = _goToEditPageEvent
 
     private val _alarms = MutableLiveData<List<Alarm>>()
     val alarms: MutableLiveData<List<Alarm>> get() = _alarms
@@ -40,17 +40,25 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
     }
 
     init {
+        refreshData()
+        handler.postDelayed(tickRunnable, TIME_INTERVAL)
+    }
+
+    fun refreshData() {
         viewModelScope.launch {
-            val result = repository.getAlarms()
-            val list = if (result is Result.Success) {
-                result.data
-            } else {
-                emptyList()
-            }
-            _alarms.value = list
-            _nearestAlarmDateTime.value = findNearestDateTime(list)
-            handler.postDelayed(tickRunnable, TIME_INTERVAL)
+            refreshDataInternal()
         }
+    }
+
+    private suspend fun refreshDataInternal() {
+        val result = repository.getAlarms()
+        val list = if (result is Result.Success) {
+            result.data
+        } else {
+            emptyList()
+        }
+        _alarms.value = list
+        updateNearestDateTime()
     }
 
     private fun findNearestDateTime(alarms: List<Alarm>): LocalDateTime? {
@@ -71,13 +79,18 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
         alarm.enabled = enabled
+        updateNearestDateTime()
         viewModelScope.launch {
             repository.updateAlarm(alarm.alarmId, enabled)
         }
     }
 
     fun onAlarmSelected(alarm: Alarm? = null) {
-        _goToEditPageEvent.value = Event(alarm?.alarmId)
+        _goToEditPageEvent.value = Event(alarm?.alarmId ?: "")
+    }
+
+    private fun updateNearestDateTime() {
+        _nearestAlarmDateTime.value = findNearestDateTime(_alarms.value ?: emptyList())
     }
 
     override fun onCleared() {

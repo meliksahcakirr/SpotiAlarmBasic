@@ -12,7 +12,7 @@
         <action
             android:id="@+id/action_mainFragment_to_alarmEditFragment"
             app:destination="@id/alarmEditFragment"
-            app:enterAnim="@android:anim/overshoot_interpolator" />
+            app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <dialog
         android:id="@+id/alarmEditFragment"
@@ -27,7 +27,7 @@
         <action
             android:id="@+id/action_alarmEditFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:exitAnim="@android:anim/overshoot_interpolator"
+            app:exitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
     </dialog>

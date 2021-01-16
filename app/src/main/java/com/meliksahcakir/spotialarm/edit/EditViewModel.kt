@@ -11,29 +11,19 @@ import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.data.AlarmRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     companion object {
         private const val INITIAL_TIME_INTERVAL = 3000L
         private const val TIME_INTERVAL = 10000L
-        private const val DEFAULT_HOUR = 8
-        private const val DEFAULT_MINUTE = 50
-        private val DEFAULT_ALARM = Alarm(
-            DEFAULT_HOUR,
-            DEFAULT_MINUTE,
-            false,
-            Alarm.WEEKDAYS,
-            vibrate = false,
-            snooze = true
-        )
     }
 
     private val _goToMainPageEvent = MutableLiveData<Event<Unit>>()
     val goToMainPageEvent: LiveData<Event<Unit>> get() = _goToMainPageEvent
-
-    private val timerUpdateEvent = MutableLiveData<Event<Unit>>()
 
     private val _alarmDateTime = MutableLiveData<LocalDateTime?>()
     val alarmDateTime: LiveData<LocalDateTime?> = _alarmDateTime
@@ -46,20 +36,20 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     private val tickRunnable = object : Runnable {
         override fun run() {
-            timerUpdateEvent.value = Event(Unit)
             handler.postDelayed(this, TIME_INTERVAL)
         }
     }
 
     init {
+        Timber.d("initialized")
         handler.postDelayed(tickRunnable, INITIAL_TIME_INTERVAL)
     }
 
     fun retrieveAlarm(alarmId: String?) {
         var alarm: Alarm
         viewModelScope.launch {
-            if (alarmId == null) {
-                alarm = DEFAULT_ALARM
+            if (alarmId == null || alarmId == "") {
+                alarm = defaultAlarm()
                 newAlarm = true
             } else {
                 val result = repository.getAlarmById(alarmId)
@@ -67,7 +57,7 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
                     alarm = result.data
                     newAlarm = false
                 } else {
-                    alarm = DEFAULT_ALARM
+                    alarm = defaultAlarm()
                     newAlarm = true
                 }
             }
@@ -126,5 +116,10 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         handler.removeCallbacks(tickRunnable)
+    }
+
+    private fun defaultAlarm(): Alarm {
+        val now = LocalTime.now()
+        return Alarm(now.hour, now.minute, false, Alarm.ONCE, vibrate = false, snooze = true)
     }
 }

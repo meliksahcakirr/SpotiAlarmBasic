@@ -50,7 +50,8 @@ class MainFragment : Fragment(), AlarmListener {
         }
 
         viewModel.alarms.observe(viewLifecycleOwner) {
-            alarmAdapter.submitList(it ?: emptyList())
+            val list = it ?: emptyList()
+            alarmAdapter.submitList(list)
         }
 
         viewModel.nearestAlarmDateTime.observe(viewLifecycleOwner) {

@@ -34,6 +34,7 @@ data class Alarm(
     var alarmId: String = java.util.UUID.randomUUID().toString()
 
     companion object {
+        const val ONCE = 0x00
         const val MONDAY = 0x01
         const val TUESDAY = 0x02
         const val WEDNESDAY = 0x04
@@ -44,6 +45,11 @@ data class Alarm(
         const val WEEKDAYS = 0x1F
         const val WEEKEND = 0x60
         const val ALL_DAYS = 0x7F
+
+        fun defaultAlarm(): Alarm {
+            val now = LocalTime.now()
+            return Alarm(now.hour, now.minute, false, ONCE, vibrate = false, snooze = true)
+        }
     }
 
     val alarmTime: LocalTime get() = LocalTime.of(hour, minute)
@@ -51,7 +57,7 @@ data class Alarm(
     fun nearestDateTime(localDateTime: LocalDateTime? = null): LocalDateTime? {
         if (!enabled) return null
         val time = localDateTime ?: LocalDateTime.now()
-        var alarmDate = time.withHour(hour).withMinute(minute)
+        var alarmDate = time.withHour(hour).withMinute(minute).withSecond(0)
         if (days == 0) {
             if (alarmDate.isBefore(time)) {
                 alarmDate = alarmDate.plusDays(1)

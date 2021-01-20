@@ -103,4 +103,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/emptyImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0.5"
+        android:contentDescription="@string/no_alarm_available"
+        android:src="@drawable/ic_alarm_off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:alpha="0.5"
+        android:text="@string/click_below_to_add_new_alarm"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emptyImageView" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/emptyGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="emptyImageView,emptyTextView" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.meliksahcakir.spotialarm
 
 import android.content.Context
 import androidx.core.view.get
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.size
 import com.meliksahcakir.androidutils.drawable
@@ -67,9 +68,9 @@ fun FragmentMainBinding.setNearestAlarm(
     val context = root.context
     if (nearestAlarm == null) {
         allAlarmsOffTextView.isVisible = true
-        nearestAlarmGroup.isVisible = false
+        nearestAlarmGroup.isInvisible = true
     } else {
-        allAlarmsOffTextView.isVisible = false
+        allAlarmsOffTextView.isInvisible = true
         nearestAlarmGroup.isVisible = true
         val durationText = calculateDurationString(context, nearestAlarm, now)
         durationTextView.text = durationText

@@ -35,4 +35,6 @@
     <string name="days">Days</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="no_alarm_available">No alarm available</string>
+    <string name="click_below_to_add_new_alarm">Click below to add new alarm.</string>
 </resources>

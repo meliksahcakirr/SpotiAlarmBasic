@@ -1,5 +1,6 @@
 package com.meliksahcakir.spotialarm.edit
 
+import android.app.TimePickerDialog
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +14,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.meliksahcakir.androidutils.EventObserver
+import com.meliksahcakir.spotialarm.NOON
+import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.main.MainViewModel
 import com.meliksahcakir.spotialarm.setup
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class AlarmEditFragment : BottomSheetDialogFragment() {
 
@@ -90,6 +95,28 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
             val vibrate = binding.vibrationFab.isChecked
             val snooze = binding.snoozeFab.isChecked
             editViewModel.onSaveClicked(description, vibrate, snooze)
+        }
+        binding.alarmTimeTextView.setOnClickListener {
+            val now = LocalTime.now()
+            val picker = TimePickerDialog(
+                requireContext(),
+                R.style.TimePickerDialogTheme,
+                TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                    val formatter = DateTimeFormatter.ofPattern("hh:mm")
+                    val time = LocalTime.of(hour, minute)
+                    binding.alarmTimeTextView.text = time.format(formatter)
+                    if (hour >= NOON) {
+                        binding.alarmTimePeriodTextView.text = context?.getString(R.string.pm)
+                    } else {
+                        binding.alarmTimePeriodTextView.text = context?.getString(R.string.am)
+                    }
+                    editViewModel.updateAlarmTime(hour, minute)
+                },
+                now.hour,
+                now.minute,
+                false
+            )
+            picker.show()
         }
     }
 

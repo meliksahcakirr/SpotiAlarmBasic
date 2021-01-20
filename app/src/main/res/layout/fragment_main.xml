@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
+                android:gravity="end"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4.Custom"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@id/nearestAlarmPeriodTextView"

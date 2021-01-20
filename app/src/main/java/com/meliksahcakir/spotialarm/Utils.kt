@@ -13,7 +13,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-private const val NOON = 12
+const val NOON = 12
 
 fun AlarmViewBinding.bind(alarm: Alarm) {
     val context = root.context

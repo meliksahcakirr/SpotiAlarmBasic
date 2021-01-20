@@ -21,8 +21,8 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
         private const val TIME_INTERVAL = 10000L
     }
 
-    private val _goToEditPageEvent = MutableLiveData<Event<String>>()
-    val goToEditPageEvent: LiveData<Event<String>> get() = _goToEditPageEvent
+    private val _goToEditPageEvent = MutableLiveData<Event<Int>>()
+    val goToEditPageEvent: LiveData<Event<Int>> get() = _goToEditPageEvent
 
     private val _alarms = MutableLiveData<List<Alarm>>()
     val alarms: MutableLiveData<List<Alarm>> get() = _alarms
@@ -86,7 +86,7 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
     }
 
     fun onAlarmSelected(alarm: Alarm? = null) {
-        _goToEditPageEvent.value = Event(alarm?.alarmId ?: "")
+        _goToEditPageEvent.value = Event(alarm?.alarmId ?: -1)
     }
 
     private fun updateNearestDateTime() {

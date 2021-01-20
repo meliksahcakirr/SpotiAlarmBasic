@@ -45,10 +45,10 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
         handler.postDelayed(tickRunnable, INITIAL_TIME_INTERVAL)
     }
 
-    fun retrieveAlarm(alarmId: String?) {
+    fun retrieveAlarm(alarmId: Int?) {
         var alarm: Alarm
         viewModelScope.launch {
-            if (alarmId == null || alarmId == "") {
+            if (alarmId == null || alarmId == -1) {
                 alarm = defaultAlarm()
                 newAlarm = true
             } else {

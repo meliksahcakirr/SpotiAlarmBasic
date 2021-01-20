@@ -18,7 +18,7 @@ interface AlarmDao {
     suspend fun getAlarms(): List<Alarm>
 
     @Query("SELECT * FROM alarms WHERE alarmId = :alarmId")
-    suspend fun getAlarmById(alarmId: String): Alarm?
+    suspend fun getAlarmById(alarmId: Int): Alarm?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlarm(alarm: Alarm)
@@ -30,10 +30,10 @@ interface AlarmDao {
     suspend fun deleteAlarm(alarm: Alarm)
 
     @Query("DELETE FROM alarms WHERE alarmId = :alarmId")
-    suspend fun deleteAlarmById(alarmId: String)
+    suspend fun deleteAlarmById(alarmId: Int)
 
     @Query("UPDATE alarms SET enabled = :enable WHERE alarmId = :alarmId")
-    suspend fun updateAlarmEnableStatus(alarmId: String, enable: Boolean)
+    suspend fun updateAlarmEnableStatus(alarmId: Int, enable: Boolean)
 
     @Query("UPDATE alarms SET enabled = 0")
     suspend fun disableAllAlarms()

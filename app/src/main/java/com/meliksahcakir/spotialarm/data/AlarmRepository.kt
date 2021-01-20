@@ -26,7 +26,7 @@ class AlarmRepository(
         }
     }
 
-    suspend fun getAlarmById(alarmId: String): Result<Alarm> = withContext(ioDispatcher) {
+    suspend fun getAlarmById(alarmId: Int): Result<Alarm> = withContext(ioDispatcher) {
         return@withContext try {
             val alarm = alarmDao.getAlarmById(alarmId)
             if (alarm != null) {
@@ -51,7 +51,7 @@ class AlarmRepository(
         alarmDao.deleteAlarm(alarm)
     }
 
-    suspend fun deleteAlarm(alarmId: String) = withContext(ioDispatcher) {
+    suspend fun deleteAlarm(alarmId: Int) = withContext(ioDispatcher) {
         alarmDao.deleteAlarmById(alarmId)
     }
 
@@ -59,7 +59,7 @@ class AlarmRepository(
         alarmDao.disableAllAlarms()
     }
 
-    suspend fun updateAlarm(alarmId: String, enable: Boolean) = withContext(ioDispatcher) {
+    suspend fun updateAlarm(alarmId: Int, enable: Boolean) = withContext(ioDispatcher) {
         alarmDao.updateAlarmEnableStatus(alarmId, enable)
     }
 }

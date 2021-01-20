@@ -21,9 +21,8 @@
         tools:layout="@layout/fragment_alarm_edit" >
         <argument
             android:name="alarmId"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:argType="integer"
+            android:defaultValue="-1" />
         <action
             android:id="@+id/action_alarmEditFragment_to_mainFragment"
             app:destination="@id/mainFragment"

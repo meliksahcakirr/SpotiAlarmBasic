@@ -29,9 +29,9 @@ data class Alarm(
     @ColumnInfo(name = "imageId")
     var imageId: String = ""
 ) {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "alarmId")
-    var alarmId: String = java.util.UUID.randomUUID().toString()
+    var alarmId: Int = -1
 
     companion object {
         const val ONCE = 0x00

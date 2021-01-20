@@ -81,7 +81,7 @@ class MainFragment : Fragment(), AlarmListener {
         viewModel.onAlarmEnableStatusChanged(alarm, enabled)
     }
 
-    private fun navigateToEditFragment(id: String? = null) {
+    private fun navigateToEditFragment(id: Int) {
         val direction = MainFragmentDirections.actionMainFragmentToAlarmEditFragment(id)
         findNavController().navigate(direction)
     }

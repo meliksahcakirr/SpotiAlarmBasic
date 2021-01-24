@@ -1,21 +1,25 @@
 package com.meliksahcakir.spotialarm.main
 
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
+import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.data.AlarmRepository
+import com.meliksahcakir.spotialarm.schedule
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
+class MainViewModel(private val repository: AlarmRepository, app: Application) :
+    AndroidViewModel(app) {
 
     companion object {
         private const val TIME_INTERVAL = 10000L
@@ -25,7 +29,7 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
     val goToEditPageEvent: LiveData<Event<Int>> get() = _goToEditPageEvent
 
     private val _alarms = MutableLiveData<List<Alarm>>()
-    val alarms: MutableLiveData<List<Alarm>> get() = _alarms
+    val alarms: LiveData<List<Alarm>> get() = _alarms
 
     private val _nearestAlarmDateTime = MutableLiveData<LocalDateTime?>()
     val nearestAlarmDateTime: LiveData<LocalDateTime?> get() = _nearestAlarmDateTime
@@ -79,6 +83,11 @@ class MainViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
         alarm.enabled = enabled
+        if (enabled) {
+            alarm.schedule(getApplication())
+        } else {
+            alarm.cancel(getApplication())
+        }
         updateNearestDateTime()
         viewModelScope.launch {
             repository.updateAlarm(alarm.alarmId, enabled)

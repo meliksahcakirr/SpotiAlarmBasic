@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/active_alarm_background"
+    tools:context=".active.ActiveAlarmActivity">
+
+    <TextView
+        android:id="@+id/alarmTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/descriptionTextView"
+        app:layout_constraintEnd_toStartOf="@id/alarmTimePeriodTextView"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="08:50" />
+
+    <TextView
+        android:id="@+id/alarmTimePeriodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4.Custom"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/alarmTimeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/alarmTimeTextView"
+        app:layout_constraintTop_toTopOf="@id/alarmTimeTextView"
+        tools:text="AM" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:lineSpacingExtra="5dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/turnOffFab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alarmTimeTextView"
+        tools:text="Alarm Description" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/turnOffFab"
+        style="@style/CustomExtendedFab"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/turn_off"
+        android:textAllCaps="true"
+        app:icon="@drawable/ic_alarm_off"
+        app:layout_constraintBottom_toTopOf="@id/snoozeFab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/snoozeFab"
+        style="@style/CustomExtendedFab"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/snooze"
+        android:textAllCaps="true"
+        app:backgroundTint="?attr/colorPrimaryVariant"
+        app:icon="@drawable/ic_snooze"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/turnOffFab" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

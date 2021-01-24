@@ -1,21 +1,25 @@
 package com.meliksahcakir.spotialarm.edit
 
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
+import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.data.AlarmRepository
+import com.meliksahcakir.spotialarm.schedule
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
+class EditViewModel(private val repository: AlarmRepository, app: Application) :
+    AndroidViewModel(app) {
 
     companion object {
         private const val INITIAL_TIME_INTERVAL = 3000L
@@ -30,12 +34,14 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     private val _selectedAlarm = MutableLiveData<Alarm>()
     val selectedAlarm: LiveData<Alarm> = _selectedAlarm
-    private var newAlarm = false
+    var newAlarm = false
+        private set
 
     private val handler = Handler(Looper.getMainLooper())
 
     private val tickRunnable = object : Runnable {
         override fun run() {
+            _alarmDateTime.value = _selectedAlarm.value?.nearestDateTime()
             handler.postDelayed(this, TIME_INTERVAL)
         }
     }
@@ -88,6 +94,7 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
     fun onDeleteClicked() {
         viewModelScope.launch {
             selectedAlarm.value?.let {
+                it.cancel(getApplication())
                 repository.deleteAlarm(it)
             }
             _goToMainPageEvent.value = Event(Unit)
@@ -108,7 +115,9 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
                 repository.insertAlarm(alarm)
             } else {
                 repository.updateAlarm(alarm)
+                alarm.cancel(getApplication())
             }
+            alarm.schedule(getApplication())
             _goToMainPageEvent.value = Event(Unit)
         }
     }
@@ -120,6 +129,13 @@ class EditViewModel(private val repository: AlarmRepository) : ViewModel() {
 
     private fun defaultAlarm(): Alarm {
         val now = LocalTime.now()
-        return Alarm(now.hour, now.minute, false, Alarm.ONCE, vibrate = false, snooze = true)
+        return Alarm(
+            now.hour,
+            now.minute,
+            false,
+            Alarm.ONCE,
+            vibrate = false,
+            snooze = true
+        )
     }
 }

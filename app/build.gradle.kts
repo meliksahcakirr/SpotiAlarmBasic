@@ -65,6 +65,8 @@ dependencies {
     implementation(SupportLibs.ANDROIDX_LIFECYCLE_LIVEDATA_KTX)
     implementation(SupportLibs.ANDROIDX_ROOM_KTX)
     implementation(SupportLibs.ANDROIDX_ROOM_RUNTIME)
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     kapt(SupportLibs.ANDROIDX_ROOM_COMPILER)
     implementation(SupportLibs.COROUTINES_CORE)
     implementation(SupportLibs.COROUTINES_ANDROID)

@@ -1,5 +1,6 @@
 package com.meliksahcakir.spotialarm.data
 
+import android.os.Bundle
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,6 +8,7 @@ import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
+import java.util.concurrent.TimeUnit
 
 @Entity(tableName = "alarms")
 data class Alarm(
@@ -27,11 +29,11 @@ data class Alarm(
     @ColumnInfo(name = "musicId")
     var musicId: String = "",
     @ColumnInfo(name = "imageId")
-    var imageId: String = ""
-) {
-    @PrimaryKey(autoGenerate = true)
+    var imageId: String = "",
+    @PrimaryKey
     @ColumnInfo(name = "alarmId")
-    var alarmId: Int = -1
+    val alarmId: Int = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())).toInt()
+) {
 
     companion object {
         const val ONCE = 0x00
@@ -46,9 +48,36 @@ data class Alarm(
         const val WEEKEND = 0x60
         const val ALL_DAYS = 0x7F
 
+        private const val EXTRA_HOUR = "HOUR"
+        private const val EXTRA_MINUTE = "MINUTE"
+        private const val EXTRA_ENABLED = "ENABLED"
+        private const val EXTRA_DAYS = "DAYS"
+        private const val EXTRA_VIBRATE = "VIBRATE"
+        private const val EXTRA_SNOOZE = "SNOOZE"
+        private const val EXTRA_DESCRIPTION = "DESCRIPTION"
+        private const val EXTRA_MUSIC_ID = "MUSIC_ID"
+        private const val EXTRA_IMAGE_ID = "IMAGE_ID"
+        private const val EXTRA_ALARM_ID = "ALARM_ID"
+
         fun defaultAlarm(): Alarm {
             val now = LocalTime.now()
             return Alarm(now.hour, now.minute, false, ONCE, vibrate = false, snooze = true)
+        }
+
+        fun fromBundle(bundle: Bundle?): Alarm? {
+            if (bundle == null) return null
+            return Alarm(
+                hour = bundle.getInt(EXTRA_HOUR, 0),
+                minute = bundle.getInt(EXTRA_MINUTE, 0),
+                enabled = bundle.getBoolean(EXTRA_ENABLED, false),
+                days = bundle.getInt(EXTRA_DAYS, 0),
+                vibrate = bundle.getBoolean(EXTRA_VIBRATE, false),
+                snooze = bundle.getBoolean(EXTRA_SNOOZE, true),
+                description = bundle.getString(EXTRA_DESCRIPTION, ""),
+                musicId = bundle.getString(EXTRA_MUSIC_ID, ""),
+                imageId = bundle.getString(EXTRA_IMAGE_ID, ""),
+                alarmId = bundle.getInt(EXTRA_ALARM_ID, 0),
+            )
         }
     }
 
@@ -90,5 +119,20 @@ data class Alarm(
         }
         val timeDiff = first.until(temp, ChronoUnit.MINUTES)
         return Pair(temp, timeDiff)
+    }
+
+    fun toBundle(): Bundle {
+        val bundle = Bundle()
+        bundle.putInt(EXTRA_HOUR, hour)
+        bundle.putInt(EXTRA_MINUTE, minute)
+        bundle.putBoolean(EXTRA_ENABLED, enabled)
+        bundle.putInt(EXTRA_DAYS, days)
+        bundle.putBoolean(EXTRA_VIBRATE, vibrate)
+        bundle.putBoolean(EXTRA_SNOOZE, snooze)
+        bundle.putString(EXTRA_DESCRIPTION, description)
+        bundle.putString(EXTRA_MUSIC_ID, musicId)
+        bundle.putString(EXTRA_IMAGE_ID, imageId)
+        bundle.putInt(EXTRA_ALARM_ID, alarmId)
+        return bundle
     }
 }

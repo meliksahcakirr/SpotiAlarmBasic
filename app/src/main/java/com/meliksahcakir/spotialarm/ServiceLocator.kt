@@ -1,5 +1,6 @@
 package com.meliksahcakir.spotialarm
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.meliksahcakir.spotialarm.data.AlarmDatabase
@@ -37,6 +38,6 @@ object ServiceLocator {
         return db
     }
 
-    fun provideViewModelFactory(context: Context) =
-        ViewModelFactory(provideAlarmRepository(context))
+    fun provideViewModelFactory(application: Application) =
+        ViewModelFactory(provideAlarmRepository(application), application)
 }

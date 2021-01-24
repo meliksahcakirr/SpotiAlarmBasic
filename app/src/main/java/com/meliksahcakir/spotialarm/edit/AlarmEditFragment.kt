@@ -35,11 +35,11 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
     private val binding: FragmentAlarmEditBinding get() = _binding!!
 
     private val mainViewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() }) {
-        ServiceLocator.provideViewModelFactory(requireContext())
+        ServiceLocator.provideViewModelFactory(requireActivity().application)
     }
 
     private val editViewModel: EditViewModel by viewModels {
-        ServiceLocator.provideViewModelFactory(requireContext())
+        ServiceLocator.provideViewModelFactory(requireActivity().application)
     }
 
     override fun onCreateView(
@@ -61,7 +61,7 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
         }
 
         editViewModel.selectedAlarm.observe(viewLifecycleOwner) {
-            setupView(it)
+            setupView(!editViewModel.newAlarm, it)
         }
 
         editViewModel.alarmDateTime.observe(viewLifecycleOwner) {
@@ -79,9 +79,9 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun setupView(alarm: Alarm) {
+    private fun setupView(exists: Boolean, alarm: Alarm) {
         binding.musicGroup.isInvisible = alarm.musicId == ""
-        binding.setup(alarm)
+        binding.setup(exists, alarm)
         binding.daysToggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
             val button: MaterialButton = group.findViewById(checkedId)
             val index = group.indexOfChild(button)

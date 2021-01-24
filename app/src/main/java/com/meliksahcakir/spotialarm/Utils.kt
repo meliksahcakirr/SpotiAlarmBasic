@@ -1,8 +1,16 @@
 package com.meliksahcakir.spotialarm
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.widget.Toast
+import com.meliksahcakir.spotialarm.active.ActiveAlarmActivity
+import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
+import com.meliksahcakir.spotialarm.data.Alarm
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 fun calculateDurationString(
     context: Context,
@@ -10,7 +18,7 @@ fun calculateDurationString(
     now: LocalDateTime = LocalDateTime.now()
 ): String {
     val resources = context.resources
-    var duration = Duration.between(now, alarm)
+    var duration = Duration.between(now.withSecond(0), alarm)
     val days = duration.toDays().toInt()
     duration = duration.minusDays(days.toLong())
     val hours = duration.toHours().toInt()
@@ -28,4 +36,72 @@ fun calculateDurationString(
             context.getString(R.string.in_minutes, minuteStr)
         else -> context.getString(R.string.now)
     }
+}
+
+fun Context.createPendingIntentToActivity(alarm: Alarm): PendingIntent {
+    val intent = Intent(this, ActiveAlarmActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        putExtra(AlarmReceiver.EXTRA_ALARM, alarm.toBundle())
+    }
+    return PendingIntent.getActivity(
+        this,
+        NOTIFICATION_ID,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
+}
+
+fun Context.createPendingIntentToBroadcast(
+    alarm: Alarm,
+    snoozed: Boolean = false
+): PendingIntent {
+    val intent = Intent(this, AlarmReceiver::class.java)
+    intent.action = AlarmReceiver.ACTION_ALARM_FIRED
+    intent.putExtra(AlarmReceiver.EXTRA_ALARM, alarm.toBundle())
+    intent.putExtra(AlarmReceiver.EXTRA_ALARM_SNOOZE, snoozed)
+    return PendingIntent.getBroadcast(
+        this,
+        alarm.alarmId,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
+}
+
+fun Alarm.schedule(context: Context, snoozed: Boolean = false) {
+    val date = nearestDateTime() ?: return
+    val time = date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val sender = context.createPendingIntentToBroadcast(this, snoozed)
+    val showOperation = context.createPendingIntentToActivity(this)
+
+    val alarmClockInfo = AlarmManager.AlarmClockInfo(time, showOperation)
+    alarmManager.setAlarmClock(alarmClockInfo, sender)
+    val text =
+        context.getString(R.string.alarm_go_off) + " " + calculateDurationString(context, date)
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+}
+
+fun Alarm.cancel(context: Context) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val pendingIntent = context.createPendingIntentToBroadcast(this)
+    alarmManager.cancel(pendingIntent)
+}
+
+fun Alarm.snooze(context: Context) {
+    var future = alarmTime
+    future = future.plusMinutes(SNOOZE_TIME_IN_MIN)
+    val snoozed = Alarm(
+        future.hour,
+        future.minute,
+        true,
+        0,
+        vibrate,
+        snooze,
+        description,
+        musicId,
+        imageId,
+        alarmId
+    )
+    snoozed.schedule(context, true)
 }

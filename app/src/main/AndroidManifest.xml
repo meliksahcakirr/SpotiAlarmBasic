@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.meliksahcakir.spotialarm">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".SpotiAlarmApplication"
         android:allowBackup="true"
@@ -12,7 +16,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:ignore="AllowBackup">
-        <activity android:name="com.meliksahcakir.spotialarm.MainActivity">
+        <receiver
+            android:name=".broadcast.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".active.ActiveAlarmActivity" />
+
+        <service android:name=".service.AlarmService" />
+        <service android:name=".service.RescheduleAlarmsService" />
+
+        <receiver
+            android:name=".broadcast.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="ACTION_ALARM_FIRED" />
+                <action android:name="ACTION_SNOOZE" />
+                <action android:name="ACTION_TURN_OFF" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

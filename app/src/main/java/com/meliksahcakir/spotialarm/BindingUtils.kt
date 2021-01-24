@@ -1,18 +1,23 @@
 package com.meliksahcakir.spotialarm
 
+import android.app.Activity
+import android.content.Intent
 import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.size
 import com.meliksahcakir.androidutils.drawable
 import com.meliksahcakir.spotialarm.data.Alarm
+import com.meliksahcakir.spotialarm.databinding.ActivityActiveAlarmBinding
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
+import com.meliksahcakir.spotialarm.service.AlarmService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val NOON = 12
+const val SNOOZE_TIME_IN_MIN = 2L
 
 fun AlarmViewBinding.bind(alarm: Alarm) {
     val context = root.context
@@ -37,7 +42,7 @@ fun AlarmViewBinding.bind(alarm: Alarm) {
     alarmSwitch.isChecked = alarm.enabled
 }
 
-fun FragmentAlarmEditBinding.setup(alarm: Alarm) {
+fun FragmentAlarmEditBinding.setup(exists: Boolean, alarm: Alarm) {
     val context = root.context
     alarm.enabled = true
     val formatter = DateTimeFormatter.ofPattern("hh:mm")
@@ -57,6 +62,7 @@ fun FragmentAlarmEditBinding.setup(alarm: Alarm) {
     vibrationFab.isChecked = alarm.vibrate
     snoozeFab.isChecked = alarm.snooze
     descriptionEditText.setText(alarm.description)
+    deleteFab.isVisible = exists
 }
 
 fun FragmentMainBinding.setNearestAlarm(
@@ -79,5 +85,34 @@ fun FragmentMainBinding.setNearestAlarm(
         } else {
             nearestAlarmPeriodTextView.text = context.getString(R.string.am)
         }
+    }
+}
+
+fun ActivityActiveAlarmBinding.bind(alarm: Alarm) {
+    val context = root.context
+    val time = alarm.alarmTime
+    val formatter = DateTimeFormatter.ofPattern("hh:mm")
+    alarmTimeTextView.text = time.format(formatter)
+    if (alarm.hour >= NOON) {
+        alarmTimePeriodTextView.text = context.getString(R.string.pm)
+    } else {
+        alarmTimePeriodTextView.text = context.getString(R.string.am)
+    }
+
+    snoozeFab.isInvisible = !alarm.snooze
+    descriptionTextView.text = alarm.description
+    descriptionTextView.isInvisible = alarm.description.isEmpty()
+
+    turnOffFab.setOnClickListener {
+        val intent = Intent(context, AlarmService::class.java)
+        context.stopService(intent)
+        (context as Activity).finish()
+    }
+
+    snoozeFab.setOnClickListener {
+        alarm.snooze(context)
+        val intent = Intent(context, AlarmService::class.java)
+        context.stopService(intent)
+        (context as Activity).finish()
     }
 }

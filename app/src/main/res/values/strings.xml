@@ -37,4 +37,7 @@
     <string name="delete">Delete</string>
     <string name="no_alarm_available">No alarm available</string>
     <string name="click_below_to_add_new_alarm">Click below to add new alarm.</string>
+    <string name="alarm_go_off">Alarm will go off</string>
+    <string name="turn_off">Turn Off</string>
+    <string name="turn_off_alarm_now">You can turn off this alarm now.</string>
 </resources>

@@ -97,7 +97,7 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
             editViewModel.onSaveClicked(description, vibrate, snooze)
         }
         binding.alarmTimeTextView.setOnClickListener {
-            val now = LocalTime.now()
+            val now = editViewModel.alarmDateTime.value?.toLocalTime() ?: LocalTime.now()
             val picker = TimePickerDialog(
                 requireContext(),
                 R.style.TimePickerDialogTheme,

@@ -30,9 +30,9 @@ class AlarmReceiver : BroadcastReceiver() {
                 val bundle = intent.getBundleExtra(EXTRA_ALARM)
                 val alarm = Alarm.fromBundle(bundle)
                 stopAlarmService(context)
-                alarm?.let {
+                if (alarm != null && alarm.days == Alarm.ONCE) {
                     GlobalScope.launch {
-                        disableAlarm(context, it.alarmId)
+                        disableAlarm(context, alarm.alarmId)
                     }
                 }
             }

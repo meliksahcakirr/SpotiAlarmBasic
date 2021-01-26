@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.ServiceLocator
-import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
-import com.meliksahcakir.spotialarm.schedule
 import com.meliksahcakir.spotialarm.setNearestAlarm
 
 class MainFragment : Fragment(), AlarmListener {
@@ -81,11 +79,6 @@ class MainFragment : Fragment(), AlarmListener {
 
     override fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
         viewModel.onAlarmEnableStatusChanged(alarm, enabled)
-        if (enabled) {
-            alarm.schedule(requireContext())
-        } else {
-            alarm.cancel(requireContext())
-        }
     }
 
     private fun navigateToEditFragment(id: Int) {

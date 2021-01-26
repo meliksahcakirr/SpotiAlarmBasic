@@ -102,17 +102,4 @@ fun ActivityActiveAlarmBinding.bind(alarm: Alarm) {
     snoozeFab.isInvisible = !alarm.snooze
     descriptionTextView.text = alarm.description
     descriptionTextView.isInvisible = alarm.description.isEmpty()
-
-    turnOffFab.setOnClickListener {
-        val intent = Intent(context, AlarmService::class.java)
-        context.stopService(intent)
-        (context as Activity).finish()
-    }
-
-    snoozeFab.setOnClickListener {
-        alarm.snooze(context)
-        val intent = Intent(context, AlarmService::class.java)
-        context.stopService(intent)
-        (context as Activity).finish()
-    }
 }

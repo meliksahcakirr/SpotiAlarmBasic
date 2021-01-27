@@ -116,11 +116,12 @@
         style="@style/CustomEditTextStyle"
         android:layout_marginTop="20dp"
         android:hint="@string/enter_a_description"
+        android:importantForAutofill="no"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@id/endGuideline"
         app:layout_constraintStart_toStartOf="@id/startGuideline"
         app:layout_constraintTop_toBottomOf="@id/alarmTimeTextView"
-        tools:text="Description"
-        android:importantForAutofill="no" />
+        tools:text="Description" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/snoozeFab"
@@ -158,6 +159,46 @@
         app:layout_constraintStart_toStartOf="@id/startGuideline"
         app:layout_constraintTop_toBottomOf="@id/vibrationFab" />
 
+    <com.google.android.material.chip.Chip
+        android:id="@+id/weekDaysChip"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/weekdays"
+        app:layout_constraintStart_toStartOf="@id/startGuideline"
+        app:layout_constraintTop_toBottomOf="@id/daysTextView" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/weekEndsChip"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/weekend"
+        app:layout_constraintStart_toEndOf="@id/weekDaysChip"
+        app:layout_constraintTop_toTopOf="@id/weekDaysChip" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/everydayChip"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/everyday"
+        app:layout_constraintStart_toEndOf="@id/weekEndsChip"
+        app:layout_constraintTop_toTopOf="@id/weekDaysChip" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/onceChip"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/once"
+        app:layout_constraintStart_toEndOf="@id/everydayChip"
+        app:layout_constraintTop_toTopOf="@id/weekDaysChip" />
+
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/daysToggleGroup"
         android:layout_width="0dp"
@@ -167,7 +208,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/endGuideline"
         app:layout_constraintStart_toStartOf="@id/startGuideline"
-        app:layout_constraintTop_toBottomOf="@id/daysTextView">
+        app:layout_constraintTop_toBottomOf="@id/weekDaysChip">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mondayButton"

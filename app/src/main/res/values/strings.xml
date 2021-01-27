@@ -40,4 +40,8 @@
     <string name="alarm_go_off">Alarm will go off</string>
     <string name="turn_off">Turn Off</string>
     <string name="turn_off_alarm_now">You can turn off this alarm now.</string>
+    <string name="weekdays">Week</string>
+    <string name="weekend">Weekend</string>
+    <string name="everyday">Everyday</string>
+    <string name="once">Once</string>
 </resources>

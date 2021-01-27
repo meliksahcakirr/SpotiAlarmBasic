@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".SpotiAlarmApplication"
@@ -25,7 +26,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".active.ActiveAlarmActivity" />
+        <activity
+            tools:ignore="LockedOrientationActivity"
+            android:name=".active.ActiveAlarmActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".service.AlarmService" />
         <service android:name=".service.RescheduleAlarmsService" />
@@ -41,7 +45,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MainActivity">
+        <activity
+            tools:ignore="LockedOrientationActivity"
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

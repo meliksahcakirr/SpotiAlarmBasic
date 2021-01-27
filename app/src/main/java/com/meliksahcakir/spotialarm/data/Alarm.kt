@@ -46,7 +46,7 @@ data class Alarm(
         const val SUNDAY = 0x40
         const val WEEKDAYS = 0x1F
         const val WEEKEND = 0x60
-        const val ALL_DAYS = 0x7F
+        const val EVERYDAY = 0x7F
 
         private const val EXTRA_HOUR = "HOUR"
         private const val EXTRA_MINUTE = "MINUTE"
@@ -58,11 +58,6 @@ data class Alarm(
         private const val EXTRA_MUSIC_ID = "MUSIC_ID"
         private const val EXTRA_IMAGE_ID = "IMAGE_ID"
         private const val EXTRA_ALARM_ID = "ALARM_ID"
-
-        fun defaultAlarm(): Alarm {
-            val now = LocalTime.now()
-            return Alarm(now.hour, now.minute, false, ONCE, vibrate = false, snooze = true)
-        }
 
         fun fromBundle(bundle: Bundle?): Alarm? {
             if (bundle == null) return null

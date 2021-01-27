@@ -1,7 +1,5 @@
 package com.meliksahcakir.spotialarm
 
-import android.app.Activity
-import android.content.Intent
 import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -12,7 +10,6 @@ import com.meliksahcakir.spotialarm.databinding.ActivityActiveAlarmBinding
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
-import com.meliksahcakir.spotialarm.service.AlarmService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

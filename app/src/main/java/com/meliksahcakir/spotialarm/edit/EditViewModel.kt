@@ -91,6 +91,13 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
         }
     }
 
+    fun updateAlarmDay(selectedDays: Int) {
+        selectedAlarm.value?.apply {
+            days = selectedDays
+            _alarmDateTime.value = nearestDateTime()
+        }
+    }
+
     fun onDeleteClicked() {
         viewModelScope.launch {
             selectedAlarm.value?.let {

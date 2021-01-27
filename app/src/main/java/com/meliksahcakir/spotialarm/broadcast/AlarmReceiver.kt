@@ -22,6 +22,7 @@ class AlarmReceiver : BroadcastReceiver() {
         const val ACTION_SNOOZE = "ACTION_SNOOZE"
         const val ACTION_TURN_OFF = "ACTION_TURN_OFF"
         const val ACTION_ALARM_FIRED = "ACTION_ALARM_FIRED"
+        const val ACTION_FINISH = "ACTION_FINISH"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -33,7 +34,10 @@ class AlarmReceiver : BroadcastReceiver() {
                 if (alarm != null && alarm.days == Alarm.ONCE) {
                     GlobalScope.launch {
                         disableAlarm(context, alarm.alarmId)
+                        context.sendBroadcast(Intent(ACTION_FINISH))
                     }
+                } else {
+                    context.sendBroadcast(Intent(ACTION_FINISH))
                 }
             }
             ACTION_SNOOZE -> {
@@ -41,6 +45,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 val alarm = Alarm.fromBundle(bundle)
                 stopAlarmService(context)
                 alarm?.snooze(context)
+                context.sendBroadcast(Intent(ACTION_FINISH))
             }
             ACTION_ALARM_FIRED -> {
                 val bundle = intent.getBundleExtra(EXTRA_ALARM)

@@ -53,9 +53,9 @@ class NotificationUtil(context: Context) {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(false)
             .setDefaults(NotificationCompat.DEFAULT_LIGHTS)
-            .setContentIntent(pendingIntent)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setFullScreenIntent(pendingIntent, true)
 
         snoozeIntent?.let {
             builder.addAction(R.drawable.ic_snooze, context.getString(R.string.snooze), it)

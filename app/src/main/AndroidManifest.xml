@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:name=".SpotiAlarmApplication"
@@ -27,9 +29,14 @@
         </receiver>
 
         <activity
-            tools:ignore="LockedOrientationActivity"
             android:name=".active.ActiveAlarmActivity"
-            android:screenOrientation="portrait" />
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            tools:ignore="LockedOrientationActivity"
+            tools:targetApi="o_mr1" />
 
         <service android:name=".service.AlarmService" />
         <service android:name=".service.RescheduleAlarmsService" />
@@ -46,9 +53,9 @@
         </receiver>
 
         <activity
-            tools:ignore="LockedOrientationActivity"
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

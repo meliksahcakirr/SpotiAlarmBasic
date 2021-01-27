@@ -1,9 +1,13 @@
 package com.meliksahcakir.spotialarm
 
+import android.app.Activity
 import android.app.AlarmManager
+import android.app.KeyguardManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.view.WindowManager
 import android.widget.Toast
 import com.meliksahcakir.spotialarm.active.ActiveAlarmActivity
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
@@ -40,7 +44,7 @@ fun calculateDurationString(
 
 fun Context.createPendingIntentToActivity(alarm: Alarm): PendingIntent {
     val intent = Intent(this, ActiveAlarmActivity::class.java).apply {
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         putExtra(AlarmReceiver.EXTRA_ALARM, alarm.toBundle())
     }
     return PendingIntent.getActivity(
@@ -104,4 +108,49 @@ fun Alarm.snooze(context: Context) {
         alarmId
     )
     snoozed.schedule(context, true)
+}
+
+fun Activity.turnScreenOnAndKeyguardOff() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        setShowWhenLocked(true)
+        setTurnScreenOn(true)
+    } else {
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+        )
+    }
+
+    with(getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requestDismissKeyguard(
+                this@turnScreenOnAndKeyguardOff,
+                object : KeyguardManager.KeyguardDismissCallback() {
+                    override fun onDismissCancelled() {
+                        super.onDismissCancelled()
+                    }
+
+                    override fun onDismissError() {
+                        super.onDismissError()
+                    }
+
+                    override fun onDismissSucceeded() {
+                        super.onDismissSucceeded()
+                    }
+                }
+            )
+        }
+    }
+}
+
+fun Activity.turnScreenOffAndKeyguardOn() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        setShowWhenLocked(false)
+        setTurnScreenOn(false)
+    } else {
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+        )
+    }
 }

@@ -3,12 +3,14 @@ package com.meliksahcakir.spotialarm.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.meliksahcakir.androidutils.Result
+import com.meliksahcakir.spotialarm.music.api.NapsterService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AlarmRepository(
     private val alarmDao: AlarmDao,
+    private val napsterService: NapsterService,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 

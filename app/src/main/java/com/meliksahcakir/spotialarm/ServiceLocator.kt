@@ -5,12 +5,23 @@ import android.content.Context
 import androidx.room.Room
 import com.meliksahcakir.spotialarm.data.AlarmDatabase
 import com.meliksahcakir.spotialarm.data.AlarmRepository
+import com.meliksahcakir.spotialarm.music.api.NapsterService
 
 object ServiceLocator {
 
     private var database: AlarmDatabase? = null
     var repository: AlarmRepository? = null
         private set
+
+    private var napsterService: NapsterService? = null
+
+    fun provideNapsterService(): NapsterService {
+        synchronized(this) {
+            return napsterService ?: NapsterService.create().apply {
+                napsterService = this
+            }
+        }
+    }
 
     fun provideAlarmRepository(context: Context): AlarmRepository {
         synchronized(this) {
@@ -19,7 +30,7 @@ object ServiceLocator {
     }
 
     private fun createAlarmRepository(context: Context): AlarmRepository {
-        val repo = AlarmRepository(provideDatabase(context).alarmDao())
+        val repo = AlarmRepository(provideDatabase(context).alarmDao(), provideNapsterService())
         repository = repo
         return repo
     }

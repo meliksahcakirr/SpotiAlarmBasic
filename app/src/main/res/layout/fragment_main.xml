@@ -72,6 +72,18 @@
                 app:layout_constraintTop_toBottomOf="@id/nearestAlarmTextView"
                 tools:text="in 11 hours" />
 
+            <ImageView
+                android:id="@+id/preferencesButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:alpha="0.6"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/preferences"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/nearestAlarmGroup"
                 android:layout_width="wrap_content"

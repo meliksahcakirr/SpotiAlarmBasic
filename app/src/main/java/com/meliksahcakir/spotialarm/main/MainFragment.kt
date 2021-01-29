@@ -68,8 +68,19 @@ class MainFragment : Fragment(), AlarmListener {
             }
         )
 
+        viewModel.goToPreferencesPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navigateToPreferencesFragment()
+            }
+        )
+
         binding.fab.setOnClickListener {
             viewModel.onAlarmSelected()
+        }
+
+        binding.preferencesButton.setOnClickListener {
+            viewModel.onPreferencesButtonClicked()
         }
     }
 
@@ -83,6 +94,11 @@ class MainFragment : Fragment(), AlarmListener {
 
     private fun navigateToEditFragment(id: Int) {
         val direction = MainFragmentDirections.actionMainFragmentToAlarmEditFragment(id)
+        findNavController().navigate(direction)
+    }
+
+    private fun navigateToPreferencesFragment() {
+        val direction = MainFragmentDirections.actionMainFragmentToPreferencesFragment()
         findNavController().navigate(direction)
     }
 

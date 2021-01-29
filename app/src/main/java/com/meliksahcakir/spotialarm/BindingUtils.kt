@@ -14,7 +14,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val NOON = 12
-const val SNOOZE_TIME_IN_MIN = 2L
 
 fun AlarmViewBinding.bind(alarm: Alarm) {
     val context = root.context

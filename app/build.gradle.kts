@@ -73,9 +73,11 @@ dependencies {
     implementation(SupportLibs.RETROFIT2)
     implementation(SupportLibs.RETROFIT2_GSON)
     implementation(SupportLibs.OK_HTTP)
+    implementation(SupportLibs.KOT_PREF)
+    implementation(SupportLibs.PERMS)
+    kapt(SupportLibs.PERMS_PROCESSOR)
 
     testImplementation(TestingLib.JUNIT)
-
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_RULES)
     androidTestImplementation(AndroidTestingLib.ESPRESSO_CORE)

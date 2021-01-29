@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.meliksahcakir.spotialarm.active.ActiveAlarmActivity
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.data.Alarm
+import com.meliksahcakir.spotialarm.preferences.Preferences
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -94,7 +95,7 @@ fun Alarm.cancel(context: Context) {
 
 fun Alarm.snooze(context: Context) {
     var future = alarmTime
-    future = future.plusMinutes(SNOOZE_TIME_IN_MIN)
+    future = future.plusMinutes(Preferences.snoozeDuration.toLong())
     val snoozed = Alarm(
         future.hour,
         future.minute,
@@ -117,7 +118,7 @@ fun Activity.turnScreenOnAndKeyguardOff() {
     } else {
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
         )
     }
 
@@ -150,7 +151,7 @@ fun Activity.turnScreenOffAndKeyguardOn() {
     } else {
         window.clearFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
         )
     }
 }

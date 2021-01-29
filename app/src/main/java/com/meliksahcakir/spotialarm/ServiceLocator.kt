@@ -15,7 +15,7 @@ object ServiceLocator {
 
     private var napsterService: NapsterService? = null
 
-    fun provideNapsterService(): NapsterService {
+    private fun provideNapsterService(): NapsterService {
         synchronized(this) {
             return napsterService ?: NapsterService.create().apply {
                 napsterService = this

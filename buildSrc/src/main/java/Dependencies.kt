@@ -23,6 +23,8 @@ object Versions {
     const val DESUGAR = "1.0.9"
     const val RETROFIT = "2.7.2"
     const val OK_HTTP = "4.0.0"
+    const val KOT_PREF = "2.13.0"
+    const val PERMS = "4.8.0"
 }
 
 object BuildPluginsVersion {
@@ -62,6 +64,10 @@ object SupportLibs {
     const val RETROFIT2 = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
     const val RETROFIT2_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
     const val OK_HTTP = "com.squareup.okhttp3:logging-interceptor:${Versions.OK_HTTP}"
+    const val KOT_PREF = "com.chibatching.kotpref:kotpref:${Versions.KOT_PREF}"
+    const val PERMS = "org.permissionsdispatcher:permissionsdispatcher:${Versions.PERMS}"
+    const val PERMS_PROCESSOR =
+        "org.permissionsdispatcher:permissionsdispatcher-processor:${Versions.PERMS}"
 }
 
 object TestingLib {

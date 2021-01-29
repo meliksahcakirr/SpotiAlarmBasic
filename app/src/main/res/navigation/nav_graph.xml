@@ -8,21 +8,24 @@
         android:id="@+id/mainFragment"
         android:name="com.meliksahcakir.spotialarm.main.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_alarmEditFragment"
             app:destination="@id/alarmEditFragment"
             app:enterAnim="@anim/fragment_open_enter" />
+        <action
+            android:id="@+id/action_mainFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
     </fragment>
     <dialog
         android:id="@+id/alarmEditFragment"
         android:name="com.meliksahcakir.spotialarm.edit.AlarmEditFragment"
         android:label="fragment_alarm_edit"
-        tools:layout="@layout/fragment_alarm_edit" >
+        tools:layout="@layout/fragment_alarm_edit">
         <argument
             android:name="alarmId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
         <action
             android:id="@+id/action_alarmEditFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -30,4 +33,9 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
     </dialog>
+    <dialog
+        android:id="@+id/preferencesFragment"
+        android:name="com.meliksahcakir.spotialarm.preferences.PreferencesFragment"
+        android:label="PreferencesFragment"
+        tools:layout="@layout/fragment_preferences" />
 </navigation>

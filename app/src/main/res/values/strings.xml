@@ -44,4 +44,34 @@
     <string name="weekend">Weekend</string>
     <string name="everyday">Everyday</string>
     <string name="once">Once</string>
+    <string name="preferences">Preferences</string>
+    <string name="alarms">Alarms</string>
+    <string name="read_alarm_time_aloud">Read alarm time aloud</string>
+    <string name="face_phone_down_to_snooze">Face phone down to snooze</string>
+    <string name="slide_to_turn_off_alarm">Slide to turn off alarm</string>
+    <string name="snooze_duration">Snooze duration</string>
+    <string name="audio">Audio</string>
+    <string name="fade_in_duration">Fade in duration</string>
+    <string name="use_alarm_volume">Use alarm volume</string>
+    <string name="volume">Volume</string>
+    <string name="fallback_music">Fallback Music</string>
+    <string name="fallback_music_warning">SpotiAlarm will play this music if there is no music selected or something goes wrong when playing the music.</string>
+    <string name="fallback_default">Default</string>
+    <string name="complete_action_using">Complete action using</string>
+    <string-array name="snooze_intervals">
+        <item> 5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+        <item>25 min</item>
+        <item>30 min</item>
+    </string-array>
+    <string-array name="fade_intervals">
+        <item> 5 sec</item>
+        <item>10 sec</item>
+        <item>15 sec</item>
+        <item>20 sec</item>
+        <item>25 sec</item>
+        <item>30 sec</item>
+    </string-array>
 </resources>

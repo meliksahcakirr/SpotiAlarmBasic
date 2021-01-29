@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="false"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <TextView
+            android:id="@+id/preferencesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/preferences"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6.Custom"
+            android:textColor="@color/grayLight"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/alarmsPreferenceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/alarms"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/grayLight"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/preferencesTextView" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/readAlarmSwitch"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:text="@string/read_alarm_time_aloud"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/alarmsPreferenceTextView" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/readAlarmSwitch" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/faceDownToSnoozeSwitch"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/face_phone_down_to_snooze"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/readAlarmSwitch" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/faceDownToSnoozeSwitch" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/slideToTurnOffSwitch"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/slide_to_turn_off_alarm"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/faceDownToSnoozeSwitch" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/slideToTurnOffSwitch" />
+
+        <TextView
+            android:id="@+id/snoozeDurationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="@string/snooze_duration"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/slideToTurnOffSwitch" />
+
+        <TextView
+            android:id="@+id/snoozeValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="end"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/green"
+            app:layout_constraintBottom_toBottomOf="@id/snoozeDurationTextView"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintTop_toTopOf="@id/snoozeDurationTextView"
+            tools:text="5 min" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/snoozeDurationTextView" />
+
+        <TextView
+            android:id="@+id/audioPreferencesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/audio"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/grayLight"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/snoozeDurationTextView" />
+
+        <TextView
+            android:id="@+id/fadeDurationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="@string/fade_in_duration"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/audioPreferencesTextView" />
+
+        <TextView
+            android:id="@+id/fadeValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:gravity="end"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/green"
+            app:layout_constraintBottom_toBottomOf="@id/fadeDurationTextView"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintTop_toTopOf="@id/fadeDurationTextView"
+            tools:text="10 sec" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/fadeDurationTextView" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/useAlarmVolumeSwitch"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/use_alarm_volume"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/fadeDurationTextView" />
+
+        <TextView
+            android:id="@+id/volumeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/volume"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/useAlarmVolumeSwitch" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/volumeSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:value="70"
+            android:valueFrom="0"
+            android:valueTo="100"
+            app:labelBehavior="gone"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/volumeTextView"
+            app:thumbColor="?attr/colorSecondary"
+            app:thumbRadius="8dp"
+            app:trackColorActive="?attr/colorSecondary"
+            app:trackColorInactive="@color/grayLight" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/volumeSlider" />
+
+        <TextView
+            android:id="@+id/fallbackTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/fallback_music"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/volumeSlider" />
+
+        <TextView
+            android:id="@+id/fallbackValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:gravity="end"
+            android:paddingHorizontal="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/green"
+            app:layout_constraintBottom_toBottomOf="@id/fallbackTextView"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@id/fallbackTextView"
+            app:layout_constraintTop_toTopOf="@id/fallbackTextView"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_marginStart="10dp"
+            tools:text="@string/fallback_default" />
+
+        <TextView
+            android:id="@+id/fallbackWarningTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/fallback_music_warning"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColor="@color/grayLight"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/fallbackTextView" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

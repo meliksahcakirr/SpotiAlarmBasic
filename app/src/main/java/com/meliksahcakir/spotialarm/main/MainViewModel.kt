@@ -28,6 +28,9 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
     private val _goToEditPageEvent = MutableLiveData<Event<Int>>()
     val goToEditPageEvent: LiveData<Event<Int>> get() = _goToEditPageEvent
 
+    private val _goToPreferencesPageEvent = MutableLiveData<Event<Unit>>()
+    val goToPreferencesPageEvent: LiveData<Event<Unit>> get() = _goToPreferencesPageEvent
+
     private val _alarms = MutableLiveData<List<Alarm>>()
     val alarms: LiveData<List<Alarm>> get() = _alarms
 
@@ -100,6 +103,10 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
 
     private fun updateNearestDateTime() {
         _nearestAlarmDateTime.value = findNearestDateTime(_alarms.value ?: emptyList())
+    }
+
+    fun onPreferencesButtonClicked() {
+        _goToPreferencesPageEvent.value = Event(Unit)
     }
 
     override fun onCleared() {

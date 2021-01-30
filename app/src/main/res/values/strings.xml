@@ -58,6 +58,8 @@
     <string name="fallback_music_warning">SpotiAlarm will play this music if there is no music selected or something goes wrong when playing the music.</string>
     <string name="fallback_default">Default</string>
     <string name="complete_action_using">Complete action using</string>
+    <string name="alarm_speech">It is %1$d %2$d</string>
+    <string name="tts_not_supported">TTS not supported</string>
     <string-array name="snooze_intervals">
         <item> 5 min</item>
         <item>10 min</item>

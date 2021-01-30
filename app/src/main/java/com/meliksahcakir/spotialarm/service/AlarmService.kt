@@ -16,6 +16,8 @@ import android.os.Build
 import android.os.IBinder
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.speech.tts.TextToSpeech
+import android.widget.Toast
 import androidx.core.net.toUri
 import com.meliksahcakir.spotialarm.NOON
 import com.meliksahcakir.spotialarm.NOTIFICATION_ID
@@ -25,8 +27,10 @@ import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.createPendingIntentToActivity
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.preferences.Preferences
+import com.meliksahcakir.spotialarm.setLanguageOrDefault
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
 import java.util.concurrent.TimeUnit
@@ -42,16 +46,19 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         private const val VOLUME_FULL = 1f
         private const val FADE_INTERVAL = 250
         private const val Z_AXIS = 2
+        private const val SPEECH_RATE = 0.7f
     }
 
-    private var mediaPlayer: MediaPlayer? = null
-    private var vibrator: Vibrator? = null
-    private var volume = 0f
-    private var timer: Timer? = null
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var vibrator: Vibrator
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
-    private var enableAccelerometer = Preferences.faceDownToSnooze
+    private var tts: TextToSpeech? = null
     private var alarm: Alarm? = null
+    private var volume = 0f
+    private var timer: Timer? = null
+    private var enableAccelerometer = Preferences.faceDownToSnooze
+    private var enableTts = Preferences.readAlarmTimeLoud
 
     private val accelerometerListener = object : SensorEventListener {
         override fun onAccuracyChanged(arg0: Sensor, arg1: Int) {}
@@ -68,6 +75,23 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         }
     }
 
+    private val ttsListener = TextToSpeech.OnInitListener {
+        if (it == TextToSpeech.SUCCESS) {
+            val res = tts?.setLanguageOrDefault(Locale.US)
+            if (res == TextToSpeech.LANG_MISSING_DATA || res == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, getString(R.string.tts_not_supported), Toast.LENGTH_SHORT)
+                    .show()
+            } else if (alarm != null) {
+                var hour = alarm!!.hour
+                if (hour > NOON) {
+                    hour -= NOON
+                }
+                val str = getString(R.string.alarm_speech, hour, alarm!!.minute)
+                tts?.speak(str, TextToSpeech.QUEUE_FLUSH, null, null)
+            }
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         mediaPlayer = MediaPlayer()
@@ -77,8 +101,8 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
             AudioAttributes.USAGE_MEDIA
         }
         val attrs = AudioAttributes.Builder().setUsage(usage).build()
-        mediaPlayer?.setAudioAttributes(attrs)
-        mediaPlayer?.setOnPreparedListener(this)
+        mediaPlayer.setAudioAttributes(attrs)
+        mediaPlayer.setOnPreparedListener(this)
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         timer = Timer(true)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -90,6 +114,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         val bundle = intent?.getBundleExtra(AlarmReceiver.EXTRA_ALARM)
         alarm = Alarm.fromBundle(bundle)
         enableAccelerometer = enableAccelerometer and (alarm?.snooze ?: false)
+        enableTts = enableTts and (alarm != null)
         alarm?.let {
             onAlarmGoesOff(it)
             if (enableAccelerometer) {
@@ -99,6 +124,10 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                     SensorManager.SENSOR_DELAY_NORMAL
                 )
             }
+            if (enableTts) {
+                tts = TextToSpeech(this, ttsListener)
+                tts?.setSpeechRate(SPEECH_RATE)
+            }
         }
         return START_STICKY
     }
@@ -107,12 +136,12 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         if (alarm.vibrate) {
             val pattern = longArrayOf(VIBRATE_DELAY, VIBRATE_PLAY, VIBRATE_SLEEP)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator?.vibrate(
+                vibrator.vibrate(
                     VibrationEffect.createWaveform(pattern, 0)
                 )
             } else {
                 @Suppress("DEPRECATION")
-                vibrator?.vibrate(pattern, 0)
+                vibrator.vibrate(pattern, 0)
             }
         }
         setupMediaPlayerDataAndStart(alarm)
@@ -142,7 +171,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
 
     private fun startFadeIn() {
         volume = VOLUME_SILENT
-        mediaPlayer?.setVolume(volume, volume)
+        mediaPlayer.setVolume(volume, volume)
         val fadeDuration = TimeUnit.SECONDS.toMillis(Preferences.fadeInDuration.toLong())
         var maxVolume = VOLUME_FULL
         if (!Preferences.useDeviceAlarmVolume) {
@@ -157,7 +186,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
                 volume += deltaVolume
-                mediaPlayer?.setVolume(volume, volume)
+                mediaPlayer.setVolume(volume, volume)
                 if (volume >= maxVolume) {
                     timer?.cancel()
                     timer?.purge()
@@ -185,28 +214,32 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
             )
         }
         try {
-            mediaPlayer?.setDataSource(this@AlarmService, sound!!)
-            mediaPlayer?.prepareAsync()
+            mediaPlayer.setDataSource(this@AlarmService, sound!!)
+            mediaPlayer.prepareAsync()
         } catch (e: Exception) {
             Timber.e(e)
         }
-        mediaPlayer?.isLooping = true
+        mediaPlayer.isLooping = true
         startFadeIn()
-        mediaPlayer?.start()
+        mediaPlayer.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        if (enableTts) {
+            tts?.stop()
+            tts?.shutdown()
+            tts = null
+        }
         if (enableAccelerometer) {
             sensorManager.unregisterListener(accelerometerListener)
         }
         timer?.cancel()
         timer?.purge()
         timer = null
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
-        vibrator?.cancel()
+        mediaPlayer.stop()
+        mediaPlayer.release()
+        vibrator.cancel()
     }
 
     override fun onBind(p0: Intent?): IBinder? {

@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.speech.tts.TextToSpeech
 import android.view.WindowManager
 import android.widget.Toast
 import com.meliksahcakir.spotialarm.active.ActiveAlarmActivity
@@ -16,6 +17,7 @@ import com.meliksahcakir.spotialarm.preferences.Preferences
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.Locale
 
 fun calculateDurationString(
     context: Context,
@@ -157,4 +159,12 @@ fun Activity.turnScreenOffAndKeyguardOn() {
                 or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
         )
     }
+}
+
+fun TextToSpeech.setLanguageOrDefault(locale: Locale): Int {
+    var res = setLanguage(locale)
+    if (res == TextToSpeech.LANG_MISSING_DATA || res == TextToSpeech.LANG_NOT_SUPPORTED) {
+        res = setLanguage(Locale.US)
+    }
+    return res
 }

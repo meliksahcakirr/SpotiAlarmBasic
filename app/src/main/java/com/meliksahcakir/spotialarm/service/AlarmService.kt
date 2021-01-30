@@ -60,12 +60,10 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Timber.d("onStartCommand called")
         val bundle = intent?.getBundleExtra(AlarmReceiver.EXTRA_ALARM)
         val alarm = Alarm.fromBundle(bundle)
         alarm?.let {
             onAlarmGoesOff(it)
-            Timber.d("alarm found")
         }
         return START_STICKY
     }

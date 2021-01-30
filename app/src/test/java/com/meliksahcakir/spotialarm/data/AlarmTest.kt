@@ -27,7 +27,7 @@ class AlarmTest : TestCase() {
     @Test
     fun testNearestDate_withDisabled() {
         val time = LocalDateTime.of(2020, Month.DECEMBER, 27, 16, 30)
-        val alarm = Alarm(8, 30, false, Alarm.ALL_DAYS)
+        val alarm = Alarm(8, 30, false, Alarm.EVERYDAY)
         val nearestDate = alarm.nearestDateTime(time)
         assertEquals(null, nearestDate)
     }
@@ -35,7 +35,7 @@ class AlarmTest : TestCase() {
     @Test
     fun testNearestDate_withAllDays() {
         val time = LocalDateTime.of(2020, Month.DECEMBER, 27, 16, 30)
-        val alarm = Alarm(8, 30, true, Alarm.ALL_DAYS)
+        val alarm = Alarm(8, 30, true, Alarm.EVERYDAY)
         val nearestDate = alarm.nearestDateTime(time)
         assertEquals(16 * 60, time.until(nearestDate, ChronoUnit.MINUTES))
     }

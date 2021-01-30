@@ -244,9 +244,12 @@
             android:id="@+id/fallbackValueTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:background="?selectableItemBackground"
+            android:ellipsize="end"
             android:gravity="end"
             android:paddingHorizontal="12dp"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="@color/green"
             app:layout_constraintBottom_toBottomOf="@id/fallbackTextView"
@@ -254,9 +257,6 @@
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toEndOf="@id/fallbackTextView"
             app:layout_constraintTop_toTopOf="@id/fallbackTextView"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:layout_marginStart="10dp"
             tools:text="@string/fallback_default" />
 
         <TextView

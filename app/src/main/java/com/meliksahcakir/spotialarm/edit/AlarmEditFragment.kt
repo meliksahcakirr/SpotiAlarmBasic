@@ -22,7 +22,6 @@ import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
-import com.meliksahcakir.spotialarm.main.MainViewModel
 import com.meliksahcakir.spotialarm.setup
 import java.time.DayOfWeek
 import java.time.LocalTime
@@ -36,10 +35,6 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentAlarmEditBinding? = null
     private val binding: FragmentAlarmEditBinding get() = _binding!!
-
-    private val mainViewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() }) {
-        ServiceLocator.provideViewModelFactory(requireActivity().application)
-    }
 
     private val editViewModel: EditViewModel by viewModels {
         ServiceLocator.provideViewModelFactory(requireActivity().application)
@@ -75,7 +70,6 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
         editViewModel.goToMainPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                mainViewModel.refreshData()
                 navigateToMainFragment()
             }
         )

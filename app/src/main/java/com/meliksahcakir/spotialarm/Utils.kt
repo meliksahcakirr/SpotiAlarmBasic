@@ -24,6 +24,9 @@ fun calculateDurationString(
 ): String {
     val resources = context.resources
     var duration = Duration.between(now.withSecond(0), alarm)
+    if (duration.nano > 0) {
+        duration = duration.plusSeconds(1)
+    }
     val days = duration.toDays().toInt()
     duration = duration.minusDays(days.toLong())
     val hours = duration.toHours().toInt()
@@ -45,7 +48,7 @@ fun calculateDurationString(
 
 fun Context.createPendingIntentToActivity(alarm: Alarm): PendingIntent {
     val intent = Intent(this, ActiveAlarmActivity::class.java).apply {
-        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         putExtra(AlarmReceiver.EXTRA_ALARM, alarm.toBundle())
     }
     return PendingIntent.getActivity(

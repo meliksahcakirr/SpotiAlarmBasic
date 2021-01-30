@@ -80,8 +80,8 @@ data class Alarm(
 
     fun nearestDateTime(localDateTime: LocalDateTime? = null): LocalDateTime? {
         if (!enabled) return null
-        val time = localDateTime ?: LocalDateTime.now()
-        var alarmDate = time.withHour(hour).withMinute(minute).withSecond(0)
+        val time = (localDateTime ?: LocalDateTime.now()).withSecond(0)
+        var alarmDate = time.withHour(hour).withMinute(minute)
         if (days == 0) {
             if (alarmDate.isBefore(time)) {
                 alarmDate = alarmDate.plusDays(1)

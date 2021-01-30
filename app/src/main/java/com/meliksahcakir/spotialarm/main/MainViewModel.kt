@@ -34,20 +34,20 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
     private val _alarms = MutableLiveData<List<Alarm>>()
     val alarms: LiveData<List<Alarm>> get() = _alarms
 
-    private val _nearestAlarmDateTime = MutableLiveData<LocalDateTime?>()
-    val nearestAlarmDateTime: LiveData<LocalDateTime?> get() = _nearestAlarmDateTime
+    private val _nearestAlarm = MutableLiveData<Alarm?>()
+    val nearestAlarm: LiveData<Alarm?> get() = _nearestAlarm
 
     private val handler = Handler(Looper.getMainLooper())
 
     private val tickRunnable = object : Runnable {
         override fun run() {
-            _nearestAlarmDateTime.value = findNearestDateTime(_alarms.value ?: emptyList())
+            _nearestAlarm.value = findNearestAlarm(_alarms.value ?: emptyList())
             handler.postDelayed(this, TIME_INTERVAL)
         }
     }
 
     init {
-        refreshData()
+        // refreshData()
         handler.postDelayed(tickRunnable, TIME_INTERVAL)
     }
 
@@ -68,20 +68,20 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
         updateNearestDateTime()
     }
 
-    private fun findNearestDateTime(alarms: List<Alarm>): LocalDateTime? {
-        var nearestDateTime: LocalDateTime? = null
+    private fun findNearestAlarm(alarms: List<Alarm>): Alarm? {
+        var nearestAlarm: Alarm? = null
         var minDiff = Long.MAX_VALUE
-        val now = LocalDateTime.now()
+        val now = LocalDateTime.now().withSecond(0)
         for (alarm in alarms) {
             if (!alarm.enabled) continue
             val dateTime = alarm.nearestDateTime(now)
             val diff = ChronoUnit.MINUTES.between(now, dateTime)
             if (diff < minDiff) {
                 minDiff = diff
-                nearestDateTime = dateTime
+                nearestAlarm = alarm
             }
         }
-        return nearestDateTime
+        return nearestAlarm
     }
 
     fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
@@ -102,7 +102,7 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
     }
 
     private fun updateNearestDateTime() {
-        _nearestAlarmDateTime.value = findNearestDateTime(_alarms.value ?: emptyList())
+        _nearestAlarm.value = findNearestAlarm(_alarms.value ?: emptyList())
     }
 
     fun onPreferencesButtonClicked() {

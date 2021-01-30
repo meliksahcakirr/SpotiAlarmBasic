@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meliksahcakir.spotialarm.bind
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
-import timber.log.Timber
 
 class AlarmAdapter(private val listener: AlarmListener) :
     ListAdapter<Alarm, AlarmViewHolder>(DiffCallback) {
@@ -45,13 +44,11 @@ class AlarmViewHolder(private val binding: AlarmViewBinding) :
 
     fun bind(alarm: Alarm, listener: AlarmListener) {
         binding.bind(alarm)
-        Timber.d("bind alarmId: ${alarm.alarmId}")
         updateViewsWithAlarmStatus(alarm.enabled)
         binding.root.setOnClickListener {
             listener.onClick(alarm)
         }
         binding.alarmSwitch.setOnCheckedChangeListener { _, b ->
-            Timber.d("switch checked: $b  alarmId: ${alarm.alarmId}")
             updateViewsWithAlarmStatus(b)
             listener.onAlarmEnableStatusChanged(alarm, b)
         }

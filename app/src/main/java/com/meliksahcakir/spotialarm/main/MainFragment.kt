@@ -1,5 +1,9 @@
 package com.meliksahcakir.spotialarm.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.ServiceLocator
+import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import com.meliksahcakir.spotialarm.setNearestAlarm
@@ -27,12 +32,19 @@ class MainFragment : Fragment(), AlarmListener {
         ServiceLocator.provideViewModelFactory(requireActivity().application)
     }
 
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            viewModel.refreshData()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater)
+        requireActivity().registerReceiver(receiver, IntentFilter(AlarmReceiver.ACTION_FINISH))
         return binding.root
     }
 
@@ -57,7 +69,7 @@ class MainFragment : Fragment(), AlarmListener {
             binding.emptyGroup.isVisible = list.isEmpty()
         }
 
-        viewModel.nearestAlarmDateTime.observe(viewLifecycleOwner) {
+        viewModel.nearestAlarm.observe(viewLifecycleOwner) {
             binding.setNearestAlarm(it)
         }
 
@@ -82,6 +94,7 @@ class MainFragment : Fragment(), AlarmListener {
         binding.preferencesButton.setOnClickListener {
             viewModel.onPreferencesButtonClicked()
         }
+        viewModel.refreshData()
     }
 
     override fun onClick(alarm: Alarm) {
@@ -104,6 +117,7 @@ class MainFragment : Fragment(), AlarmListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.unregisterReceiver(receiver)
         _binding = null
     }
 }

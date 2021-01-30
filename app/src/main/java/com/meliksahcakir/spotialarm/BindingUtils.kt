@@ -10,7 +10,6 @@ import com.meliksahcakir.spotialarm.databinding.ActivityActiveAlarmBinding
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val NOON = 12
@@ -62,20 +61,20 @@ fun FragmentAlarmEditBinding.setup(exists: Boolean, alarm: Alarm) {
 }
 
 fun FragmentMainBinding.setNearestAlarm(
-    nearestAlarm: LocalDateTime?,
-    now: LocalDateTime = LocalDateTime.now()
+    nearestAlarm: Alarm?
 ) {
     val context = root.context
-    if (nearestAlarm == null) {
+    val nearestDateTime = nearestAlarm?.nearestDateTime()
+    if (nearestAlarm == null || nearestDateTime == null) {
         allAlarmsOffTextView.isVisible = true
         nearestAlarmGroup.isInvisible = true
     } else {
         allAlarmsOffTextView.isInvisible = true
         nearestAlarmGroup.isVisible = true
-        val durationText = calculateDurationString(context, nearestAlarm, now)
+        val durationText = calculateDurationString(context, nearestDateTime)
         durationTextView.text = durationText
         val formatter = DateTimeFormatter.ofPattern("hh:mm")
-        nearestAlarmTextView.text = nearestAlarm.format(formatter)
+        nearestAlarmTextView.text = nearestDateTime.format(formatter)
         if (nearestAlarm.hour >= NOON) {
             nearestAlarmPeriodTextView.text = context.getString(R.string.pm)
         } else {

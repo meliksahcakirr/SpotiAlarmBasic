@@ -14,7 +14,6 @@ import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.schedule
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -47,7 +46,6 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
     }
 
     init {
-        Timber.d("initialized")
         handler.postDelayed(tickRunnable, INITIAL_TIME_INTERVAL)
     }
 

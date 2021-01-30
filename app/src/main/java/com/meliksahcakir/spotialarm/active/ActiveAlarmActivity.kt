@@ -5,18 +5,23 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.bind
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.ActivityActiveAlarmBinding
+import com.meliksahcakir.spotialarm.preferences.Preferences
 import com.meliksahcakir.spotialarm.service.AlarmService
 import com.meliksahcakir.spotialarm.snooze
 import com.meliksahcakir.spotialarm.turnScreenOffAndKeyguardOn
 import com.meliksahcakir.spotialarm.turnScreenOnAndKeyguardOff
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ActiveAlarmActivity : AppCompatActivity() {
 
@@ -41,26 +46,78 @@ class ActiveAlarmActivity : AppCompatActivity() {
         } else {
             finish()
         }
+        if (Preferences.slideToTurnOff) {
+            binding.turnOffSlider.isVisible = true
+            binding.turnOffTextView.isVisible = true
+            binding.turnOffFab.isInvisible = true
+        } else {
+            binding.turnOffSlider.isVisible = false
+            binding.turnOffTextView.isVisible = false
+            binding.turnOffFab.isVisible = true
+        }
         binding.turnOffFab.setOnClickListener {
-            val intent = Intent(this, AlarmService::class.java)
-            stopService(intent)
-            if (alarm != null && alarm.days == Alarm.ONCE) {
-                MainScope().launch {
-                    val repository = ServiceLocator.provideAlarmRepository(applicationContext)
-                    repository.updateAlarm(alarm.alarmId, false)
-                    finish()
-                }
-            } else {
-                finish()
-            }
+            stopForegroundService()
+            turnOffAlarm(alarm)
         }
 
         binding.snoozeFab.setOnClickListener {
             alarm?.snooze(this)
-            val intent = Intent(this, AlarmService::class.java)
-            stopService(intent)
+            stopForegroundService()
             finish()
         }
+
+        binding.turnOffSlider.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                private var continuous = false
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, user: Boolean) {
+                    Timber.d("onProgressChanged progress: $progress")
+                    val max = binding.turnOffSlider.max
+                    val ratio = progress.toFloat() / max
+                    binding.turnOffTextView.alpha = 1f - ratio
+                    if (progress < 10) {
+                        continuous = true
+                    }
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    Timber.d("onStartTrackingTouch progress: ${binding.turnOffSlider.progress}")
+                    continuous = false
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    Timber.d("onStopTrackingTouch progress: ${binding.turnOffSlider.progress}")
+                    if (continuous) {
+                        val progress = binding.turnOffSlider.progress
+                        val max = binding.turnOffSlider.max
+                        if (progress == max) {
+                            stopForegroundService()
+                            turnOffAlarm(alarm)
+                        } else {
+                            binding.turnOffSlider.progress = 0
+                        }
+                    } else {
+                        binding.turnOffSlider.progress = 0
+                    }
+                }
+            }
+        )
+    }
+
+    private fun turnOffAlarm(alarm: Alarm?) {
+        if (alarm != null && alarm.days == Alarm.ONCE) {
+            MainScope().launch {
+                val repository = ServiceLocator.provideAlarmRepository(applicationContext)
+                repository.updateAlarm(alarm.alarmId, false)
+                finish()
+            }
+        } else {
+            finish()
+        }
+    }
+
+    private fun stopForegroundService() {
+        val intent = Intent(this, AlarmService::class.java)
+        stopService(intent)
     }
 
     override fun onDestroy() {

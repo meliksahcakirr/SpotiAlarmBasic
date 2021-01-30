@@ -28,17 +28,8 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
             ACTION_TURN_OFF -> {
-                val bundle = intent.getBundleExtra(EXTRA_ALARM)
-                val alarm = Alarm.fromBundle(bundle)
                 stopAlarmService(context)
-                if (alarm != null && alarm.days == Alarm.ONCE) {
-                    GlobalScope.launch {
-                        disableAlarm(context, alarm.alarmId)
-                        context.sendBroadcast(Intent(ACTION_FINISH))
-                    }
-                } else {
-                    context.sendBroadcast(Intent(ACTION_FINISH))
-                }
+                context.sendBroadcast(Intent(ACTION_FINISH))
             }
             ACTION_SNOOZE -> {
                 val bundle = intent.getBundleExtra(EXTRA_ALARM)
@@ -50,17 +41,30 @@ class AlarmReceiver : BroadcastReceiver() {
             ACTION_ALARM_FIRED -> {
                 val bundle = intent.getBundleExtra(EXTRA_ALARM)
                 val alarm = Alarm.fromBundle(bundle) ?: return
-                val snoozedAlarm = intent.getBooleanExtra(EXTRA_ALARM_SNOOZE, false)
-                val now = LocalDateTime.now()
-                val day = now.dayOfWeek
-                if (alarm.days == Alarm.ONCE || snoozedAlarm) {
-                    startAlarmService(context, alarm)
-                } else {
-                    if (alarm.days and (1 shl day.ordinal) > 0) {
-                        startAlarmService(context, alarm)
-                    }
-                    alarm.schedule(context)
+                val isSnoozed = intent.getBooleanExtra(EXTRA_ALARM_SNOOZE, false)
+                onAlarmFired(context, alarm, isSnoozed)
+            }
+        }
+    }
+
+    private fun onAlarmFired(context: Context, alarm: Alarm, isSnoozed: Boolean) {
+        val now = LocalDateTime.now()
+        val day = now.dayOfWeek
+        when {
+            alarm.days == Alarm.ONCE -> {
+                startAlarmService(context, alarm)
+                GlobalScope.launch {
+                    disableAlarm(context, alarm.alarmId)
                 }
+            }
+            isSnoozed -> {
+                startAlarmService(context, alarm)
+            }
+            else -> {
+                if (alarm.days and (1 shl day.ordinal) > 0) {
+                    startAlarmService(context, alarm)
+                }
+                alarm.schedule(context)
             }
         }
     }

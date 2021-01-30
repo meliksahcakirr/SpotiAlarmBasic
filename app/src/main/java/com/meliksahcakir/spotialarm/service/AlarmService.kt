@@ -4,6 +4,10 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.RingtoneManager
@@ -37,12 +41,32 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         private const val VOLUME_SILENT = 0f
         private const val VOLUME_FULL = 1f
         private const val FADE_INTERVAL = 250
+        private const val Z_AXIS = 2
     }
 
     private var mediaPlayer: MediaPlayer? = null
     private var vibrator: Vibrator? = null
     private var volume = 0f
     private var timer: Timer? = null
+    private lateinit var sensorManager: SensorManager
+    private var accelerometer: Sensor? = null
+    private var enableAccelerometer = Preferences.faceDownToSnooze
+    private var alarm: Alarm? = null
+
+    private val accelerometerListener = object : SensorEventListener {
+        override fun onAccuracyChanged(arg0: Sensor, arg1: Int) {}
+
+        override fun onSensorChanged(arg0: SensorEvent) {
+            val value = arg0.values[Z_AXIS]
+            if (value < 0) {
+                val intent = Intent(this@AlarmService, AlarmReceiver::class.java).apply {
+                    action = AlarmReceiver.ACTION_SNOOZE
+                    putExtra(AlarmReceiver.EXTRA_ALARM, alarm?.toBundle())
+                }
+                sendBroadcast(intent)
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -57,13 +81,24 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         mediaPlayer?.setOnPreparedListener(this)
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         timer = Timer(true)
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER)
+        accelerometer = sensors.firstOrNull()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val bundle = intent?.getBundleExtra(AlarmReceiver.EXTRA_ALARM)
-        val alarm = Alarm.fromBundle(bundle)
+        alarm = Alarm.fromBundle(bundle)
+        enableAccelerometer = enableAccelerometer and (alarm?.snooze ?: false)
         alarm?.let {
             onAlarmGoesOff(it)
+            if (enableAccelerometer) {
+                sensorManager.registerListener(
+                    accelerometerListener,
+                    accelerometer,
+                    SensorManager.SENSOR_DELAY_NORMAL
+                )
+            }
         }
         return START_STICKY
     }
@@ -162,6 +197,9 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (enableAccelerometer) {
+            sensorManager.unregisterListener(accelerometerListener)
+        }
         timer?.cancel()
         timer?.purge()
         timer = null

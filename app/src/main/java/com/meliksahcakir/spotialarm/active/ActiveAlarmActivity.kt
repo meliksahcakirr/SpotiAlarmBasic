@@ -25,6 +25,10 @@ import timber.log.Timber
 
 class ActiveAlarmActivity : AppCompatActivity() {
 
+    companion object {
+        private const val PROGRESS_LIMIT = 0.1f
+    }
+
     private lateinit var binding: ActivityActiveAlarmBinding
 
     private val receiver = object : BroadcastReceiver() {
@@ -74,7 +78,7 @@ class ActiveAlarmActivity : AppCompatActivity() {
                     val max = binding.turnOffSlider.max
                     val ratio = progress.toFloat() / max
                     binding.turnOffTextView.alpha = 1f - ratio
-                    if (progress < 10) {
+                    if (progress < max * PROGRESS_LIMIT) {
                         continuous = true
                     }
                 }

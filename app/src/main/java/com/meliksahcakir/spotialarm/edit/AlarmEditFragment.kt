@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.meliksahcakir.androidutils.EventObserver
-import com.meliksahcakir.spotialarm.NOON
+import com.meliksahcakir.spotialarm.Constants
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.calculateDurationString
@@ -28,10 +28,6 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class AlarmEditFragment : BottomSheetDialogFragment() {
-
-    companion object {
-        private const val HEIGHT_RATIO = 0.9f
-    }
 
     private var _binding: FragmentAlarmEditBinding? = null
     private val binding: FragmentAlarmEditBinding get() = _binding!!
@@ -142,7 +138,7 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
                 val formatter = DateTimeFormatter.ofPattern("hh:mm")
                 val time = LocalTime.of(hour, minute)
                 binding.alarmTimeTextView.text = time.format(formatter)
-                if (hour >= NOON) {
+                if (hour >= Constants.NOON) {
                     binding.alarmTimePeriodTextView.text = context?.getString(R.string.pm)
                 } else {
                     binding.alarmTimePeriodTextView.text = context?.getString(R.string.am)
@@ -163,7 +159,8 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val height = (Resources.getSystem().displayMetrics.heightPixels * HEIGHT_RATIO).toInt()
+        val height =
+            (Resources.getSystem().displayMetrics.heightPixels * Constants.HEIGHT_RATIO).toInt()
         dialog?.let {
             val bs = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)!!
             bs.layoutParams.height = height

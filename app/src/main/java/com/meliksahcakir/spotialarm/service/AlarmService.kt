@@ -19,7 +19,7 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import androidx.core.net.toUri
-import com.meliksahcakir.spotialarm.NOON
+import com.meliksahcakir.spotialarm.Constants
 import com.meliksahcakir.spotialarm.NOTIFICATION_ID
 import com.meliksahcakir.spotialarm.NotificationUtil
 import com.meliksahcakir.spotialarm.R
@@ -83,8 +83,8 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                     .show()
             } else if (alarm != null) {
                 var hour = alarm!!.hour
-                if (hour > NOON) {
-                    hour -= NOON
+                if (hour > Constants.NOON) {
+                    hour -= Constants.NOON
                 }
                 val str = getString(R.string.alarm_speech, hour, alarm!!.minute)
                 tts?.speak(str, TextToSpeech.QUEUE_FLUSH, null, null)
@@ -149,7 +149,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         val formatter = DateTimeFormatter.ofPattern("hh:mm")
         val sb = StringBuilder()
         sb.append(time.format(formatter)).append(" ")
-        if (alarm.hour >= NOON) {
+        if (alarm.hour >= Constants.NOON) {
             sb.append(getString(R.string.pm))
         } else {
             sb.append(getString(R.string.am))

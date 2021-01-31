@@ -60,6 +60,23 @@
     <string name="complete_action_using">Complete action using</string>
     <string name="alarm_speech">It is %1$d %2$d</string>
     <string name="tts_not_supported">TTS not supported</string>
+    <string name="options">Options</string>
+    <string name="search_anything">Search anything</string>
+    <string name="library">Library</string>
+    <string name="favs">Favorite Songs</string>
+    <string name="explore">Explore</string>
+    <string name="featured">Featured</string>
+    <string name="moods">Moods</string>
+    <string name="genres">Genres</string>
+    <string name="top_songs">Top Songs</string>
+    <string name="top_albums">Top Albums</string>
+    <string name="top_artists">Top Artists</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="tracks">Tracks</string>
+    <string name="artists">Artists</string>
+    <string name="playlists">Playlists</string>
+    <string name="albums">Albums</string>
+    <string name="play_music">Play Music</string>
     <string-array name="snooze_intervals">
         <item> 5 min</item>
         <item>10 min</item>

@@ -100,13 +100,12 @@
 
     <TextView
         android:id="@+id/addMusicTextView"
+        style="@style/SubtitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:gravity="center"
         android:text="@string/add_music"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/grayLight"
         app:layout_constraintBottom_toBottomOf="@id/fab"
         app:layout_constraintEnd_toStartOf="@id/fab"
         app:layout_constraintTop_toTopOf="@id/fab" />
@@ -150,12 +149,11 @@
 
     <TextView
         android:id="@+id/daysTextView"
+        style="@style/SubtitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/days"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/grayLight"
         app:layout_constraintStart_toStartOf="@id/startGuideline"
         app:layout_constraintTop_toBottomOf="@id/vibrationFab" />
 

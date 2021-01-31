@@ -133,4 +133,22 @@
     <style name="SpinnerItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="TitleTextView" parent="">
+        <item name="android:textColor">@color/grayLight</item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.MaterialComponents.Headline6.Custom
+        </item>
+    </style>
+
+    <style name="SubtitleTextView" parent="">
+        <item name="android:textColor">@color/grayLight</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
+    </style>
+
+    <style name="MusicCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">0dp</item>
+        <item name="elevation">8dp</item>
+    </style>
 </resources>

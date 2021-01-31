@@ -17,6 +17,7 @@ import android.widget.ListPopupWindow
 import androidx.core.net.toUri
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.meliksahcakir.spotialarm.Constants
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.databinding.FragmentPreferencesBinding
 import permissions.dispatcher.NeedsPermission
@@ -27,9 +28,6 @@ import timber.log.Timber
 class PreferencesFragment : BottomSheetDialogFragment() {
 
     companion object {
-        private const val HEIGHT_RATIO = 0.9f
-        private const val DISABLED_ALPHA = 0.4f
-        private const val ENABLED_ALPHA = 1f
         private const val STEP_VALUE = 5
         private const val AUDIO_REQUEST = 123
     }
@@ -65,13 +63,13 @@ class PreferencesFragment : BottomSheetDialogFragment() {
         if (Preferences.useDeviceAlarmVolume) {
             binding.useAlarmVolumeSwitch.isChecked = true
             binding.volumeSlider.isEnabled = false
-            binding.volumeSlider.alpha = DISABLED_ALPHA
-            binding.volumeTextView.alpha = DISABLED_ALPHA
+            binding.volumeSlider.alpha = Constants.DISABLED_ALPHA
+            binding.volumeTextView.alpha = Constants.DISABLED_ALPHA
         } else {
             binding.useAlarmVolumeSwitch.isChecked = false
             binding.volumeSlider.isEnabled = true
-            binding.volumeSlider.alpha = ENABLED_ALPHA
-            binding.volumeTextView.alpha = ENABLED_ALPHA
+            binding.volumeSlider.alpha = Constants.ENABLED_ALPHA
+            binding.volumeTextView.alpha = Constants.ENABLED_ALPHA
         }
         binding.volumeSlider.value = Preferences.customVolume.toFloat()
         binding.fallbackValueTextView.text =
@@ -91,8 +89,10 @@ class PreferencesFragment : BottomSheetDialogFragment() {
         binding.useAlarmVolumeSwitch.setOnCheckedChangeListener { _, isChecked ->
             Preferences.useDeviceAlarmVolume = isChecked
             binding.volumeSlider.isEnabled = !isChecked
-            binding.volumeSlider.alpha = if (isChecked) DISABLED_ALPHA else ENABLED_ALPHA
-            binding.volumeTextView.alpha = if (isChecked) DISABLED_ALPHA else ENABLED_ALPHA
+            binding.volumeSlider.alpha =
+                if (isChecked) Constants.DISABLED_ALPHA else Constants.ENABLED_ALPHA
+            binding.volumeTextView.alpha =
+                if (isChecked) Constants.DISABLED_ALPHA else Constants.ENABLED_ALPHA
         }
         binding.volumeSlider.addOnChangeListener { _, value, _ ->
             Preferences.customVolume = value.toInt()
@@ -126,7 +126,8 @@ class PreferencesFragment : BottomSheetDialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val height = (Resources.getSystem().displayMetrics.heightPixels * HEIGHT_RATIO).toInt()
+        val height =
+            (Resources.getSystem().displayMetrics.heightPixels * Constants.HEIGHT_RATIO).toInt()
         dialog?.let {
             val bs = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)!!
             bs.layoutParams.height = height

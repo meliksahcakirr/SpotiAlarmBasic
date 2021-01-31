@@ -6,6 +6,7 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.meliksahcakir.spotialarm.Constants
 import com.meliksahcakir.spotialarm.bind
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
@@ -37,11 +38,6 @@ class AlarmAdapter(private val listener: AlarmListener) :
 class AlarmViewHolder(private val binding: AlarmViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    companion object {
-        const val ENABLED_ALPHA = 1f
-        const val DISABLED_ALPHA = 0.3f
-    }
-
     fun bind(alarm: Alarm, listener: AlarmListener) {
         binding.bind(alarm)
         updateViewsWithAlarmStatus(alarm.enabled)
@@ -55,7 +51,7 @@ class AlarmViewHolder(private val binding: AlarmViewBinding) :
     }
 
     private fun updateViewsWithAlarmStatus(enabled: Boolean) {
-        val alpha = if (enabled) ENABLED_ALPHA else DISABLED_ALPHA
+        val alpha = if (enabled) Constants.ENABLED_ALPHA else Constants.DISABLED_ALPHA
         for (v in binding.constraintLayout.children) {
             v.alpha = alpha
         }

@@ -15,24 +15,22 @@
 
         <TextView
             android:id="@+id/preferencesTextView"
+            style="@style/TitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/preferences"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6.Custom"
-            android:textColor="@color/grayLight"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/alarmsPreferenceTextView"
+            style="@style/SubtitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/alarms"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/grayLight"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/preferencesTextView" />
 
@@ -136,12 +134,11 @@
 
         <TextView
             android:id="@+id/audioPreferencesTextView"
+            style="@style/SubtitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/audio"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/grayLight"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/snoozeDurationTextView" />
 

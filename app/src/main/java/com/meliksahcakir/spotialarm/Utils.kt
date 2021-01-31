@@ -19,7 +19,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Locale
 
-
 object Constants {
     const val HEIGHT_RATIO = 0.9f
     const val DISABLED_ALPHA = 0.4f
@@ -131,7 +130,7 @@ fun Activity.turnScreenOnAndKeyguardOff() {
     } else {
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
         )
     }
 
@@ -164,7 +163,7 @@ fun Activity.turnScreenOffAndKeyguardOn() {
     } else {
         window.clearFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
         )
     }
 }

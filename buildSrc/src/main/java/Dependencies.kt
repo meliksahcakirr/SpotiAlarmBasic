@@ -25,6 +25,8 @@ object Versions {
     const val OK_HTTP = "4.0.0"
     const val KOT_PREF = "2.13.0"
     const val PERMS = "4.8.0"
+    const val GLIDE = "4.12.0"
+    const val PROGRESSBAR = "3.0.3"
 }
 
 object BuildPluginsVersion {
@@ -68,6 +70,9 @@ object SupportLibs {
     const val PERMS = "org.permissionsdispatcher:permissionsdispatcher:${Versions.PERMS}"
     const val PERMS_PROCESSOR =
         "org.permissionsdispatcher:permissionsdispatcher-processor:${Versions.PERMS}"
+    const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+    const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+    const val PROGRESSBAR = "com.mikhaellopez:circularprogressbar:${Versions.PROGRESSBAR}"
 }
 
 object TestingLib {

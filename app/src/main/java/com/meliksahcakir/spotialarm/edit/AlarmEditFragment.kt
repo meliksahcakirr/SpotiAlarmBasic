@@ -69,6 +69,13 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
                 navigateToMainFragment()
             }
         )
+
+        editViewModel.goToMusicPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navigateToOptionsFragment()
+            }
+        )
     }
 
     private val daysToggleGroupListener =
@@ -127,6 +134,9 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
             editViewModel.updateAlarmDay(Alarm.ONCE)
             binding.daysToggleGroup.addOnButtonCheckedListener(daysToggleGroupListener)
         }
+        binding.musicFab.setOnClickListener {
+            editViewModel.onMusicFabClicked()
+        }
     }
 
     private fun openTimePicker() {
@@ -154,6 +164,11 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
 
     private fun navigateToMainFragment() {
         val direction = AlarmEditFragmentDirections.actionAlarmEditFragmentToMainFragment()
+        findNavController().navigate(direction)
+    }
+
+    private fun navigateToOptionsFragment() {
+        val direction = AlarmEditFragmentDirections.actionAlarmEditFragmentToOptionsFragment()
         findNavController().navigate(direction)
     }
 

@@ -28,6 +28,9 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
     private val _goToMainPageEvent = MutableLiveData<Event<Unit>>()
     val goToMainPageEvent: LiveData<Event<Unit>> get() = _goToMainPageEvent
 
+    private val _goToMusicPageEvent = MutableLiveData<Event<Unit>>()
+    val goToMusicPageEvent: LiveData<Event<Unit>> get() = _goToMusicPageEvent
+
     private val _alarmDateTime = MutableLiveData<LocalDateTime?>()
     val alarmDateTime: LiveData<LocalDateTime?> = _alarmDateTime
 
@@ -125,6 +128,10 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
             alarm.schedule(getApplication())
             _goToMainPageEvent.value = Event(Unit)
         }
+    }
+
+    fun onMusicFabClicked() {
+        _goToMusicPageEvent.value = Event(Unit)
     }
 
     override fun onCleared() {

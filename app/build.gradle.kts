@@ -76,6 +76,9 @@ dependencies {
     implementation(SupportLibs.KOT_PREF)
     implementation(SupportLibs.PERMS)
     kapt(SupportLibs.PERMS_PROCESSOR)
+    implementation(SupportLibs.GLIDE)
+    kapt(SupportLibs.GLIDE_COMPILER)
+    implementation(SupportLibs.PROGRESSBAR)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

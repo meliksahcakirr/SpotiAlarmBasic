@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Albums(
     @SerializedName("albums")
-    val list: List<Track>,
+    val list: List<Album>,
     @SerializedName("meta")
     val meta: Meta? = null
 )
@@ -15,16 +15,5 @@ data class Album(
     val href: String,
     val name: String,
     val trackCount: Int,
-    val artistName: String,
-    val links: AlbumLinks
+    val artistName: String
 )
-
-data class AlbumLinks(
-    val images: AlbumImagesLink,
-    val tracks: AlbumTracksLink,
-)
-
-data class AlbumImagesLink(val href: String)
-data class AlbumTracksLink(val href: String)
-// data class ArtistsLink(val ids: List<String>, val href: String)
-// data class GenresLink(val ids: List<String>, val href: String)

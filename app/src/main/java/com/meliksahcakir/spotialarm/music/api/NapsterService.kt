@@ -14,6 +14,32 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+enum class ArtistImageSize(val value: String) {
+    SIZE_70X47("70x47"),
+    SIZE_150X100("150x100"),
+    SIZE_356X237("356x237"),
+    SIZE_633X422("633x422")
+}
+
+enum class AlbumImageSize(val value: String) {
+    SIZE_70X70("70x70"),
+    SIZE_170X170("170x170"),
+    SIZE_200X200("200x200"),
+    SIZE_300X300("300x300"),
+    SIZE_500X500("500x500")
+}
+
+enum class PlaylistImageSize(val value: String) {
+    SIZE_230X153("230x153"),
+    SIZE_1200X400("1200x400"),
+    SIZE_1800X600("1800x600")
+}
+
+enum class GenreImageSize(val value: String) {
+    SIZE_161X64("161x64"),
+    SIZE_240X160("240x160")
+}
+
 interface NapsterService {
 
     @Headers("apikey: $API_KEY")
@@ -47,7 +73,7 @@ interface NapsterService {
     ): Tracks
 
     @Headers("apikey: $API_KEY")
-    @GET("v2.2/genres/{id}/tracks/top")
+    @GET("v2.2/playlists/{id}/tracks/top")
     suspend fun getPlaylistTracks(
         @Path("id") playlistId: String
     ): Tracks
@@ -59,7 +85,7 @@ interface NapsterService {
     ): Playlists
 
     @Headers("apikey: $API_KEY")
-    @GET("v2.2/tags/search?type=track,artist,playlist&per_type_limit=8")
+    @GET("v2.2/search?type=track,artist,playlist,album&per_type_limit=7")
     suspend fun search(
         @Query("query") query: String
     ): SearchResult
@@ -83,6 +109,22 @@ interface NapsterService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(NapsterService::class.java)
+        }
+
+        fun createArtistImageUrl(id: String, size: ArtistImageSize): String {
+            return "${BASE_URL}imageserver/v2/artists/$id/images/${size.value}.jpg"
+        }
+
+        fun createAlbumImageUrl(id: String, size: AlbumImageSize): String {
+            return "${BASE_URL}imageserver/v2/albums/$id/images/${size.value}.jpg"
+        }
+
+        fun createPlaylistImageUrl(id: String, size: PlaylistImageSize): String {
+            return "${BASE_URL}imageserver/v2/playlists/$id/artists/images/${size.value}.jpg"
+        }
+
+        fun createGenreImageUrl(id: String, size: GenreImageSize): String {
+            return "${BASE_URL}imageserver/images/$id/${size.value}.jpg"
         }
     }
 }

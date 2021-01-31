@@ -32,10 +32,18 @@
             app:exitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_alarmEditFragment_to_optionsFragment"
+            app:destination="@id/optionsFragment" />
     </dialog>
     <dialog
         android:id="@+id/preferencesFragment"
         android:name="com.meliksahcakir.spotialarm.preferences.PreferencesFragment"
         android:label="PreferencesFragment"
         tools:layout="@layout/fragment_preferences" />
+    <dialog
+        android:id="@+id/optionsFragment"
+        android:name="com.meliksahcakir.spotialarm.options.OptionsFragment"
+        android:label="OptionsFragment"
+        tools:layout="@layout/fragment_options" />
 </navigation>

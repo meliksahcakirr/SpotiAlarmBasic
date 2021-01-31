@@ -17,13 +17,7 @@ data class Track(
     val name: String,
     val artistName: String,
     val artistId: String,
-    val links: TrackLinks,
     val previewURL: String,
+    val albumId: String,
     val isStreamable: Boolean
 )
-
-data class TrackLinks(
-    val albums: TrackAlbumsLink
-)
-
-data class TrackAlbumsLink(val ids: List<String>, val href: String)

@@ -148,7 +148,9 @@
     </style>
 
     <style name="MusicCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?selectableItemBackground</item>
         <item name="cardCornerRadius">0dp</item>
-        <item name="elevation">8dp</item>
+        <item name="cardElevation">0dp</item>
     </style>
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MusicCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        style="@style/SubtitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/music_ui_items_horizontal_padding"
+        android:paddingVertical="@dimen/music_ui_items_vertical_padding"
+        tools:text="Explore" />
+
+</com.google.android.material.card.MaterialCardView>

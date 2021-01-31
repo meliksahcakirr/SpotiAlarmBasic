@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.edit.EditViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
+import com.meliksahcakir.spotialarm.options.OptionsViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(
@@ -19,6 +20,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(EditViewModel::class.java) -> {
                 EditViewModel(repository, application) as T
+            }
+            modelClass.isAssignableFrom(OptionsViewModel::class.java) -> {
+                OptionsViewModel(repository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")

@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.music.api.NapsterService
+import com.meliksahcakir.spotialarm.music.data.SearchResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class AlarmRepository(
     private val alarmDao: AlarmDao,
@@ -63,5 +65,15 @@ class AlarmRepository(
 
     suspend fun updateAlarm(alarmId: Int, enable: Boolean) = withContext(ioDispatcher) {
         alarmDao.updateAlarmEnableStatus(alarmId, enable)
+    }
+
+    suspend fun search(query: String): Result<SearchResult> = withContext(ioDispatcher) {
+        return@withContext try {
+            val obj = napsterService.search(query)
+            Result.Success(obj)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Playlists(
     @SerializedName("playlists")
-    val list: List<Track>? = null
+    val list: List<Playlist>
 )
 
 data class Playlist(
@@ -12,18 +12,5 @@ data class Playlist(
     val id: String,
     val name: String,
     val href: String,
-    val trackCount: Int,
-    val images: List<PlaylistImage>,
-    val links: PlaylistLinks
+    val trackCount: Int
 )
-
-data class PlaylistImage(
-    val imageId: String,
-    val url: String
-)
-
-data class PlaylistLinks(
-    val tracks: PlaylistTracksLink
-)
-
-data class PlaylistTracksLink(val href: String)

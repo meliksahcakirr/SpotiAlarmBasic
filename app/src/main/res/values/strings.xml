@@ -82,6 +82,7 @@
     <string name="genre">Genre</string>
     <string name="playlist">Playlist</string>
     <string name="track">Track</string>
+    <string name="choose_a_song">Choose a song</string>
     <string-array name="snooze_intervals">
         <item> 5 min</item>
         <item>10 min</item>

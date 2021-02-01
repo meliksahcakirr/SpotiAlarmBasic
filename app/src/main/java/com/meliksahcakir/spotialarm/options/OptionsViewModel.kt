@@ -8,19 +8,22 @@ import androidx.lifecycle.viewModelScope
 import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.R
-import com.meliksahcakir.spotialarm.data.AlarmRepository
+import com.meliksahcakir.spotialarm.music.api.NapsterService
+import com.meliksahcakir.spotialarm.music.api.TrackOptions
+import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.music.ui.MusicOptions
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import kotlinx.coroutines.launch
 
-class OptionsViewModel(private val repository: AlarmRepository, private val app: Application) :
+class OptionsViewModel(private val repository: MusicRepository, private val app: Application) :
     AndroidViewModel(app) {
 
     private val _goToAlbumsPageEvent = MutableLiveData<Event<Unit>>()
     val goToAlbumsPageEvent: LiveData<Event<Unit>> get() = _goToAlbumsPageEvent
 
-    private val _goToTracksPageEvent = MutableLiveData<Event<Unit>>()
-    val goToTracksPageEvent: LiveData<Event<Unit>> get() = _goToTracksPageEvent
+    private val _goToTracksPageEvent = MutableLiveData<Event<Pair<TrackOptions, String>>>()
+    val goToTracksPageEvent: LiveData<Event<Pair<TrackOptions, String>>>
+        get() = _goToTracksPageEvent
 
     private val _goToArtistsPageEvent = MutableLiveData<Event<Unit>>()
     val goToArtistsPageEvent: LiveData<Event<Unit>> get() = _goToArtistsPageEvent
@@ -101,7 +104,40 @@ class OptionsViewModel(private val repository: AlarmRepository, private val app:
     }
 
     fun onMusicUIModelClicked(model: MusicUIModel) {
-        // TODO
+        when (model) {
+            is MusicUIModel.OptionItem -> onOptionItemSelected(model.option)
+            is MusicUIModel.ArtistItem ->
+                _goToTracksPageEvent.value =
+                    Event(Pair(TrackOptions.ARTIST_TRACKS, model.artist.id))
+            is MusicUIModel.AlbumItem ->
+                _goToTracksPageEvent.value =
+                    Event(Pair(TrackOptions.ALBUM_TRACKS, model.album.id))
+            is MusicUIModel.PlaylistItem ->
+                _goToTracksPageEvent.value =
+                    Event(Pair(TrackOptions.PLAYLIST_TRACKS, model.playlist.id))
+            else -> {
+                // TODO not supported
+            }
+        }
+    }
+
+    private fun onOptionItemSelected(options: MusicOptions) {
+        when (options) {
+            MusicOptions.FAVORITES -> {
+            }
+            MusicOptions.FEATURED ->
+                _goToPlayListsPageEvent.value =
+                    Event(NapsterService.FEATURED_TAG)
+            MusicOptions.MOODS ->
+                _goToPlayListsPageEvent.value =
+                    Event(NapsterService.MOODS_TAG)
+            MusicOptions.GENRES -> _goToGenresPageEvent.value = Event(Unit)
+            MusicOptions.ARTIST -> _goToArtistsPageEvent.value = Event(Unit)
+            MusicOptions.ALBUMS -> _goToAlbumsPageEvent.value = Event(Unit)
+            MusicOptions.TRACKS ->
+                _goToTracksPageEvent.value =
+                    Event(Pair(TrackOptions.TOP_TRACKS, ""))
+        }
     }
 
     private fun prepareInitialOptions() {

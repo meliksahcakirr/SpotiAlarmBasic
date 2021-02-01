@@ -40,6 +40,14 @@ enum class GenreImageSize(val value: String) {
     SIZE_240X160("240x160")
 }
 
+enum class TrackOptions {
+    TOP_TRACKS,
+    ARTIST_TRACKS,
+    ALBUM_TRACKS,
+    GENRE_TRACKS,
+    PLAYLIST_TRACKS
+}
+
 interface NapsterService {
 
     @Headers("apikey: $API_KEY")
@@ -73,7 +81,7 @@ interface NapsterService {
     ): Tracks
 
     @Headers("apikey: $API_KEY")
-    @GET("v2.2/playlists/{id}/tracks/top")
+    @GET("v2.2/playlists/{id}/tracks?limit=15")
     suspend fun getPlaylistTracks(
         @Path("id") playlistId: String
     ): Tracks

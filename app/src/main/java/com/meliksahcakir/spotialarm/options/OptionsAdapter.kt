@@ -1,4 +1,4 @@
-package com.meliksahcakir.spotialarm.music.ui
+package com.meliksahcakir.spotialarm.options
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,28 +11,46 @@ import com.meliksahcakir.spotialarm.databinding.OptionItemBinding
 import com.meliksahcakir.spotialarm.databinding.PlaylistItemBinding
 import com.meliksahcakir.spotialarm.databinding.SeparatorItemBinding
 import com.meliksahcakir.spotialarm.databinding.TrackItemBinding
+import com.meliksahcakir.spotialarm.music.ui.AlbumViewHolder
+import com.meliksahcakir.spotialarm.music.ui.ArtistViewHolder
+import com.meliksahcakir.spotialarm.music.ui.GenreViewHolder
+import com.meliksahcakir.spotialarm.music.ui.MusicSearchDiffCallback
+import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
+import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
+import com.meliksahcakir.spotialarm.music.ui.MusicUIViewHolder
+import com.meliksahcakir.spotialarm.music.ui.OptionViewHolder
+import com.meliksahcakir.spotialarm.music.ui.PlaylistViewHolder
+import com.meliksahcakir.spotialarm.music.ui.SeparatorViewHolder
+import com.meliksahcakir.spotialarm.music.ui.TrackViewHolder
+import com.meliksahcakir.spotialarm.tracks.TrackListener
 
-class OptionsAdapter(private val listener: MusicUIModelListener) :
-    ListAdapter<MusicUIModel, MusicUIViewHolder>(MusicSearchDiffCallback) {
+class OptionsAdapter(
+    private val modelListener: MusicUIModelListener,
+    private val trackListener: TrackListener
+) :
+    ListAdapter<MusicUIModel, MusicUIViewHolder>(
+        MusicSearchDiffCallback
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicUIViewHolder {
         val inf = LayoutInflater.from(parent.context)
         return when (viewType) {
             R.layout.track_item -> TrackViewHolder(
                 TrackItemBinding.inflate(inf, parent, false),
-                listener
+                modelListener,
+                trackListener
             )
             R.layout.album_item -> AlbumViewHolder(
                 AlbumItemBinding.inflate(inf, parent, false),
-                listener
+                modelListener
             )
             R.layout.artist_item -> ArtistViewHolder(
                 ArtistItemBinding.inflate(inf, parent, false),
-                listener
+                modelListener
             )
             R.layout.genre_item -> GenreViewHolder(
                 GenreItemBinding.inflate(inf, parent, false),
-                listener
+                modelListener
             )
             R.layout.playlist_item -> PlaylistViewHolder(
                 PlaylistItemBinding.inflate(
@@ -40,13 +58,15 @@ class OptionsAdapter(private val listener: MusicUIModelListener) :
                     parent,
                     false
                 ),
-                listener
+                modelListener
             )
             R.layout.option_item -> OptionViewHolder(
                 OptionItemBinding.inflate(inf, parent, false),
-                listener
+                modelListener
             )
-            else -> SeparatorViewHolder(SeparatorItemBinding.inflate(inf, parent, false))
+            else -> SeparatorViewHolder(
+                SeparatorItemBinding.inflate(inf, parent, false)
+            )
         }
     }
 

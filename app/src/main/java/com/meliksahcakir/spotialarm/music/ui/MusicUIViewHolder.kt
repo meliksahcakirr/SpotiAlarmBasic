@@ -16,14 +16,25 @@ import com.meliksahcakir.spotialarm.music.api.ArtistImageSize
 import com.meliksahcakir.spotialarm.music.api.GenreImageSize
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.music.api.PlaylistImageSize
+import com.meliksahcakir.spotialarm.tracks.TrackListener
 
-abstract class MusicUIViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(model: MusicUIModel)
+abstract class MusicUIViewHolder(view: View, private var listener: MusicUIModelListener? = null) :
+    RecyclerView.ViewHolder(view) {
+    open fun bind(model: MusicUIModel) {
+        itemView.setOnClickListener {
+            listener?.onClicked(model)
+        }
+    }
 }
 
-class TrackViewHolder(private val binding: TrackItemBinding, listener: MusicUIModelListener) :
-    MusicUIViewHolder(binding.root) {
+class TrackViewHolder(
+    private val binding: TrackItemBinding,
+    modelListener: MusicUIModelListener,
+    trackListener: TrackListener
+) :
+    MusicUIViewHolder(binding.root, modelListener) {
     override fun bind(model: MusicUIModel) {
+        super.bind(model)
         val track = (model as MusicUIModel.TrackItem).track
         binding.trackTextView.text = track.name
         binding.artistTextView.text = track.artistName
@@ -37,8 +48,9 @@ class TrackViewHolder(private val binding: TrackItemBinding, listener: MusicUIMo
 }
 
 class AlbumViewHolder(private val binding: AlbumItemBinding, listener: MusicUIModelListener) :
-    MusicUIViewHolder(binding.root) {
+    MusicUIViewHolder(binding.root, listener) {
     override fun bind(model: MusicUIModel) {
+        super.bind(model)
         val album = (model as MusicUIModel.AlbumItem).album
         binding.albumTextView.text = album.name
         binding.artistTextView.text = album.artistName
@@ -52,8 +64,9 @@ class AlbumViewHolder(private val binding: AlbumItemBinding, listener: MusicUIMo
 }
 
 class ArtistViewHolder(private val binding: ArtistItemBinding, listener: MusicUIModelListener) :
-    MusicUIViewHolder(binding.root) {
+    MusicUIViewHolder(binding.root, listener) {
     override fun bind(model: MusicUIModel) {
+        super.bind(model)
         val artist = (model as MusicUIModel.ArtistItem).artist
         binding.artistTextView.text = artist.name
         Glide
@@ -66,8 +79,9 @@ class ArtistViewHolder(private val binding: ArtistItemBinding, listener: MusicUI
 }
 
 class GenreViewHolder(private val binding: GenreItemBinding, listener: MusicUIModelListener) :
-    MusicUIViewHolder(binding.root) {
+    MusicUIViewHolder(binding.root, listener) {
     override fun bind(model: MusicUIModel) {
+        super.bind(model)
         val genre = (model as MusicUIModel.GenreItem).genre
         binding.genreTextView.text = genre.name
         Glide
@@ -80,8 +94,9 @@ class GenreViewHolder(private val binding: GenreItemBinding, listener: MusicUIMo
 }
 
 class PlaylistViewHolder(private val binding: PlaylistItemBinding, listener: MusicUIModelListener) :
-    MusicUIViewHolder(binding.root) {
+    MusicUIViewHolder(binding.root, listener) {
     override fun bind(model: MusicUIModel) {
+        super.bind(model)
         val list = (model as MusicUIModel.PlaylistItem).playlist
         binding.playlistTextView.text = list.name
         Glide
@@ -94,8 +109,9 @@ class PlaylistViewHolder(private val binding: PlaylistItemBinding, listener: Mus
 }
 
 class OptionViewHolder(private val binding: OptionItemBinding, listener: MusicUIModelListener) :
-    MusicUIViewHolder(binding.root) {
+    MusicUIViewHolder(binding.root, listener) {
     override fun bind(model: MusicUIModel) {
+        super.bind(model)
         val option = (model as MusicUIModel.OptionItem).option
         binding.imageView.setImageResource(option.icon)
         binding.textView.setText(option.description)

@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.edit.EditViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
+import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.options.OptionsViewModel
+import com.meliksahcakir.spotialarm.tracks.TracksViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(
@@ -21,8 +23,25 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(EditViewModel::class.java) -> {
                 EditViewModel(repository, application) as T
             }
+            else -> {
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class MusicViewModelFactory(
+    private val repository: MusicRepository,
+    private val application: Application
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return when {
             modelClass.isAssignableFrom(OptionsViewModel::class.java) -> {
                 OptionsViewModel(repository, application) as T
+            }
+            modelClass.isAssignableFrom(TracksViewModel::class.java) -> {
+                TracksViewModel(repository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")

@@ -1,60 +1,47 @@
-package com.meliksahcakir.spotialarm.options
+package com.meliksahcakir.spotialarm.tracks
 
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.meliksahcakir.androidutils.EventObserver
-import com.meliksahcakir.androidutils.hideKeyboard
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
-import com.meliksahcakir.spotialarm.databinding.FragmentOptionsBinding
+import com.meliksahcakir.spotialarm.databinding.FragmentTracksBinding
 import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
-import com.meliksahcakir.spotialarm.tracks.TrackListener
 
-class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
+class TracksFragment : BottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
 
-    private var _binding: FragmentOptionsBinding? = null
-    private val binding: FragmentOptionsBinding get() = _binding!!
+    private var _binding: FragmentTracksBinding? = null
+    private val binding: FragmentTracksBinding get() = _binding!!
 
-    private val viewModel: OptionsViewModel by viewModels {
+    private val viewModel: TracksViewModel by viewModels {
         ServiceLocator.provideMusicViewModelFactory(requireActivity().application)
     }
 
-    private val adapter = OptionsAdapter(this, this)
+    private val adapter = TracksAdapter(this, this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOptionsBinding.inflate(inflater)
+        _binding = FragmentTracksBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.searchEditText.setText(viewModel.latestQuery)
-
-        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                binding.root.hideKeyboard()
-                viewModel.search(binding.searchEditText.text.toString())
-            }
-            true
-        }
 
         binding.recyclerView.adapter = adapter
 
@@ -65,7 +52,7 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
             }
         )
 
-        viewModel.musicUIModels.observe(viewLifecycleOwner) {
+        viewModel.tracks.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
@@ -77,17 +64,10 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
             binding.progressBar.isVisible = it
         }
 
-        viewModel.goToTracksPageEvent.observe(
-            viewLifecycleOwner,
-            EventObserver {
-                val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToTracksFragment(
-                        it.first,
-                        it.second
-                    )
-                findNavController().navigate(directions)
-            }
-        )
+        arguments?.let {
+            val args = TracksFragmentArgs.fromBundle(it)
+            viewModel.getTracks(args.options, args.id)
+        }
     }
 
     override fun onStart() {
@@ -109,7 +89,7 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
     }
 
     override fun onClicked(model: MusicUIModel) {
-        viewModel.onMusicUIModelClicked(model)
+        TODO("Not yet implemented")
     }
 
     override fun play(track: Track) {

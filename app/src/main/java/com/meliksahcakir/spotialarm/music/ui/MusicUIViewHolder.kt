@@ -29,7 +29,7 @@ class TrackViewHolder(private val binding: TrackItemBinding, listener: MusicUIMo
         binding.artistTextView.text = track.artistName
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createAlbumImageUrl(track.albumId, AlbumImageSize.SIZE_70x70))
+            .load(NapsterService.createAlbumImageUrl(track.albumId, AlbumImageSize.SIZE_70X70))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
@@ -44,7 +44,7 @@ class AlbumViewHolder(private val binding: AlbumItemBinding, listener: MusicUIMo
         binding.artistTextView.text = album.artistName
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createAlbumImageUrl(album.id, AlbumImageSize.SIZE_70x70))
+            .load(NapsterService.createAlbumImageUrl(album.id, AlbumImageSize.SIZE_70X70))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
@@ -58,7 +58,7 @@ class ArtistViewHolder(private val binding: ArtistItemBinding, listener: MusicUI
         binding.artistTextView.text = artist.name
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createArtistImageUrl(artist.id, ArtistImageSize.SIZE_150x100))
+            .load(NapsterService.createArtistImageUrl(artist.id, ArtistImageSize.SIZE_150X100))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
@@ -72,7 +72,7 @@ class GenreViewHolder(private val binding: GenreItemBinding, listener: MusicUIMo
         binding.genreTextView.text = genre.name
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createGenreImageUrl(genre.id, GenreImageSize.SIZE_240x160))
+            .load(NapsterService.createGenreImageUrl(genre.id, GenreImageSize.SIZE_240X160))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
@@ -86,7 +86,7 @@ class PlaylistViewHolder(private val binding: PlaylistItemBinding, listener: Mus
         binding.playlistTextView.text = list.name
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createPlaylistImageUrl(list.id, PlaylistImageSize.SIZE_230x153))
+            .load(NapsterService.createPlaylistImageUrl(list.id, PlaylistImageSize.SIZE_230X153))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)

@@ -16,6 +16,7 @@
             android:id="@+id/imageView"
             android:layout_width="@dimen/music_ui_image_size"
             android:layout_height="@dimen/music_ui_image_size"
+            android:contentDescription="@string/track"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

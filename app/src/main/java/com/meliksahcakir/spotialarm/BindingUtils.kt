@@ -17,7 +17,7 @@ fun AlarmViewBinding.bind(alarm: Alarm) {
     val time = alarm.alarmTime
     val formatter = DateTimeFormatter.ofPattern("hh:mm")
     alarmTimeTextView.text = time.format(formatter)
-    if (alarm.hour >= Constants.NOON) {
+    if (alarm.hour >= Utils.NOON) {
         alarmTimePeriodTextView.text = context.getString(R.string.pm)
     } else {
         alarmTimePeriodTextView.text = context.getString(R.string.am)
@@ -40,7 +40,7 @@ fun FragmentAlarmEditBinding.setup(exists: Boolean, alarm: Alarm) {
     alarm.enabled = true
     val formatter = DateTimeFormatter.ofPattern("hh:mm")
     alarmTimeTextView.text = alarm.alarmTime.format(formatter)
-    if (alarm.hour >= Constants.NOON) {
+    if (alarm.hour >= Utils.NOON) {
         alarmTimePeriodTextView.text = context.getString(R.string.pm)
     } else {
         alarmTimePeriodTextView.text = context.getString(R.string.am)
@@ -73,7 +73,7 @@ fun FragmentMainBinding.setNearestAlarm(
         durationTextView.text = durationText
         val formatter = DateTimeFormatter.ofPattern("hh:mm")
         nearestAlarmTextView.text = nearestDateTime.format(formatter)
-        if (nearestAlarm.hour >= Constants.NOON) {
+        if (nearestAlarm.hour >= Utils.NOON) {
             nearestAlarmPeriodTextView.text = context.getString(R.string.pm)
         } else {
             nearestAlarmPeriodTextView.text = context.getString(R.string.am)
@@ -86,7 +86,7 @@ fun ActivityActiveAlarmBinding.bind(alarm: Alarm) {
     val time = alarm.alarmTime
     val formatter = DateTimeFormatter.ofPattern("hh:mm")
     alarmTimeTextView.text = time.format(formatter)
-    if (alarm.hour >= Constants.NOON) {
+    if (alarm.hour >= Utils.NOON) {
         alarmTimePeriodTextView.text = context.getString(R.string.pm)
     } else {
         alarmTimePeriodTextView.text = context.getString(R.string.am)

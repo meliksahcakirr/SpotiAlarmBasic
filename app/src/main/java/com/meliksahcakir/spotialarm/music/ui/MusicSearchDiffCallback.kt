@@ -2,7 +2,7 @@ package com.meliksahcakir.spotialarm.music.ui
 
 import androidx.recyclerview.widget.DiffUtil
 
-object MusicUIDiffCallback : DiffUtil.ItemCallback<MusicUIModel>() {
+object MusicSearchDiffCallback : DiffUtil.ItemCallback<MusicUIModel>() {
     override fun areItemsTheSame(o1: MusicUIModel, o2: MusicUIModel): Boolean {
         return when (o1) {
             is MusicUIModel.ArtistItem -> {
@@ -23,9 +23,7 @@ object MusicUIDiffCallback : DiffUtil.ItemCallback<MusicUIModel>() {
             is MusicUIModel.AlbumItem -> {
                 (o2 is MusicUIModel.AlbumItem) && (o1.album.id == o2.album.id)
             }
-            is MusicUIModel.GenreItem -> {
-                (o2 is MusicUIModel.GenreItem) && (o1.genre.id == o2.genre.id)
-            }
+            else -> false
         }
     }
 

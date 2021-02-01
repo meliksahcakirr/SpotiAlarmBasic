@@ -77,6 +77,11 @@
     <string name="playlists">Playlists</string>
     <string name="albums">Albums</string>
     <string name="play_music">Play Music</string>
+    <string name="album_image">Album Image</string>
+    <string name="forward">Forward</string>
+    <string name="genre">Genre</string>
+    <string name="playlist">Playlist</string>
+    <string name="track">Track</string>
     <string-array name="snooze_intervals">
         <item> 5 min</item>
         <item>10 min</item>

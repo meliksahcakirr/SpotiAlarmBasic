@@ -58,6 +58,7 @@ class OptionsViewModel(private val repository: AlarmRepository, private val app:
         viewModelScope.launch {
             val result = repository.search(query)
             if (result is Result.Error) {
+                _warningEvent.value = Event(R.string.error_occurred)
                 prepareInitialOptions()
                 _busy.value = false
                 return@launch
@@ -100,6 +101,7 @@ class OptionsViewModel(private val repository: AlarmRepository, private val app:
     }
 
     fun onMusicUIModelClicked(model: MusicUIModel) {
+        // TODO
     }
 
     private fun prepareInitialOptions() {

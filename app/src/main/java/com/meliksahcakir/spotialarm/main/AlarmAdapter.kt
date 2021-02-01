@@ -6,7 +6,7 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.meliksahcakir.spotialarm.Constants
+import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.bind
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
@@ -51,7 +51,7 @@ class AlarmViewHolder(private val binding: AlarmViewBinding) :
     }
 
     private fun updateViewsWithAlarmStatus(enabled: Boolean) {
-        val alpha = if (enabled) Constants.ENABLED_ALPHA else Constants.DISABLED_ALPHA
+        val alpha = if (enabled) Utils.ENABLED_ALPHA else Utils.DISABLED_ALPHA
         for (v in binding.constraintLayout.children) {
             v.alpha = alpha
         }

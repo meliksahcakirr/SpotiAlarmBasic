@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Locale
 
-object Constants {
+object Utils {
     const val HEIGHT_RATIO = 0.9f
     const val DISABLED_ALPHA = 0.4f
     const val ENABLED_ALPHA = 1f

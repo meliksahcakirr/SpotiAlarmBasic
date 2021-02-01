@@ -15,8 +15,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.androidutils.hideKeyboard
-import com.meliksahcakir.spotialarm.Constants
 import com.meliksahcakir.spotialarm.ServiceLocator
+import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentOptionsBinding
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
@@ -79,7 +79,7 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener {
     override fun onStart() {
         super.onStart()
         val height =
-            (Resources.getSystem().displayMetrics.heightPixels * Constants.HEIGHT_RATIO).toInt()
+            (Resources.getSystem().displayMetrics.heightPixels * Utils.HEIGHT_RATIO).toInt()
         dialog?.let {
             val bs = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)!!
             bs.layoutParams.height = height

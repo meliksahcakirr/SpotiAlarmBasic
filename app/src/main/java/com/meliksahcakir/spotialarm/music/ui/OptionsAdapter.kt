@@ -13,7 +13,7 @@ import com.meliksahcakir.spotialarm.databinding.SeparatorItemBinding
 import com.meliksahcakir.spotialarm.databinding.TrackItemBinding
 
 class OptionsAdapter(private val listener: MusicUIModelListener) :
-    ListAdapter<MusicUIModel, MusicUIViewHolder>(MusicUIDiffCallback) {
+    ListAdapter<MusicUIModel, MusicUIViewHolder>(MusicSearchDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicUIViewHolder {
         val inf = LayoutInflater.from(parent.context)

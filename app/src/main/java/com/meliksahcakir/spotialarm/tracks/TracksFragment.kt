@@ -10,6 +10,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.meliksahcakir.androidutils.EventObserver
@@ -44,6 +45,8 @@ class TracksFragment : BottomSheetDialogFragment(), MusicUIModelListener, TrackL
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.adapter = adapter
+        val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        binding.recyclerView.addItemDecoration(dividerItemDecoration)
 
         viewModel.warningEvent.observe(
             viewLifecycleOwner,

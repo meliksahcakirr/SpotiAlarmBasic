@@ -153,4 +153,9 @@
         <item name="cardCornerRadius">0dp</item>
         <item name="cardElevation">0dp</item>
     </style>
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

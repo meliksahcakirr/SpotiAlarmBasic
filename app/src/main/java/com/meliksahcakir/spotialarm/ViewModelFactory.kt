@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.meliksahcakir.spotialarm.albums.AlbumsViewModel
+import com.meliksahcakir.spotialarm.artists.ArtistsViewModel
 import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.edit.EditViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
@@ -50,6 +51,9 @@ class MusicViewModelFactory(
             }
             modelClass.isAssignableFrom(AlbumsViewModel::class.java) -> {
                 AlbumsViewModel(repository, application) as T
+            }
+            modelClass.isAssignableFrom(ArtistsViewModel::class.java) -> {
+                ArtistsViewModel(repository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")

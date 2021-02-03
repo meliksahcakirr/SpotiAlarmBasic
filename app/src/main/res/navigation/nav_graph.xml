@@ -60,6 +60,9 @@
             android:id="@+id/action_optionsFragment_to_albumsFragment"
             app:destination="@id/albumsFragment"
             app:enterAnim="@anim/slide_up" />
+        <action
+            android:id="@+id/action_optionsFragment_to_artistsFragment"
+            app:destination="@id/artistsFragment" />
     </dialog>
     <dialog
         android:id="@+id/tracksFragment"
@@ -97,5 +100,14 @@
             android:id="@+id/action_albumsFragment_to_tracksFragment"
             app:destination="@id/tracksFragment"
             app:enterAnim="@anim/slide_up" />
+    </dialog>
+    <dialog
+        android:id="@+id/artistsFragment"
+        android:name="com.meliksahcakir.spotialarm.artists.ArtistsFragment"
+        android:label="ArtistsFragment"
+        tools:layout="@layout/fragment_artists">
+        <action
+            android:id="@+id/action_artistsFragment_to_tracksFragment"
+            app:destination="@id/tracksFragment" />
     </dialog>
 </navigation>

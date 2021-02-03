@@ -106,6 +106,15 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
                 findNavController().navigate(directions)
             }
         )
+
+        viewModel.goToArtistsPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val directions =
+                    OptionsFragmentDirections.actionOptionsFragmentToArtistsFragment()
+                findNavController().navigate(directions)
+            }
+        )
     }
 
     override fun onDestroyView() {

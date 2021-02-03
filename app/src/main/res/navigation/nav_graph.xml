@@ -45,10 +45,13 @@
         android:id="@+id/optionsFragment"
         android:name="com.meliksahcakir.spotialarm.options.OptionsFragment"
         android:label="OptionsFragment"
-        tools:layout="@layout/fragment_options" >
+        tools:layout="@layout/fragment_options">
         <action
             android:id="@+id/action_optionsFragment_to_tracksFragment"
             app:destination="@id/tracksFragment" />
+        <action
+            android:id="@+id/action_optionsFragment_to_playlistsFragment"
+            app:destination="@id/playlistsFragment" />
     </dialog>
     <dialog
         android:id="@+id/tracksFragment"
@@ -60,7 +63,19 @@
             app:argType="com.meliksahcakir.spotialarm.music.api.TrackOptions" />
         <argument
             android:name="id"
-            app:argType="string"
-            android:defaultValue='""' />
+            android:defaultValue=""
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/playlistsFragment"
+        android:name="com.meliksahcakir.spotialarm.playlists.PlaylistsFragment"
+        android:label="PlaylistsFragment"
+        tools:layout="@layout/fragment_playlists">
+        <argument
+            android:name="tagId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_playlistsFragment_to_tracksFragment"
+            app:destination="@id/tracksFragment" />
     </dialog>
 </navigation>

@@ -40,7 +40,7 @@ class TrackViewHolder(
         binding.artistTextView.text = track.artistName
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createAlbumImageUrl(track.albumId, AlbumImageSize.SIZE_70X70))
+            .load(NapsterService.createAlbumImageUrl(track.albumId, AlbumImageSize.SIZE_200X200))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
@@ -56,7 +56,7 @@ class AlbumViewHolder(private val binding: AlbumItemBinding, listener: MusicUIMo
         binding.artistTextView.text = album.artistName
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createAlbumImageUrl(album.id, AlbumImageSize.SIZE_70X70))
+            .load(NapsterService.createAlbumImageUrl(album.id, AlbumImageSize.SIZE_200X200))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
@@ -71,7 +71,7 @@ class ArtistViewHolder(private val binding: ArtistItemBinding, listener: MusicUI
         binding.artistTextView.text = artist.name
         Glide
             .with(binding.root.context)
-            .load(NapsterService.createArtistImageUrl(artist.id, ArtistImageSize.SIZE_150X100))
+            .load(NapsterService.createArtistImageUrl(artist.id, ArtistImageSize.SIZE_356X237))
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)

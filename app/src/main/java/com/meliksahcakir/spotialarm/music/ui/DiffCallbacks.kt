@@ -47,3 +47,19 @@ object TrackDiffCallback : DiffUtil.ItemCallback<MusicUIModel.TrackItem>() {
         return oldItem == newItem
     }
 }
+
+object PlaylistDiffCallback : DiffUtil.ItemCallback<MusicUIModel.PlaylistItem>() {
+    override fun areItemsTheSame(
+        oldItem: MusicUIModel.PlaylistItem,
+        newItem: MusicUIModel.PlaylistItem
+    ): Boolean {
+        return oldItem.playlist.id == newItem.playlist.id
+    }
+
+    override fun areContentsTheSame(
+        oldItem: MusicUIModel.PlaylistItem,
+        newItem: MusicUIModel.PlaylistItem
+    ): Boolean {
+        return oldItem == newItem
+    }
+}

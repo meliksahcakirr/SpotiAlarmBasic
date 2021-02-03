@@ -8,6 +8,7 @@ import com.meliksahcakir.spotialarm.edit.EditViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
 import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.options.OptionsViewModel
+import com.meliksahcakir.spotialarm.playlists.PlaylistsViewModel
 import com.meliksahcakir.spotialarm.tracks.TracksViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -42,6 +43,9 @@ class MusicViewModelFactory(
             }
             modelClass.isAssignableFrom(TracksViewModel::class.java) -> {
                 TracksViewModel(repository, application) as T
+            }
+            modelClass.isAssignableFrom(PlaylistsViewModel::class.java) -> {
+                PlaylistsViewModel(repository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")

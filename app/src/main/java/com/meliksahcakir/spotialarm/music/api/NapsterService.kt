@@ -87,7 +87,7 @@ interface NapsterService {
     ): Tracks
 
     @Headers("apikey: $API_KEY")
-    @GET("v2.2/tags/{id}/tracks/playlists")
+    @GET("v2.2/tags/{id}/playlists")
     suspend fun getPlaylistsForTag(
         @Path("id") tagId: String
     ): Playlists

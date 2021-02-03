@@ -1,7 +1,6 @@
 package com.meliksahcakir.spotialarm.edit
 
 import android.app.TimePickerDialog
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +10,10 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.meliksahcakir.androidutils.EventObserver
+import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
@@ -27,7 +25,7 @@ import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class AlarmEditFragment : BottomSheetDialogFragment() {
+class AlarmEditFragment : BaseBottomSheetDialogFragment() {
 
     private var _binding: FragmentAlarmEditBinding? = null
     private val binding: FragmentAlarmEditBinding get() = _binding!!
@@ -170,19 +168,6 @@ class AlarmEditFragment : BottomSheetDialogFragment() {
     private fun navigateToOptionsFragment() {
         val direction = AlarmEditFragmentDirections.actionAlarmEditFragmentToOptionsFragment()
         findNavController().navigate(direction)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val height =
-            (Resources.getSystem().displayMetrics.heightPixels * Utils.HEIGHT_RATIO).toInt()
-        dialog?.let {
-            val bs = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)!!
-            bs.layoutParams.height = height
-            with(BottomSheetBehavior.from(bs)) {
-                peekHeight = height
-            }
-        }
     }
 
     override fun onDestroyView() {

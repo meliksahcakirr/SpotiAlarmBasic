@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
 import androidx.core.net.toUri
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentPreferencesBinding
@@ -25,7 +25,7 @@ import permissions.dispatcher.RuntimePermissions
 import timber.log.Timber
 
 @RuntimePermissions
-class PreferencesFragment : BottomSheetDialogFragment() {
+class PreferencesFragment : BaseBottomSheetDialogFragment() {
 
     companion object {
         private const val STEP_VALUE = 5

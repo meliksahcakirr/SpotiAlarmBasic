@@ -1,11 +1,10 @@
-package com.meliksahcakir.spotialarm.options
+package com.meliksahcakir.spotialarm.albums
 
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -16,46 +15,35 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.meliksahcakir.androidutils.EventObserver
-import com.meliksahcakir.androidutils.hideKeyboard
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
-import com.meliksahcakir.spotialarm.databinding.FragmentOptionsBinding
-import com.meliksahcakir.spotialarm.music.data.Track
+import com.meliksahcakir.spotialarm.databinding.FragmentAlbumsBinding
+import com.meliksahcakir.spotialarm.databinding.FragmentPlaylistsBinding
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
-import com.meliksahcakir.spotialarm.tracks.TrackListener
 
-class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
+class AlbumsFragment : BottomSheetDialogFragment(), MusicUIModelListener {
 
-    private var _binding: FragmentOptionsBinding? = null
-    private val binding: FragmentOptionsBinding get() = _binding!!
+    private var _binding: FragmentAlbumsBinding? = null
+    private val binding: FragmentAlbumsBinding get() = _binding!!
 
-    private val viewModel: OptionsViewModel by viewModels {
+    private val viewModel: AlbumsViewModel by viewModels {
         ServiceLocator.provideMusicViewModelFactory(requireActivity().application)
     }
 
-    private val adapter = OptionsAdapter(this, this)
+    private val adapter = AlbumsAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOptionsBinding.inflate(inflater)
+        _binding = FragmentAlbumsBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.searchEditText.setText(viewModel.latestQuery)
-
-        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                binding.root.hideKeyboard()
-                viewModel.search(binding.searchEditText.text.toString())
-            }
-            true
-        }
 
         binding.recyclerView.adapter = adapter
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -68,7 +56,7 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
             }
         )
 
-        viewModel.musicUIModels.observe(viewLifecycleOwner) {
+        viewModel.albums.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
@@ -84,7 +72,7 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
             viewLifecycleOwner,
             EventObserver {
                 val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToTracksFragment(
+                    AlbumsFragmentDirections.actionAlbumsFragmentToTracksFragment(
                         it.first,
                         it.second
                     )
@@ -92,23 +80,7 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
             }
         )
 
-        viewModel.goToPlayListsPageEvent.observe(
-            viewLifecycleOwner,
-            EventObserver {
-                val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToPlaylistsFragment(it)
-                findNavController().navigate(directions)
-            }
-        )
-
-        viewModel.goToAlbumsPageEvent.observe(
-            viewLifecycleOwner,
-            EventObserver {
-                val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToAlbumsFragment()
-                findNavController().navigate(directions)
-            }
-        )
+        viewModel.getAlbums()
     }
 
     override fun onStart() {
@@ -131,17 +103,5 @@ class OptionsFragment : BottomSheetDialogFragment(), MusicUIModelListener, Track
 
     override fun onClicked(model: MusicUIModel) {
         viewModel.onMusicUIModelClicked(model)
-    }
-
-    override fun play(track: Track) {
-        TODO("Not yet implemented")
-    }
-
-    override fun stop(track: Track) {
-        TODO("Not yet implemented")
-    }
-
-    override fun addToAlarm(track: Track) {
-        TODO("Not yet implemented")
     }
 }

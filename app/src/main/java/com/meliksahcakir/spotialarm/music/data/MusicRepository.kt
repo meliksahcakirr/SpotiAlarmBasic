@@ -41,4 +41,14 @@ class MusicRepository(private val napsterService: NapsterService) {
             Result.Error(e)
         }
     }
+
+    suspend fun getTopAlbums(): Result<Albums> {
+        return try {
+            val obj = napsterService.getTopAlbums()
+            Result.Success(obj)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
+    }
 }

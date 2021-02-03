@@ -63,3 +63,19 @@ object PlaylistDiffCallback : DiffUtil.ItemCallback<MusicUIModel.PlaylistItem>()
         return oldItem == newItem
     }
 }
+
+object AlbumDiffCallback : DiffUtil.ItemCallback<MusicUIModel.AlbumItem>() {
+    override fun areItemsTheSame(
+        oldItem: MusicUIModel.AlbumItem,
+        newItem: MusicUIModel.AlbumItem
+    ): Boolean {
+        return oldItem.album.id == newItem.album.id
+    }
+
+    override fun areContentsTheSame(
+        oldItem: MusicUIModel.AlbumItem,
+        newItem: MusicUIModel.AlbumItem
+    ): Boolean {
+        return oldItem == newItem
+    }
+}

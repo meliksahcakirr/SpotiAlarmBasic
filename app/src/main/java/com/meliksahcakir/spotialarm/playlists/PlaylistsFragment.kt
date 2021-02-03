@@ -20,7 +20,6 @@ import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentPlaylistsBinding
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
-import com.meliksahcakir.spotialarm.options.OptionsFragmentDirections
 
 class PlaylistsFragment : BottomSheetDialogFragment(), MusicUIModelListener {
 

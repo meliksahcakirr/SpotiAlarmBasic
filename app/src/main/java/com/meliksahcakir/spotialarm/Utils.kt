@@ -128,10 +128,9 @@ fun Activity.turnScreenOnAndKeyguardOff() {
         setShowWhenLocked(true)
         setTurnScreenOn(true)
     } else {
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
-        )
+        var flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        flags = flags or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+        window.addFlags(flags)
     }
 
     with(getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager) {
@@ -161,10 +160,9 @@ fun Activity.turnScreenOffAndKeyguardOn() {
         setShowWhenLocked(false)
         setTurnScreenOn(false)
     } else {
-        window.clearFlags(
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
-        )
+        var flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        flags = flags or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+        window.clearFlags(flags)
     }
 }
 

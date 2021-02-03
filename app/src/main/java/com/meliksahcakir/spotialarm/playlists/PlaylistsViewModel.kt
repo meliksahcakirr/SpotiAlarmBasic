@@ -20,7 +20,6 @@ class PlaylistsViewModel(private val repository: MusicRepository, private val ap
     val goToTracksPageEvent: LiveData<Event<Pair<TrackOptions, String>>>
         get() = _goToTracksPageEvent
 
-
     private val _warningEvent = MutableLiveData<Event<Int>>()
     val warningEvent: LiveData<Event<Int>> get() = _warningEvent
 

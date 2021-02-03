@@ -13,6 +13,11 @@ import com.google.android.material.shape.ShapeAppearanceModel
 
 abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog?.window?.attributes?.windowAnimations = R.style.MyDialogAnimation
+    }
+
     override fun onStart() {
         super.onStart()
         val height =

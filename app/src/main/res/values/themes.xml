@@ -187,4 +187,9 @@
         <item name="cornerSizeTopRight">@dimen/doub_grid_size</item>
     </style>
 
+    <style name="MyDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
 </resources>

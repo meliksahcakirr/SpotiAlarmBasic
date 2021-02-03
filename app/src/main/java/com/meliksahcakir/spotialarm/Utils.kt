@@ -9,7 +9,9 @@ import android.content.Intent
 import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.meliksahcakir.spotialarm.active.ActiveAlarmActivity
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.data.Alarm
@@ -172,4 +174,13 @@ fun TextToSpeech.setLanguageOrDefault(locale: Locale): Int {
         res = setLanguage(Locale.US)
     }
     return res
+}
+
+fun ImageView.setImageUrl(url: String) {
+    Glide
+        .with(context)
+        .load(url)
+        .centerCrop()
+        .placeholder(R.drawable.alarm_background)
+        .into(this)
 }

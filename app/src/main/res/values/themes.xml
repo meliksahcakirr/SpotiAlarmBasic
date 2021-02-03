@@ -154,8 +154,37 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <style name="MusicTitleTextView" parent="">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="MusicSubTitleTextView" parent="">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/grayLight</item>
+    </style>
+
     <style name="RoundedImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="ArtistImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">40dp</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+    </style>
+
+    <style name="HeaderBackgroundImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+    </style>
+
 </resources>

@@ -25,13 +25,10 @@
 
         <TextView
             android:id="@+id/playlistTextView"
+            style="@style/MusicTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/arrowImageView"
             app:layout_constraintHorizontal_bias="0"

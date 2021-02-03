@@ -10,6 +10,7 @@ import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
+import com.meliksahcakir.spotialarm.music.data.ITrackSource
 import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.music.ui.MusicOptions
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
@@ -21,8 +22,8 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     private val _goToAlbumsPageEvent = MutableLiveData<Event<Unit>>()
     val goToAlbumsPageEvent: LiveData<Event<Unit>> get() = _goToAlbumsPageEvent
 
-    private val _goToTracksPageEvent = MutableLiveData<Event<Pair<TrackOptions, String>>>()
-    val goToTracksPageEvent: LiveData<Event<Pair<TrackOptions, String>>>
+    private val _goToTracksPageEvent = MutableLiveData<Event<Pair<TrackOptions, ITrackSource?>>>()
+    val goToTracksPageEvent: LiveData<Event<Pair<TrackOptions, ITrackSource?>>>
         get() = _goToTracksPageEvent
 
     private val _goToArtistsPageEvent = MutableLiveData<Event<Unit>>()
@@ -108,13 +109,13 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
             is MusicUIModel.OptionItem -> onOptionItemSelected(model.option)
             is MusicUIModel.ArtistItem ->
                 _goToTracksPageEvent.value =
-                    Event(Pair(TrackOptions.ARTIST_TRACKS, model.artist.id))
+                    Event(Pair(TrackOptions.ARTIST_TRACKS, model.artist))
             is MusicUIModel.AlbumItem ->
                 _goToTracksPageEvent.value =
-                    Event(Pair(TrackOptions.ALBUM_TRACKS, model.album.id))
+                    Event(Pair(TrackOptions.ALBUM_TRACKS, model.album))
             is MusicUIModel.PlaylistItem ->
                 _goToTracksPageEvent.value =
-                    Event(Pair(TrackOptions.PLAYLIST_TRACKS, model.playlist.id))
+                    Event(Pair(TrackOptions.PLAYLIST_TRACKS, model.playlist))
             else -> {
                 // TODO not supported
             }
@@ -136,7 +137,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
             MusicOptions.ALBUMS -> _goToAlbumsPageEvent.value = Event(Unit)
             MusicOptions.TRACKS ->
                 _goToTracksPageEvent.value =
-                    Event(Pair(TrackOptions.TOP_TRACKS, ""))
+                    Event(Pair(TrackOptions.TOP_TRACKS, null))
         }
     }
 

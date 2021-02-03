@@ -65,9 +65,10 @@
             android:name="options"
             app:argType="com.meliksahcakir.spotialarm.music.api.TrackOptions" />
         <argument
-            android:name="id"
-            android:defaultValue=""
-            app:argType="string" />
+            android:name="source"
+            app:argType="com.meliksahcakir.spotialarm.music.data.ITrackSource"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </dialog>
     <dialog
         android:id="@+id/playlistsFragment"

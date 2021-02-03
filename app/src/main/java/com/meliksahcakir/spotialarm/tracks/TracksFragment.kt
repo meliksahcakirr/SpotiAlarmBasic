@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.meliksahcakir.androidutils.EventObserver
+import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentTracksBinding
 import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
+import com.meliksahcakir.spotialarm.setImageUrl
 
 class TracksFragment : BottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
 
@@ -69,7 +71,17 @@ class TracksFragment : BottomSheetDialogFragment(), MusicUIModelListener, TrackL
 
         arguments?.let {
             val args = TracksFragmentArgs.fromBundle(it)
-            viewModel.getTracks(args.options, args.id)
+            viewModel.getTracks(args.options, args.source?.getSourceId() ?: "")
+            if (args.source == null) {
+                binding.headerGroup.isVisible = false
+                return@let
+            }
+            binding.headerGroup.isVisible = true
+            binding.headerBackgroundImageView.setImageUrl(args.source.getImageUrl())
+            binding.headerImageView.setImageUrl(args.source.getImageUrl())
+            binding.headerTitleTextView.text = args.source.getTitle()
+            binding.headerSubTitleTextView.text = args.source.getSubTitle()
+            binding.headerSubTitleTextView.isVisible = args.source.getSubTitle() != null
         }
     }
 

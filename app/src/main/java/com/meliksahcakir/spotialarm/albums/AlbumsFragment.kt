@@ -18,7 +18,6 @@ import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentAlbumsBinding
-import com.meliksahcakir.spotialarm.databinding.FragmentPlaylistsBinding
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
 

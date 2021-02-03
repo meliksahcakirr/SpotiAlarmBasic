@@ -9,6 +9,7 @@ import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
+import com.meliksahcakir.spotialarm.music.data.ITrackSource
 import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import kotlinx.coroutines.launch
@@ -16,8 +17,8 @@ import kotlinx.coroutines.launch
 class AlbumsViewModel(private val repository: MusicRepository, private val app: Application) :
     AndroidViewModel(app) {
 
-    private val _goToTracksPageEvent = MutableLiveData<Event<Pair<TrackOptions, String>>>()
-    val goToTracksPageEvent: LiveData<Event<Pair<TrackOptions, String>>>
+    private val _goToTracksPageEvent = MutableLiveData<Event<Pair<TrackOptions, ITrackSource?>>>()
+    val goToTracksPageEvent: LiveData<Event<Pair<TrackOptions, ITrackSource?>>>
         get() = _goToTracksPageEvent
 
     private val _warningEvent = MutableLiveData<Event<Int>>()
@@ -49,7 +50,7 @@ class AlbumsViewModel(private val repository: MusicRepository, private val app: 
         _goToTracksPageEvent.value = Event(
             Pair(
                 TrackOptions.ALBUM_TRACKS,
-                (model as MusicUIModel.AlbumItem).album.id
+                (model as MusicUIModel.AlbumItem).album
             )
         )
     }

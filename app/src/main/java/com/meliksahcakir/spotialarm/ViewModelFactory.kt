@@ -7,6 +7,7 @@ import com.meliksahcakir.spotialarm.albums.AlbumsViewModel
 import com.meliksahcakir.spotialarm.artists.ArtistsViewModel
 import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.edit.EditViewModel
+import com.meliksahcakir.spotialarm.genres.GenresViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
 import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.options.OptionsViewModel
@@ -54,6 +55,9 @@ class MusicViewModelFactory(
             }
             modelClass.isAssignableFrom(ArtistsViewModel::class.java) -> {
                 ArtistsViewModel(repository, application) as T
+            }
+            modelClass.isAssignableFrom(GenresViewModel::class.java) -> {
+                GenresViewModel(repository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")

@@ -2,6 +2,7 @@ package com.meliksahcakir.spotialarm.music.api
 
 import com.meliksahcakir.spotialarm.music.data.Albums
 import com.meliksahcakir.spotialarm.music.data.Artists
+import com.meliksahcakir.spotialarm.music.data.Genres
 import com.meliksahcakir.spotialarm.music.data.Playlists
 import com.meliksahcakir.spotialarm.music.data.SearchResult
 import com.meliksahcakir.spotialarm.music.data.Tracks
@@ -61,6 +62,10 @@ interface NapsterService {
     @Headers("apikey: $API_KEY")
     @GET("v2.2/tracks/top")
     suspend fun getTopTracks(): Tracks
+
+    @Headers("apikey: $API_KEY")
+    @GET("v2.2/genres")
+    suspend fun getGenres(): Genres
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/artists/{id}/tracks/top")

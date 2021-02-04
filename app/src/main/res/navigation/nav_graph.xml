@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_optionsFragment_to_artistsFragment"
             app:destination="@id/artistsFragment" />
+        <action
+            android:id="@+id/action_optionsFragment_to_genresFragment"
+            app:destination="@id/genresFragment" />
     </dialog>
     <dialog
         android:id="@+id/tracksFragment"
@@ -74,9 +77,9 @@
             app:argType="com.meliksahcakir.spotialarm.music.api.TrackOptions" />
         <argument
             android:name="source"
+            android:defaultValue="@null"
             app:argType="com.meliksahcakir.spotialarm.music.data.ITrackSource"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </dialog>
     <dialog
         android:id="@+id/playlistsFragment"
@@ -108,6 +111,15 @@
         tools:layout="@layout/fragment_artists">
         <action
             android:id="@+id/action_artistsFragment_to_tracksFragment"
+            app:destination="@id/tracksFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/genresFragment"
+        android:name="com.meliksahcakir.spotialarm.genres.GenresFragment"
+        android:label="GenresFragment"
+        tools:layout="@layout/fragment_genres">
+        <action
+            android:id="@+id/action_genresFragment_to_tracksFragment"
             app:destination="@id/tracksFragment" />
     </dialog>
 </navigation>

@@ -58,6 +58,10 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(dividerItemDecoration)
 
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
         viewModel.warningEvent.observe(
             viewLifecycleOwner,
             EventObserver {
@@ -80,11 +84,10 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.goToTracksPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToTracksFragment(
-                        it.first,
-                        it.second
-                    )
+                val directions = OptionsFragmentDirections.actionOptionsFragmentToTracksFragment(
+                    it.first,
+                    it.second
+                )
                 findNavController().navigate(directions)
             }
         )
@@ -101,8 +104,7 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.goToAlbumsPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToAlbumsFragment()
+                val directions = OptionsFragmentDirections.actionOptionsFragmentToAlbumsFragment()
                 findNavController().navigate(directions)
             }
         )
@@ -110,8 +112,15 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.goToArtistsPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions =
-                    OptionsFragmentDirections.actionOptionsFragmentToArtistsFragment()
+                val directions = OptionsFragmentDirections.actionOptionsFragmentToArtistsFragment()
+                findNavController().navigate(directions)
+            }
+        )
+
+        viewModel.goToGenresPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val directions = OptionsFragmentDirections.actionOptionsFragmentToGenresFragment()
                 findNavController().navigate(directions)
             }
         )

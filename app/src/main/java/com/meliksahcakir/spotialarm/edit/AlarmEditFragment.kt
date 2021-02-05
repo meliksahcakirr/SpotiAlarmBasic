@@ -29,6 +29,7 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
 
     private var _binding: FragmentAlarmEditBinding? = null
     private val binding: FragmentAlarmEditBinding get() = _binding!!
+    override var alphaAnimationForFragmentTransitionEnabled = false
 
     private val editViewModel: EditViewModel by viewModels {
         ServiceLocator.provideViewModelFactory(requireActivity().application)

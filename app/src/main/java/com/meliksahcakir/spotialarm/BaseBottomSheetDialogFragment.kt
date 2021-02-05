@@ -13,9 +13,13 @@ import com.google.android.material.shape.ShapeAppearanceModel
 
 abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
+    open var alphaAnimationForFragmentTransitionEnabled = true
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog?.window?.attributes?.windowAnimations = R.style.MyDialogAnimation
+        if (alphaAnimationForFragmentTransitionEnabled) {
+            dialog?.window?.attributes?.windowAnimations = R.style.MyDialogAnimation
+        }
     }
 
     override fun onStart() {

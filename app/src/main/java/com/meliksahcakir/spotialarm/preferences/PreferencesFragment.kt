@@ -35,6 +35,8 @@ class PreferencesFragment : BaseBottomSheetDialogFragment() {
     private var _binding: FragmentPreferencesBinding? = null
     private val binding: FragmentPreferencesBinding get() = _binding!!
 
+    override var alphaAnimationForFragmentTransitionEnabled = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

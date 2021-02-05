@@ -46,7 +46,8 @@ enum class TrackOptions {
     ARTIST_TRACKS,
     ALBUM_TRACKS,
     GENRE_TRACKS,
-    PLAYLIST_TRACKS
+    PLAYLIST_TRACKS,
+    FAVORITE_TRACKS
 }
 
 interface NapsterService {

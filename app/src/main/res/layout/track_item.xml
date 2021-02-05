@@ -58,14 +58,14 @@
             app:cpb_background_progressbar_width="2dp"
             app:cpb_progress_direction="to_right"
             app:cpb_progressbar_color="?colorSecondary"
-            app:cpb_progressbar_width="4dp"
+            app:cpb_progressbar_width="3dp"
             app:cpb_round_border="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/playerButton"
+            android:id="@+id/playerImageView"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="?selectableItemBackgroundBorderless"
@@ -74,7 +74,21 @@
             app:layout_constraintBottom_toBottomOf="@id/progressBar"
             app:layout_constraintEnd_toEndOf="@id/progressBar"
             app:layout_constraintStart_toStartOf="@id/progressBar"
-            app:layout_constraintTop_toTopOf="@id/progressBar" />
+            app:layout_constraintTop_toTopOf="@id/progressBar"
+            app:tint="@color/green" />
+
+        <ImageView
+            android:id="@+id/favImageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favorite"
+            android:src="@drawable/ic_favorite_empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/progressBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/green" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

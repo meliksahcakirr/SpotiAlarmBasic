@@ -1,11 +1,18 @@
-package com.meliksahcakir.spotialarm.music.data
+package com.meliksahcakir.spotialarm.repository
 
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
+import com.meliksahcakir.spotialarm.music.data.Albums
+import com.meliksahcakir.spotialarm.music.data.Artists
+import com.meliksahcakir.spotialarm.music.data.Genres
+import com.meliksahcakir.spotialarm.music.data.Playlists
+import com.meliksahcakir.spotialarm.music.data.SearchResult
+import com.meliksahcakir.spotialarm.music.data.Track
+import com.meliksahcakir.spotialarm.music.data.Tracks
 import timber.log.Timber
 
-class MusicRepository(private val napsterService: NapsterService) {
+class MusicRepository(private val napsterService: NapsterService, private val musicDao: MusicDao) {
     suspend fun search(query: String): Result<SearchResult> {
         return try {
             val obj = napsterService.search(query)
@@ -24,6 +31,15 @@ class MusicRepository(private val napsterService: NapsterService) {
                 TrackOptions.ALBUM_TRACKS -> napsterService.getAlbumTracks(id)
                 TrackOptions.GENRE_TRACKS -> napsterService.getGenreTopTracks(id)
                 TrackOptions.PLAYLIST_TRACKS -> napsterService.getPlaylistTracks(id)
+                TrackOptions.FAVORITE_TRACKS -> Tracks(musicDao.getFavoriteTracks())
+            }
+            if (option != TrackOptions.FAVORITE_TRACKS) {
+                val saved = musicDao.getTracks()
+                val set = saved.filter { it.favorite }.map { it.id }.toSet()
+                val list = obj.list.toMutableList()
+                list.forEach {
+                    it.favorite = set.contains(it.id)
+                }
             }
             Result.Success(obj)
         } catch (e: Exception) {
@@ -70,5 +86,13 @@ class MusicRepository(private val napsterService: NapsterService) {
             Timber.e(e)
             Result.Error(e)
         }
+    }
+
+    suspend fun insertTrack(track: Track) {
+        musicDao.insertOrUpdate(track)
+    }
+
+    suspend fun deleteTrack(track: Track) {
+        musicDao.deleteTrackById(track.id)
     }
 }

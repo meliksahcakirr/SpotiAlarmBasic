@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.meliksahcakir.spotialarm.albums.AlbumsViewModel
 import com.meliksahcakir.spotialarm.artists.ArtistsViewModel
-import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.edit.EditViewModel
 import com.meliksahcakir.spotialarm.genres.GenresViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
-import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.options.OptionsViewModel
 import com.meliksahcakir.spotialarm.playlists.PlaylistsViewModel
+import com.meliksahcakir.spotialarm.repository.AlarmRepository
+import com.meliksahcakir.spotialarm.repository.MusicRepository
 import com.meliksahcakir.spotialarm.tracks.TracksViewModel
 
 @Suppress("UNCHECKED_CAST")

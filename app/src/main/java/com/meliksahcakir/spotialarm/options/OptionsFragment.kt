@@ -135,6 +135,10 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.onMusicUIModelClicked(model)
     }
 
+    override fun updateTrack(track: Track) {
+        viewModel.updateTrack(track)
+    }
+
     override fun play(track: Track) {
         TODO("Not yet implemented")
     }

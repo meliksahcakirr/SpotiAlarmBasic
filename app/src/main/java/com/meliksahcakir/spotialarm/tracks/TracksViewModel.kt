@@ -9,8 +9,9 @@ import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
-import com.meliksahcakir.spotialarm.music.data.MusicRepository
+import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
+import com.meliksahcakir.spotialarm.repository.MusicRepository
 import kotlinx.coroutines.launch
 
 class TracksViewModel(private val repository: MusicRepository, private val app: Application) :
@@ -38,6 +39,16 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
             val list = (result as Result.Success).data.list
             _tracks.value = list.map { MusicUIModel.TrackItem(it) }
             _busy.value = false
+        }
+    }
+
+    fun updateTrack(track: Track) {
+        viewModelScope.launch {
+            if (track.favorite) {
+                repository.insertTrack(track)
+            } else {
+                repository.deleteTrack(track)
+            }
         }
     }
 }

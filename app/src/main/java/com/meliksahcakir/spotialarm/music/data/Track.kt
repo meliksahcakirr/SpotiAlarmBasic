@@ -1,16 +1,20 @@
 package com.meliksahcakir.spotialarm.music.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class Tracks(
     @SerializedName("tracks")
-    val list: List<Track>,
+    var list: List<Track>,
     @SerializedName("meta")
     val meta: Meta? = null
 )
 
+@Entity(tableName = "tracks")
 data class Track(
     val type: String,
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val href: String,
     val playbackSeconds: Int,
@@ -19,5 +23,7 @@ data class Track(
     val artistId: String,
     val previewURL: String,
     val albumId: String,
-    val isStreamable: Boolean
+    @SerializedName("isStreamable")
+    val streamable: Boolean,
+    var favorite: Boolean = false
 )

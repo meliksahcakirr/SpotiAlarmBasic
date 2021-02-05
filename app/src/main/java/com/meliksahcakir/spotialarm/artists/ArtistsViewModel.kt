@@ -10,8 +10,8 @@ import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
 import com.meliksahcakir.spotialarm.music.data.ITrackSource
-import com.meliksahcakir.spotialarm.music.data.MusicRepository
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
+import com.meliksahcakir.spotialarm.repository.MusicRepository
 import kotlinx.coroutines.launch
 
 class ArtistsViewModel(private val repository: MusicRepository, private val app: Application) :

@@ -90,6 +90,10 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
         TODO("Not yet implemented")
     }
 
+    override fun updateTrack(track: Track) {
+        viewModel.updateTrack(track)
+    }
+
     override fun play(track: Track) {
         TODO("Not yet implemented")
     }

@@ -11,9 +11,10 @@ import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
 import com.meliksahcakir.spotialarm.music.data.ITrackSource
-import com.meliksahcakir.spotialarm.music.data.MusicRepository
+import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicOptions
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
+import com.meliksahcakir.spotialarm.repository.MusicRepository
 import kotlinx.coroutines.launch
 
 class OptionsViewModel(private val repository: MusicRepository, private val app: Application) :
@@ -124,14 +125,13 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
 
     private fun onOptionItemSelected(options: MusicOptions) {
         when (options) {
-            MusicOptions.FAVORITES -> {
-            }
+            MusicOptions.FAVORITES ->
+                _goToTracksPageEvent.value =
+                    Event(Pair(TrackOptions.FAVORITE_TRACKS, null))
             MusicOptions.FEATURED ->
                 _goToPlayListsPageEvent.value =
                     Event(NapsterService.FEATURED_TAG)
-            MusicOptions.MOODS ->
-                _goToPlayListsPageEvent.value =
-                    Event(NapsterService.MOODS_TAG)
+            MusicOptions.MOODS -> _goToPlayListsPageEvent.value = Event(NapsterService.MOODS_TAG)
             MusicOptions.GENRES -> _goToGenresPageEvent.value = Event(Unit)
             MusicOptions.ARTIST -> _goToArtistsPageEvent.value = Event(Unit)
             MusicOptions.ALBUMS -> _goToAlbumsPageEvent.value = Event(Unit)
@@ -153,5 +153,15 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
         list.add(MusicUIModel.OptionItem(MusicOptions.ALBUMS))
         list.add(MusicUIModel.OptionItem(MusicOptions.TRACKS))
         _musicUIModels.value = list
+    }
+
+    fun updateTrack(track: Track) {
+        viewModelScope.launch {
+            if (track.favorite) {
+                repository.insertTrack(track)
+            } else {
+                repository.deleteTrack(track)
+            }
+        }
     }
 }

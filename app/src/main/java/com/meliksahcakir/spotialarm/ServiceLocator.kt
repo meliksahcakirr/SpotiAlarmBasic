@@ -3,14 +3,15 @@ package com.meliksahcakir.spotialarm
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.meliksahcakir.spotialarm.data.AlarmDatabase
-import com.meliksahcakir.spotialarm.data.AlarmRepository
 import com.meliksahcakir.spotialarm.music.api.NapsterService
-import com.meliksahcakir.spotialarm.music.data.MusicRepository
+import com.meliksahcakir.spotialarm.repository.AlarmRepository
+import com.meliksahcakir.spotialarm.repository.MusicRepository
+import com.meliksahcakir.spotialarm.repository.SpotiAlarmDatabase
 
 object ServiceLocator {
 
-    private var database: AlarmDatabase? = null
+    private var database: SpotiAlarmDatabase? = null
+
     var repository: AlarmRepository? = null
         private set
 
@@ -19,9 +20,12 @@ object ServiceLocator {
 
     private var napsterService: NapsterService? = null
 
-    fun provideMusicRepository(): MusicRepository {
+    private fun provideMusicRepository(context: Context): MusicRepository {
         synchronized(this) {
-            return musicRepository ?: MusicRepository(provideNapsterService()).apply {
+            return musicRepository ?: MusicRepository(
+                provideNapsterService(),
+                provideDatabase(context).musicDao()
+            ).apply {
                 musicRepository = this
             }
         }
@@ -42,19 +46,21 @@ object ServiceLocator {
     }
 
     private fun createAlarmRepository(context: Context): AlarmRepository {
-        val repo = AlarmRepository(provideDatabase(context).alarmDao())
+        val repo = AlarmRepository(
+            provideDatabase(context).alarmDao()
+        )
         repository = repo
         return repo
     }
 
-    private fun provideDatabase(context: Context): AlarmDatabase {
+    private fun provideDatabase(context: Context): SpotiAlarmDatabase {
         return database ?: createAlarmDatabase(context)
     }
 
-    private fun createAlarmDatabase(context: Context): AlarmDatabase {
+    private fun createAlarmDatabase(context: Context): SpotiAlarmDatabase {
         val db = Room.databaseBuilder(
             context.applicationContext,
-            AlarmDatabase::class.java,
+            SpotiAlarmDatabase::class.java,
             "Alarms.db"
         ).fallbackToDestructiveMigration().build()
         database = db
@@ -65,5 +71,5 @@ object ServiceLocator {
         ViewModelFactory(provideAlarmRepository(application), application)
 
     fun provideMusicViewModelFactory(application: Application) =
-        MusicViewModelFactory(provideMusicRepository(), application)
+        MusicViewModelFactory(provideMusicRepository(application.applicationContext), application)
 }

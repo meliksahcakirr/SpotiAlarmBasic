@@ -30,7 +30,7 @@ abstract class MusicUIViewHolder(view: View, private var listener: MusicUIModelL
 class TrackViewHolder(
     private val binding: TrackItemBinding,
     modelListener: MusicUIModelListener,
-    trackListener: TrackListener
+    private val trackListener: TrackListener
 ) :
     MusicUIViewHolder(binding.root, modelListener) {
     override fun bind(model: MusicUIModel) {
@@ -44,6 +44,20 @@ class TrackViewHolder(
             .centerCrop()
             .placeholder(R.drawable.alarm_background)
             .into(binding.imageView)
+        binding.favImageView.setOnClickListener {
+            track.favorite = !track.favorite
+            if (track.favorite) {
+                binding.favImageView.setImageResource(R.drawable.ic_favorite)
+            } else {
+                binding.favImageView.setImageResource(R.drawable.ic_favorite_empty)
+            }
+            trackListener.updateTrack(track)
+        }
+        if (track.favorite) {
+            binding.favImageView.setImageResource(R.drawable.ic_favorite)
+        } else {
+            binding.favImageView.setImageResource(R.drawable.ic_favorite_empty)
+        }
     }
 }
 

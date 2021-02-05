@@ -11,7 +11,7 @@ import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
-import com.meliksahcakir.spotialarm.data.AlarmRepository
+import com.meliksahcakir.spotialarm.repository.AlarmRepository
 import com.meliksahcakir.spotialarm.schedule
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime

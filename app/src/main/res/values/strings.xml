@@ -84,6 +84,7 @@
     <string name="track">Track</string>
     <string name="choose_a_song">Choose a song</string>
     <string name="source_image">Source Image</string>
+    <string name="favorite">Favorite</string>
     <string-array name="snooze_intervals">
         <item> 5 min</item>
         <item>10 min</item>

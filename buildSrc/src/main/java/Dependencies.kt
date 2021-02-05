@@ -14,7 +14,7 @@ object Versions {
     const val JUNIT = "4.13.1"
     const val KTLINT = "0.39.0"
     const val MATERIAL = "1.3.0-beta01"
-    const val NAVIGATION = "2.3.2"
+    const val NAVIGATION = "2.3.3"
     const val LIFECYCLE = "2.2.0"
     const val COROUTINE = "1.3.9"
     const val ROOM = "2.3.0-alpha04"

@@ -1,8 +1,9 @@
-package com.meliksahcakir.spotialarm.data
+package com.meliksahcakir.spotialarm.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.meliksahcakir.androidutils.Result
+import com.meliksahcakir.spotialarm.data.Alarm
 
 class AlarmRepository(private val alarmDao: AlarmDao) {
 

@@ -42,11 +42,11 @@ class AlarmViewHolder(private val binding: AlarmViewBinding) :
         binding.bind(alarm)
         updateViewsWithAlarmStatus(alarm.enabled)
         binding.root.setOnClickListener {
-            listener.onClick(alarm)
+            listener.onClick(alarm.alarmId)
         }
         binding.alarmSwitch.setOnCheckedChangeListener { _, b ->
             updateViewsWithAlarmStatus(b)
-            listener.onAlarmEnableStatusChanged(alarm, b)
+            listener.onAlarmEnableStatusChanged(alarm.alarmId, b)
         }
     }
 
@@ -59,6 +59,6 @@ class AlarmViewHolder(private val binding: AlarmViewBinding) :
 }
 
 interface AlarmListener {
-    fun onClick(alarm: Alarm)
-    fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean)
+    fun onClick(alarmId: Int)
+    fun onAlarmEnableStatusChanged(alarmId: Int, enabled: Boolean)
 }

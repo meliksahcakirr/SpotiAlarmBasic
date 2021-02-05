@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
-import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import com.meliksahcakir.spotialarm.setNearestAlarm
 
@@ -97,12 +96,12 @@ class MainFragment : Fragment(), AlarmListener {
         viewModel.refreshData()
     }
 
-    override fun onClick(alarm: Alarm) {
-        viewModel.onAlarmSelected(alarm)
+    override fun onClick(alarmId: Int) {
+        viewModel.onAlarmSelected(alarmId)
     }
 
-    override fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
-        viewModel.onAlarmEnableStatusChanged(alarm, enabled)
+    override fun onAlarmEnableStatusChanged(alarmId: Int, enabled: Boolean) {
+        viewModel.onAlarmEnableStatusChanged(alarmId, enabled)
     }
 
     private fun navigateToEditFragment(id: Int) {

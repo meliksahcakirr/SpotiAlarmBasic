@@ -84,7 +84,8 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
         return nearestAlarm
     }
 
-    fun onAlarmEnableStatusChanged(alarm: Alarm, enabled: Boolean) {
+    fun onAlarmEnableStatusChanged(alarmId: Int, enabled: Boolean) {
+        val alarm = _alarms.value?.find { it.alarmId == alarmId } ?: return
         alarm.enabled = enabled
         if (enabled) {
             alarm.schedule(getApplication())
@@ -97,8 +98,8 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
         }
     }
 
-    fun onAlarmSelected(alarm: Alarm? = null) {
-        _goToEditPageEvent.value = Event(alarm?.alarmId ?: -1)
+    fun onAlarmSelected(alarmId: Int? = -1) {
+        _goToEditPageEvent.value = Event(alarmId ?: -1)
     }
 
     private fun updateNearestDateTime() {

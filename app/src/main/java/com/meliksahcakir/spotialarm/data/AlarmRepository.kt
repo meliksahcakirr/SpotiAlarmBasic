@@ -3,14 +3,8 @@ package com.meliksahcakir.spotialarm.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.meliksahcakir.androidutils.Result
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
-class AlarmRepository(
-    private val alarmDao: AlarmDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
+class AlarmRepository(private val alarmDao: AlarmDao) {
 
     fun observeAlarms(): LiveData<Result<List<Alarm>>> {
         return alarmDao.observeAlarms().map {
@@ -18,16 +12,16 @@ class AlarmRepository(
         }
     }
 
-    suspend fun getAlarms(): Result<List<Alarm>> = withContext(ioDispatcher) {
-        return@withContext try {
+    suspend fun getAlarms(): Result<List<Alarm>> {
+        return try {
             Result.Success(alarmDao.getAlarms())
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
-    suspend fun getAlarmById(alarmId: Int): Result<Alarm> = withContext(ioDispatcher) {
-        return@withContext try {
+    suspend fun getAlarmById(alarmId: Int): Result<Alarm> {
+        return try {
             val alarm = alarmDao.getAlarmById(alarmId)
             if (alarm != null) {
                 Result.Success(alarm)
@@ -39,27 +33,27 @@ class AlarmRepository(
         }
     }
 
-    suspend fun insertAlarm(alarm: Alarm) = withContext(ioDispatcher) {
+    suspend fun insertAlarm(alarm: Alarm) {
         alarmDao.insertAlarm(alarm)
     }
 
-    suspend fun updateAlarm(alarm: Alarm) = withContext(ioDispatcher) {
+    suspend fun updateAlarm(alarm: Alarm) {
         alarmDao.updateAlarm(alarm)
     }
 
-    suspend fun deleteAlarm(alarm: Alarm) = withContext(ioDispatcher) {
+    suspend fun deleteAlarm(alarm: Alarm) {
         alarmDao.deleteAlarm(alarm)
     }
 
-    suspend fun deleteAlarm(alarmId: Int) = withContext(ioDispatcher) {
+    suspend fun deleteAlarm(alarmId: Int) {
         alarmDao.deleteAlarmById(alarmId)
     }
 
-    suspend fun disableAllAlarms() = withContext(ioDispatcher) {
+    suspend fun disableAllAlarms() {
         alarmDao.disableAllAlarms()
     }
 
-    suspend fun updateAlarm(alarmId: Int, enable: Boolean) = withContext(ioDispatcher) {
+    suspend fun updateAlarm(alarmId: Int, enable: Boolean) {
         alarmDao.updateAlarmEnableStatus(alarmId, enable)
     }
 }

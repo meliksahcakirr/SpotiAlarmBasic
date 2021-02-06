@@ -74,11 +74,12 @@
 
             <ImageView
                 android:id="@+id/preferencesButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:alpha="0.6"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/preferences"
+                android:padding="5dp"
                 android:src="@drawable/ic_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

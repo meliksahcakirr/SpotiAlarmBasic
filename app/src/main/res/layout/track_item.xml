@@ -2,11 +2,11 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trackCardView"
     style="@style/MusicCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/selectable_item_background"
-    android:id="@+id/trackCardView">
+    app:cardBackgroundColor="@color/selectable_item_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +30,8 @@
             style="@style/MusicTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toTopOf="@id/artistTextView"
             app:layout_constraintEnd_toStartOf="@id/favImageView"
             app:layout_constraintHorizontal_bias="0"
@@ -44,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="@id/imageView"
             app:layout_constraintEnd_toStartOf="@id/favImageView"
             app:layout_constraintHorizontal_bias="0"
@@ -54,8 +55,8 @@
 
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:cpb_background_progressbar_color="@color/grayLight"
             app:cpb_background_progressbar_width="2dp"
             app:cpb_progress_direction="to_right"
@@ -68,10 +69,11 @@
 
         <ImageView
             android:id="@+id/playerImageView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/play_music"
+            android:padding="5dp"
             android:src="@drawable/ic_play"
             app:layout_constraintBottom_toBottomOf="@id/progressBar"
             app:layout_constraintEnd_toEndOf="@id/progressBar"
@@ -81,11 +83,12 @@
 
         <ImageView
             android:id="@+id/favImageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/favorite"
+            android:padding="5dp"
             android:src="@drawable/ic_favorite_empty"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/progressBar"

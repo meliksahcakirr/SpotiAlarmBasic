@@ -26,6 +26,9 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
     private val _busy = MutableLiveData<Boolean>(false)
     val busy: LiveData<Boolean> = _busy
 
+    private val _selectedTrack = MutableLiveData<Track?>(null)
+    val selectedTrack: LiveData<Track?> = _selectedTrack
+
     fun getTracks(options: TrackOptions, id: String) {
         _busy.value = true
         viewModelScope.launch {
@@ -49,6 +52,15 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
             } else {
                 repository.deleteTrack(track)
             }
+        }
+    }
+
+    fun onModelClicked(model: MusicUIModel) {
+        val track = (model as MusicUIModel.TrackItem).track
+        if (track.id == _selectedTrack.value?.id) {
+            _selectedTrack.value = null
+        } else {
+            _selectedTrack.value = track
         }
     }
 }

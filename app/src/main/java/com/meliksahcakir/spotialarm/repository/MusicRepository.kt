@@ -95,4 +95,14 @@ class MusicRepository(private val napsterService: NapsterService, private val mu
     suspend fun deleteTrack(track: Track) {
         musicDao.deleteTrackById(track.id)
     }
+
+    suspend fun getFavoriteTracks(): Result<List<Track>> {
+        return try {
+            val obj = musicDao.getFavoriteTracks()
+            Result.Success(obj)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
+    }
 }

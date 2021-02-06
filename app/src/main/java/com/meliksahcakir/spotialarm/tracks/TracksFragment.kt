@@ -65,6 +65,10 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
             binding.progressBar.isVisible = it
         }
 
+        viewModel.selectedTrack.observe(viewLifecycleOwner) {
+            binding.addToAlarmButton.isVisible = it != null
+        }
+
         arguments?.let {
             val args = TracksFragmentArgs.fromBundle(it)
             viewModel.getTracks(args.options, args.source?.getSourceId() ?: "")
@@ -87,6 +91,7 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
     }
 
     override fun onClicked(model: MusicUIModel) {
+        viewModel.onModelClicked(model)
     }
 
     override fun updateTrack(track: Track) {
@@ -94,10 +99,8 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
     }
 
     override fun play(track: Track) {
-        TODO("Not yet implemented")
     }
 
     override fun stop(track: Track) {
-        TODO("Not yet implemented")
     }
 }

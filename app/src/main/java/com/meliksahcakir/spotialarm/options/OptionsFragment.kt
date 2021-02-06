@@ -61,26 +61,7 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         observeViewModel()
     }
 
-    private fun observeViewModel() {
-        viewModel.warningEvent.observe(
-            viewLifecycleOwner,
-            EventObserver {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
-        )
-
-        viewModel.musicUIModels.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-        viewModel.busy.observe(viewLifecycleOwner) {
-            if (it) {
-                adapter.submitList(emptyList())
-            }
-            binding.recyclerView.isInvisible = it
-            binding.progressBar.isVisible = it
-        }
-
+    private fun observeNavigationEvents() {
         viewModel.goToTracksPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
@@ -126,6 +107,32 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         )
     }
 
+    private fun observeViewModel() {
+        observeNavigationEvents()
+        viewModel.warningEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        viewModel.musicUIModels.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
+        viewModel.busy.observe(viewLifecycleOwner) {
+            if (it) {
+                adapter.submitList(emptyList())
+            }
+            binding.recyclerView.isInvisible = it
+            binding.progressBar.isVisible = it
+        }
+
+        viewModel.selectedTrack.observe(viewLifecycleOwner) {
+            binding.addToAlarmButton.isVisible = it != null
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -140,10 +147,8 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
     }
 
     override fun play(track: Track) {
-        TODO("Not yet implemented")
     }
 
     override fun stop(track: Track) {
-        TODO("Not yet implemented")
     }
 }

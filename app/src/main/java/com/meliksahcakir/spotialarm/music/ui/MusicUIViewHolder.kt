@@ -53,10 +53,31 @@ class TrackViewHolder(
             }
             trackListener.updateTrack(track)
         }
+        binding.playerImageView.setOnClickListener {
+            if (track.isPlaying) {
+                binding.playerImageView.setImageResource(R.drawable.ic_play)
+                binding.progressBar.progress = 0f
+                trackListener.stop(track)
+            } else {
+                binding.playerImageView.setImageResource(R.drawable.ic_pause)
+                trackListener.play(track)
+            }
+            track.isPlaying = !track.isPlaying
+        }
         if (track.favorite) {
             binding.favImageView.setImageResource(R.drawable.ic_favorite)
         } else {
             binding.favImageView.setImageResource(R.drawable.ic_favorite_empty)
+        }
+    }
+
+    fun updateView(selected: Boolean, playing: Boolean) {
+        binding.trackCardView.isActivated = selected
+        if (playing) {
+            binding.playerImageView.setImageResource(R.drawable.ic_pause)
+        } else {
+            binding.playerImageView.setImageResource(R.drawable.ic_play)
+            binding.progressBar.progress = 0f
         }
     }
 }

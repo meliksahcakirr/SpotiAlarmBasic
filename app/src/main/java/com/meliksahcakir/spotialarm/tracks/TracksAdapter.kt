@@ -16,17 +16,59 @@ class TracksAdapter(
 ) :
     ListAdapter<MusicUIModel.TrackItem, TrackViewHolder>(TrackDiffCallback) {
 
+    private val _modelListener = object : MusicUIModelListener {
+        override fun onClicked(model: MusicUIModel) {
+            val prev = selectedTrackId
+            selectedTrackId = (model as MusicUIModel.TrackItem).track.id
+            if (selectedTrackId == prev) {
+                selectedTrackId = null
+                notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
+            } else {
+                notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
+                notifyItemChanged(currentList.indexOfFirst { it.track.id == selectedTrackId })
+            }
+            modelListener.onClicked(model)
+        }
+    }
+
+    private val _trackListener = object : TrackListener {
+        override fun play(track: Track) {
+            val prev = playedTrackId
+            playedTrackId = track.id
+            notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
+            notifyItemChanged(currentList.indexOfFirst { it.track.id == playedTrackId })
+            trackListener.play(track)
+        }
+
+        override fun stop(track: Track) {
+            val prev = playedTrackId
+            playedTrackId = null
+            notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
+            trackListener.stop(track)
+        }
+
+        override fun updateTrack(track: Track) {
+            trackListener.updateTrack(track)
+        }
+    }
+
+    private var playedTrackId: String? = null
+    private var selectedTrackId: String? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return TrackViewHolder(
             TrackItemBinding.inflate(inflater, parent, false),
-            modelListener,
-            trackListener
+            _modelListener,
+            _trackListener
         )
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val trackItem = getItem(position)
+        trackItem.track.isPlaying = trackItem.track.id == playedTrackId
+        holder.bind(trackItem)
+        holder.updateView(trackItem.track.id == selectedTrackId, trackItem.track.isPlaying)
     }
 }
 

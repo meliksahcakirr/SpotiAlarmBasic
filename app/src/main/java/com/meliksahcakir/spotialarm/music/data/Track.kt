@@ -1,6 +1,7 @@
 package com.meliksahcakir.spotialarm.music.data
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -26,4 +27,7 @@ data class Track(
     @SerializedName("isStreamable")
     val streamable: Boolean,
     var favorite: Boolean = false
-)
+) {
+    @Ignore
+    var isPlaying = false
+}

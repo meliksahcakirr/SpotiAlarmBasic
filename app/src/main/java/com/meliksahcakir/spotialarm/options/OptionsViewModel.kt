@@ -11,6 +11,7 @@ import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.music.api.TrackOptions
 import com.meliksahcakir.spotialarm.music.data.ITrackSource
+import com.meliksahcakir.spotialarm.music.data.SearchResult
 import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicOptions
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
@@ -45,6 +46,9 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     private val _busy = MutableLiveData<Boolean>(false)
     val busy: LiveData<Boolean> = _busy
 
+    private val _selectedTrack = MutableLiveData<Track?>(null)
+    val selectedTrack: LiveData<Track?> = _selectedTrack
+
     var latestQuery = ""
         private set
 
@@ -74,35 +78,48 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
                 _busy.value = false
                 return@launch
             }
-            val list = mutableListOf<MusicUIModel>()
-            val search = searchResult.search
-            if (!search.isTracksEmpty()) {
-                list.add(MusicUIModel.SeparatorItem(app.getString(R.string.tracks)))
-                for (track in search.data.tracks) {
-                    list.add(MusicUIModel.TrackItem(track))
-                }
-            }
-            if (!search.isArtistsEmpty()) {
-                list.add(MusicUIModel.SeparatorItem(app.getString(R.string.artists)))
-                for (artist in search.data.artists) {
-                    list.add(MusicUIModel.ArtistItem(artist))
-                }
-            }
-            if (!search.isPlaylistsEmpty()) {
-                list.add(MusicUIModel.SeparatorItem(app.getString(R.string.playlists)))
-                for (playlist in search.data.playlists) {
-                    list.add(MusicUIModel.PlaylistItem(playlist))
-                }
-            }
-            if (!search.isAlbumsEmpty()) {
-                list.add(MusicUIModel.SeparatorItem(app.getString(R.string.albums)))
-                for (album in search.data.albums) {
-                    list.add(MusicUIModel.AlbumItem(album))
-                }
-            }
-            _musicUIModels.value = list
+            _musicUIModels.value = createSearchList(searchResult)
             _busy.value = false
         }
+    }
+
+    private suspend fun createSearchList(searchResult: SearchResult): List<MusicUIModel> {
+        val list = mutableListOf<MusicUIModel>()
+        val search = searchResult.search
+        if (!search.isTracksEmpty()) {
+            val favResult = repository.getFavoriteTracks()
+            val set: Set<String> = if (favResult is Result.Success) {
+                favResult.data.map { it.id }.toSet()
+            } else {
+                emptySet()
+            }
+            search.data.tracks.forEach {
+                it.favorite = set.contains(it.id)
+            }
+            list.add(MusicUIModel.SeparatorItem(app.getString(R.string.tracks)))
+            for (track in search.data.tracks) {
+                list.add(MusicUIModel.TrackItem(track))
+            }
+        }
+        if (!search.isArtistsEmpty()) {
+            list.add(MusicUIModel.SeparatorItem(app.getString(R.string.artists)))
+            for (artist in search.data.artists) {
+                list.add(MusicUIModel.ArtistItem(artist))
+            }
+        }
+        if (!search.isPlaylistsEmpty()) {
+            list.add(MusicUIModel.SeparatorItem(app.getString(R.string.playlists)))
+            for (playlist in search.data.playlists) {
+                list.add(MusicUIModel.PlaylistItem(playlist))
+            }
+        }
+        if (!search.isAlbumsEmpty()) {
+            list.add(MusicUIModel.SeparatorItem(app.getString(R.string.albums)))
+            for (album in search.data.albums) {
+                list.add(MusicUIModel.AlbumItem(album))
+            }
+        }
+        return list
     }
 
     fun onMusicUIModelClicked(model: MusicUIModel) {
@@ -117,6 +134,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
             is MusicUIModel.PlaylistItem ->
                 _goToTracksPageEvent.value =
                     Event(Pair(TrackOptions.PLAYLIST_TRACKS, model.playlist))
+            is MusicUIModel.TrackItem -> onTrackItemClicked(model.track)
             else -> {
                 // TODO not supported
             }
@@ -162,6 +180,14 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
             } else {
                 repository.deleteTrack(track)
             }
+        }
+    }
+
+    private fun onTrackItemClicked(track: Track) {
+        if (track.id == _selectedTrack.value?.id) {
+            _selectedTrack.value = null
+        } else {
+            _selectedTrack.value = track
         }
     }
 }

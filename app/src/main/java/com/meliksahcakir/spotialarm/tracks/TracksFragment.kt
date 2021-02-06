@@ -87,7 +87,6 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
     }
 
     override fun onClicked(model: MusicUIModel) {
-        TODO("Not yet implemented")
     }
 
     override fun updateTrack(track: Track) {
@@ -99,10 +98,6 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
     }
 
     override fun stop(track: Track) {
-        TODO("Not yet implemented")
-    }
-
-    override fun addToAlarm(track: Track) {
         TODO("Not yet implemented")
     }
 }

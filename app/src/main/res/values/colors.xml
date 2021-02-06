@@ -6,6 +6,7 @@
     <!--<color name="blueGrayLightVariant">#718094</color>-->
     <!--<color name="blueGrayLight">#5d6e85</color>-->
     <color name="green">#1ed760</color>
+    <color name="greenTransparent">#201ed760</color>
     <color name="greenVariant">#1db954</color>
     <!--<color name="redLight">#cf6679</color>-->
     <color name="redDark">#C62828</color>

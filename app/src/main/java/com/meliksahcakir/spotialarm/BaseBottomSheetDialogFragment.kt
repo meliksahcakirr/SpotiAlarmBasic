@@ -20,6 +20,7 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
         if (alphaAnimationForFragmentTransitionEnabled) {
             dialog?.window?.attributes?.windowAnimations = R.style.MyDialogAnimation
         }
+        dialog?.setCanceledOnTouchOutside(false)
     }
 
     override fun onStart() {

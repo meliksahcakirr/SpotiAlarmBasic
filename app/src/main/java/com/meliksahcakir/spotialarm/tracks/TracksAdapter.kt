@@ -33,6 +33,5 @@ class TracksAdapter(
 interface TrackListener {
     fun play(track: Track)
     fun stop(track: Track)
-    fun addToAlarm(track: Track)
     fun updateTrack(track: Track)
 }

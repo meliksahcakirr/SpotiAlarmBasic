@@ -146,8 +146,4 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
     override fun stop(track: Track) {
         TODO("Not yet implemented")
     }
-
-    override fun addToAlarm(track: Track) {
-        TODO("Not yet implemented")
-    }
 }

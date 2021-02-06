@@ -46,6 +46,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         private const val VOLUME_FULL = 1f
         private const val FADE_INTERVAL = 250
         private const val Z_AXIS = 2
+        private const val ACC_THRESHOLD = -7
         private const val SPEECH_RATE = 0.7f
     }
 
@@ -65,7 +66,8 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
 
         override fun onSensorChanged(arg0: SensorEvent) {
             val value = arg0.values[Z_AXIS]
-            if (value < 0) {
+            if (value < ACC_THRESHOLD) {
+                sensorManager.unregisterListener(this)
                 val intent = Intent(this@AlarmService, AlarmReceiver::class.java).apply {
                     action = AlarmReceiver.ACTION_SNOOZE
                     putExtra(AlarmReceiver.EXTRA_ALARM, alarm?.toBundle())

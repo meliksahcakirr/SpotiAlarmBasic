@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.ServiceLocator
+import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentTracksBinding
 import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
+import com.meliksahcakir.spotialarm.music.ui.TrackViewHolder
 import com.meliksahcakir.spotialarm.setImageUrl
 
 class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
@@ -69,6 +71,19 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
             binding.addToAlarmButton.isVisible = it != null
         }
 
+        viewModel.mediaPlayerProgress.observe(viewLifecycleOwner) { pair ->
+            val current = pair.first
+            val duration = pair.second
+            val pos = adapter.currentList.indexOfFirst { it.track.id == adapter.playedTrackId }
+            val vh = binding.recyclerView.findViewHolderForAdapterPosition(pos) as TrackViewHolder
+            if (current == -1) {
+                vh.stop()
+            } else {
+                val progress = if (duration == 0) 0f else Utils.PROGRESS_FULL * current / duration
+                vh.updateProgress(progress)
+            }
+        }
+
         arguments?.let {
             val args = TracksFragmentArgs.fromBundle(it)
             viewModel.getTracks(args.options, args.source?.getSourceId() ?: "")
@@ -99,8 +114,10 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
     }
 
     override fun play(track: Track) {
+        viewModel.play(track)
     }
 
     override fun stop(track: Track) {
+        viewModel.stop(track)
     }
 }

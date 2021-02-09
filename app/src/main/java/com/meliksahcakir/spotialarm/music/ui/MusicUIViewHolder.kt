@@ -55,11 +55,10 @@ class TrackViewHolder(
         }
         binding.playerImageView.setOnClickListener {
             if (track.isPlaying) {
-                binding.playerImageView.setImageResource(R.drawable.ic_play)
-                binding.progressBar.progress = 0f
+                stop()
                 trackListener.stop(track)
             } else {
-                binding.playerImageView.setImageResource(R.drawable.ic_pause)
+                play()
                 trackListener.play(track)
             }
             track.isPlaying = !track.isPlaying
@@ -74,11 +73,23 @@ class TrackViewHolder(
     fun updateView(selected: Boolean, playing: Boolean) {
         binding.trackCardView.isActivated = selected
         if (playing) {
-            binding.playerImageView.setImageResource(R.drawable.ic_pause)
+            play()
         } else {
-            binding.playerImageView.setImageResource(R.drawable.ic_play)
-            binding.progressBar.progress = 0f
+            stop()
         }
+    }
+
+    fun play() {
+        binding.playerImageView.setImageResource(R.drawable.ic_pause)
+    }
+
+    fun stop() {
+        binding.playerImageView.setImageResource(R.drawable.ic_play)
+        binding.progressBar.progress = 0f
+    }
+
+    fun updateProgress(progress: Float) {
+        binding.progressBar.progress = progress
     }
 }
 

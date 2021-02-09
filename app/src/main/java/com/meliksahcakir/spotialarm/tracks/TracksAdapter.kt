@@ -52,7 +52,8 @@ class TracksAdapter(
         }
     }
 
-    private var playedTrackId: String? = null
+    var playedTrackId: String? = null
+        private set
     private var selectedTrackId: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {

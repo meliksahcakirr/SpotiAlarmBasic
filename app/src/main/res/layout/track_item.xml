@@ -73,7 +73,7 @@
             android:layout_height="40dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/play_music"
-            android:padding="5dp"
+            android:padding="8dp"
             android:src="@drawable/ic_play"
             app:layout_constraintBottom_toBottomOf="@id/progressBar"
             app:layout_constraintEnd_toEndOf="@id/progressBar"

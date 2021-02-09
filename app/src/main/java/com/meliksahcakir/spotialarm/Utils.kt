@@ -26,6 +26,7 @@ object Utils {
     const val DISABLED_ALPHA = 0.4f
     const val ENABLED_ALPHA = 1f
     const val NOON = 12
+    const val PROGRESS_FULL = 100f
 }
 
 fun calculateDurationString(

@@ -16,10 +16,12 @@ import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.androidutils.hideKeyboard
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.ServiceLocator
+import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentOptionsBinding
 import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
+import com.meliksahcakir.spotialarm.music.ui.TrackViewHolder
 import com.meliksahcakir.spotialarm.tracks.TrackListener
 
 class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
@@ -131,6 +133,21 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.selectedTrack.observe(viewLifecycleOwner) {
             binding.addToAlarmButton.isVisible = it != null
         }
+
+        viewModel.mediaPlayerProgress.observe(viewLifecycleOwner) { pair ->
+            val current = pair.first
+            val duration = pair.second
+            val pos = adapter.currentList.indexOfFirst {
+                it is MusicUIModel.TrackItem && it.track.id == adapter.playedTrackId
+            }
+            val vh = binding.recyclerView.findViewHolderForAdapterPosition(pos) as TrackViewHolder
+            if (current == -1) {
+                vh.stop()
+            } else {
+                val progress = if (duration == 0) 0f else Utils.PROGRESS_FULL * current / duration
+                vh.updateProgress(progress)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -147,8 +164,10 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
     }
 
     override fun play(track: Track) {
+        viewModel.play(track)
     }
 
     override fun stop(track: Track) {
+        viewModel.stop()
     }
 }

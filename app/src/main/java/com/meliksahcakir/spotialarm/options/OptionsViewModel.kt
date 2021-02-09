@@ -1,6 +1,9 @@
 package com.meliksahcakir.spotialarm.options
 
 import android.app.Application
+import android.media.MediaPlayer
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,9 +20,11 @@ import com.meliksahcakir.spotialarm.music.ui.MusicOptions
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.repository.MusicRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class OptionsViewModel(private val repository: MusicRepository, private val app: Application) :
-    AndroidViewModel(app) {
+    AndroidViewModel(app), MediaPlayer.OnCompletionListener {
 
     private val _goToAlbumsPageEvent = MutableLiveData<Event<Unit>>()
     val goToAlbumsPageEvent: LiveData<Event<Unit>> get() = _goToAlbumsPageEvent
@@ -48,6 +53,26 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
 
     private val _selectedTrack = MutableLiveData<Track?>(null)
     val selectedTrack: LiveData<Track?> = _selectedTrack
+
+    private val _mediaPlayerProgress = MutableLiveData<Pair<Int, Int>>()
+    val mediaPlayerProgress: LiveData<Pair<Int, Int>> = _mediaPlayerProgress
+
+    private var mediaPlayer: MediaPlayer? = null
+
+    private var trackDuration = 0
+
+    private val handler = Handler(Looper.getMainLooper())
+
+    private val mediaPlayerRunnable = object : Runnable {
+        override fun run() {
+            mediaPlayer?.let {
+                _mediaPlayerProgress.value = Pair(it.currentPosition, trackDuration)
+                if (it.isPlaying) {
+                    handler.postDelayed(this, TimeUnit.SECONDS.toMillis(1))
+                }
+            }
+        }
+    }
 
     var latestQuery = ""
         private set
@@ -134,7 +159,13 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
             is MusicUIModel.PlaylistItem ->
                 _goToTracksPageEvent.value =
                     Event(Pair(TrackOptions.PLAYLIST_TRACKS, model.playlist))
-            is MusicUIModel.TrackItem -> onTrackItemClicked(model.track)
+            is MusicUIModel.TrackItem -> {
+                if (model.track.id == _selectedTrack.value?.id) {
+                    _selectedTrack.value = null
+                } else {
+                    _selectedTrack.value = model.track
+                }
+            }
             else -> {
                 // TODO not supported
             }
@@ -183,11 +214,39 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
         }
     }
 
-    private fun onTrackItemClicked(track: Track) {
-        if (track.id == _selectedTrack.value?.id) {
-            _selectedTrack.value = null
-        } else {
-            _selectedTrack.value = track
+    fun play(track: Track) {
+        if (mediaPlayer == null || mediaPlayer?.isPlaying == true) {
+            stop()
+            mediaPlayer = MediaPlayer()
+            mediaPlayer?.setOnCompletionListener(this)
         }
+        try {
+            mediaPlayer?.setDataSource(track.previewURL)
+            mediaPlayer?.prepare()
+            mediaPlayer?.start()
+            trackDuration = mediaPlayer?.duration ?: 0
+            handler.post(mediaPlayerRunnable)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    }
+
+    fun stop() {
+        handler.removeCallbacks(mediaPlayerRunnable)
+        mediaPlayer?.let {
+            it.stop()
+            it.release()
+        }
+        mediaPlayer = null
+    }
+
+    override fun onCompletion(player: MediaPlayer?) {
+        _mediaPlayerProgress.value = Pair(-1, trackDuration)
+        stop()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stop()
     }
 }

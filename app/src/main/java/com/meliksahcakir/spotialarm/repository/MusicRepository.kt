@@ -33,15 +33,18 @@ class MusicRepository(private val napsterService: NapsterService, private val mu
                 TrackOptions.PLAYLIST_TRACKS -> napsterService.getPlaylistTracks(id)
                 TrackOptions.FAVORITE_TRACKS -> Tracks(musicDao.getFavoriteTracks())
             }
+            val list: List<Track>
             if (option != TrackOptions.FAVORITE_TRACKS) {
                 val saved = musicDao.getTracks()
                 val set = saved.filter { it.favorite }.map { it.id }.toSet()
-                val list = obj.list.toMutableList()
+                list = obj.list.filter { it.streamable }
                 list.forEach {
                     it.favorite = set.contains(it.id)
                 }
+            } else {
+                list = obj.list
             }
-            Result.Success(obj)
+            Result.Success(Tracks(list, obj.meta))
         } catch (e: Exception) {
             Timber.e(e)
             Result.Error(e)

@@ -223,7 +223,6 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         }
         mediaPlayer.isLooping = true
         startFadeIn()
-        mediaPlayer.start()
     }
 
     override fun onDestroy() {

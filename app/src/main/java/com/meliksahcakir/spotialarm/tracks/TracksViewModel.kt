@@ -1,6 +1,7 @@
 package com.meliksahcakir.spotialarm.tracks
 
 import android.app.Application
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -22,7 +23,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class TracksViewModel(private val repository: MusicRepository, private val app: Application) :
-    AndroidViewModel(app), MediaPlayer.OnCompletionListener {
+    AndroidViewModel(app) {
 
     private val _warningEvent = MutableLiveData<Event<Int>>()
     val warningEvent: LiveData<Event<Int>> get() = _warningEvent
@@ -54,6 +55,17 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
                 }
             }
         }
+    }
+
+    private val completionListener = MediaPlayer.OnCompletionListener {
+        _mediaPlayerProgress.value = Pair(-1, trackDuration)
+        stop()
+    }
+
+    private val preparedListener = MediaPlayer.OnPreparedListener {
+        it?.start()
+        trackDuration = it?.duration ?: 0
+        handler.post(mediaPlayerRunnable)
     }
 
     fun getTracks(options: TrackOptions, id: String) {
@@ -94,9 +106,16 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
     fun play(track: Track) {
         viewModelScope.launch {
             if (mediaPlayer == null || mediaPlayer?.isPlaying == true) {
-                killMediaPlayer()
+                stop()
                 mediaPlayer = MediaPlayer()
-                mediaPlayer?.setOnCompletionListener(this@TracksViewModel)
+                mediaPlayer?.setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                mediaPlayer?.setOnPreparedListener(preparedListener)
+                mediaPlayer?.setOnCompletionListener(completionListener)
             }
             startMediaPlayer(track)
         }
@@ -108,11 +127,8 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
                 try {
                     mediaPlayer?.let {
                         it.setDataSource(track.previewURL)
-                        it.prepare()
-                        it.start()
+                        it.prepareAsync()
                     }
-                    trackDuration = mediaPlayer?.duration ?: 0
-                    handler.post(mediaPlayerRunnable)
                 } catch (e: Exception) {
                     Timber.e(e)
                 }
@@ -120,16 +136,7 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
         }
     }
 
-    fun stop(track: Track) {
-        killMediaPlayer()
-    }
-
-    override fun onCompletion(player: MediaPlayer?) {
-        _mediaPlayerProgress.value = Pair(-1, trackDuration)
-        killMediaPlayer()
-    }
-
-    private fun killMediaPlayer() {
+    fun stop() {
         handler.removeCallbacks(mediaPlayerRunnable)
         mediaPlayer?.let {
             it.stop()
@@ -140,6 +147,6 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
 
     override fun onCleared() {
         super.onCleared()
-        killMediaPlayer()
+        stop()
     }
 }

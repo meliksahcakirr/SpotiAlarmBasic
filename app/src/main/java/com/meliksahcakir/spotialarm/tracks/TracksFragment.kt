@@ -118,6 +118,6 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
     }
 
     override fun stop(track: Track) {
-        viewModel.stop(track)
+        viewModel.stop()
     }
 }

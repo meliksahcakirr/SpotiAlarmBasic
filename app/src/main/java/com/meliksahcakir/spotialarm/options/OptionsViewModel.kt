@@ -1,6 +1,7 @@
 package com.meliksahcakir.spotialarm.options
 
 import android.app.Application
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -19,12 +20,14 @@ import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicOptions
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.repository.MusicRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class OptionsViewModel(private val repository: MusicRepository, private val app: Application) :
-    AndroidViewModel(app), MediaPlayer.OnCompletionListener {
+    AndroidViewModel(app) {
 
     private val _goToAlbumsPageEvent = MutableLiveData<Event<Unit>>()
     val goToAlbumsPageEvent: LiveData<Event<Unit>> get() = _goToAlbumsPageEvent
@@ -76,6 +79,17 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
 
     var latestQuery = ""
         private set
+
+    private val completionListener = MediaPlayer.OnCompletionListener {
+        _mediaPlayerProgress.value = Pair(-1, trackDuration)
+        stop()
+    }
+
+    private val preparedListener = MediaPlayer.OnPreparedListener {
+        it?.start()
+        trackDuration = it?.duration ?: 0
+        handler.post(mediaPlayerRunnable)
+    }
 
     init {
         prepareInitialOptions()
@@ -215,19 +229,35 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     }
 
     fun play(track: Track) {
-        if (mediaPlayer == null || mediaPlayer?.isPlaying == true) {
-            stop()
-            mediaPlayer = MediaPlayer()
-            mediaPlayer?.setOnCompletionListener(this)
+        viewModelScope.launch {
+            if (mediaPlayer == null || mediaPlayer?.isPlaying == true) {
+                stop()
+                mediaPlayer = MediaPlayer()
+                mediaPlayer?.setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                mediaPlayer?.setOnPreparedListener(preparedListener)
+                mediaPlayer?.setOnCompletionListener(completionListener)
+            }
+            startMediaPlayer(track)
         }
-        try {
-            mediaPlayer?.setDataSource(track.previewURL)
-            mediaPlayer?.prepare()
-            mediaPlayer?.start()
-            trackDuration = mediaPlayer?.duration ?: 0
-            handler.post(mediaPlayerRunnable)
-        } catch (e: Exception) {
-            Timber.e(e)
+    }
+
+    private suspend fun startMediaPlayer(track: Track) {
+        coroutineScope {
+            launch(Dispatchers.IO) {
+                try {
+                    mediaPlayer?.let {
+                        it.setDataSource(track.previewURL)
+                        it.prepareAsync()
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }
         }
     }
 
@@ -238,11 +268,6 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
             it.release()
         }
         mediaPlayer = null
-    }
-
-    override fun onCompletion(player: MediaPlayer?) {
-        _mediaPlayerProgress.value = Pair(-1, trackDuration)
-        stop()
     }
 
     override fun onCleared() {

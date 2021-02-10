@@ -24,7 +24,7 @@ class PlaylistsViewModel(private val repository: MusicRepository, private val ap
     private val _warningEvent = MutableLiveData<Event<Int>>()
     val warningEvent: LiveData<Event<Int>> get() = _warningEvent
 
-    private val _playlists = MutableLiveData<List<MusicUIModel.PlaylistItem>>(emptyList())
+    private val _playlists = MutableLiveData<List<MusicUIModel.PlaylistItem>>()
     val playlists: LiveData<List<MusicUIModel.PlaylistItem>> = _playlists
 
     private val _busy = MutableLiveData<Boolean>(false)

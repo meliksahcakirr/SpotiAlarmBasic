@@ -24,7 +24,7 @@ class GenresViewModel(private val repository: MusicRepository, private val app: 
     private val _warningEvent = MutableLiveData<Event<Int>>()
     val warningEvent: LiveData<Event<Int>> get() = _warningEvent
 
-    private val _genres = MutableLiveData<List<MusicUIModel.GenreItem>>(emptyList())
+    private val _genres = MutableLiveData<List<MusicUIModel.GenreItem>>()
     val genres: LiveData<List<MusicUIModel.GenreItem>> = _genres
 
     private val _busy = MutableLiveData<Boolean>(false)

@@ -50,7 +50,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     private val _warningEvent = MutableLiveData<Event<Int>>()
     val warningEvent: LiveData<Event<Int>> get() = _warningEvent
 
-    private val _musicUIModels = MutableLiveData<List<MusicUIModel>>(emptyList())
+    private val _musicUIModels = MutableLiveData<List<MusicUIModel>>()
     val musicUIModels: LiveData<List<MusicUIModel>> = _musicUIModels
 
     private val _busy = MutableLiveData<Boolean>(false)

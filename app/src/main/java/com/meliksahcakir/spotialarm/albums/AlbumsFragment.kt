@@ -54,6 +54,7 @@ class AlbumsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener {
 
         viewModel.albums.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            binding.emptyGroup.isVisible = it.isEmpty()
         }
 
         viewModel.busy.observe(viewLifecycleOwner) {

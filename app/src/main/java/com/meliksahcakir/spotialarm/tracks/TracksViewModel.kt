@@ -30,7 +30,7 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
     private val _goToEditPageEvent = MutableLiveData<Event<String>>()
     val goToEditPageEvent: LiveData<Event<String>> get() = _goToEditPageEvent
 
-    private val _tracks = MutableLiveData<List<MusicUIModel.TrackItem>>(emptyList())
+    private val _tracks = MutableLiveData<List<MusicUIModel.TrackItem>>()
     val tracks: LiveData<List<MusicUIModel.TrackItem>> = _tracks
 
     private val _busy = MutableLiveData<Boolean>(false)

@@ -102,4 +102,9 @@
         <item>25 sec</item>
         <item>30 sec</item>
     </string-array>
+    <string name="no_track_available">There is no available song</string>
+    <string name="no_playlist_available">There is no available playlist</string>
+    <string name="no_genre_available">There is no available genre</string>
+    <string name="no_artist_available">There is no available artist</string>
+    <string name="no_album_available">There is no available album</string>
 </resources>

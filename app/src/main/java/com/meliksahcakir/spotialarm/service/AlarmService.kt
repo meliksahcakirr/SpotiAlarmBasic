@@ -11,7 +11,6 @@ import android.hardware.SensorManager
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.os.VibrationEffect
@@ -26,6 +25,7 @@ import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.createPendingIntentToActivity
 import com.meliksahcakir.spotialarm.data.Alarm
+import com.meliksahcakir.spotialarm.isConnectedToInternet
 import com.meliksahcakir.spotialarm.preferences.Preferences
 import com.meliksahcakir.spotialarm.setLanguageOrDefault
 import timber.log.Timber
@@ -46,7 +46,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         private const val VOLUME_FULL = 1f
         private const val FADE_INTERVAL = 250
         private const val Z_AXIS = 2
-        private const val ACC_THRESHOLD = -7
+        private const val ACC_THRESHOLD = -9
         private const val SPEECH_RATE = 0.7f
     }
 
@@ -105,6 +105,12 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         val attrs = AudioAttributes.Builder().setUsage(usage).build()
         mediaPlayer.setAudioAttributes(attrs)
         mediaPlayer.setOnPreparedListener(this)
+        mediaPlayer.setOnErrorListener { _, what, extra ->
+            setupMediaPlayerDataAndStart("")
+            Timber.e("Service Media Player: what = $what extra: $extra")
+            return@setOnErrorListener true
+        }
+        mediaPlayer.isLooping = true
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         timer = Timer(true)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -146,7 +152,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                 vibrator.vibrate(pattern, 0)
             }
         }
-        setupMediaPlayerDataAndStart(alarm)
+        setupMediaPlayerDataAndStart(alarm.trackUrl)
         val time = alarm.alarmTime
         val formatter = DateTimeFormatter.ofPattern("hh:mm")
         val sb = StringBuilder()
@@ -198,11 +204,18 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         timer?.schedule(timerTask, 0L, FADE_INTERVAL.toLong())
     }
 
-    private fun setupMediaPlayerDataAndStart(alarm: Alarm) {
-        var sound: Uri? = null // alarm.musicId.toUri()
-        if (sound == null) {
-            sound = Preferences.fallbackAudioContentUri?.toUri()
+    private fun setupMediaPlayerDataAndStart(url: String) {
+        if (url != "" && isConnectedToInternet()) {
+            try {
+                mediaPlayer.setDataSource(url)
+                mediaPlayer.prepareAsync()
+            } catch (e: Exception) {
+                Timber.e(e)
+                setupMediaPlayerDataAndStart("")
+            }
+            return
         }
+        var sound = Preferences.fallbackAudioContentUri?.toUri()
         if (sound == null) {
             sound = RingtoneManager.getActualDefaultRingtoneUri(
                 this@AlarmService,
@@ -221,8 +234,6 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         } catch (e: Exception) {
             Timber.e(e)
         }
-        mediaPlayer.isLooping = true
-        startFadeIn()
     }
 
     override fun onDestroy() {
@@ -265,6 +276,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onPrepared(player: MediaPlayer?) {
+        startFadeIn()
         player?.start()
     }
 }

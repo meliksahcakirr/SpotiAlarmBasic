@@ -6,6 +6,9 @@ import android.app.KeyguardManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.view.WindowManager
@@ -185,4 +188,17 @@ fun ImageView.setImageUrl(url: String) {
         .centerCrop()
         .placeholder(R.drawable.alarm_background)
         .into(this)
+}
+
+fun Context.isConnectedToInternet(): Boolean {
+    val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val networks: Array<Network> = cm.allNetworks
+    var hasInternet = false
+    if (networks.isNotEmpty()) {
+        for (network in networks) {
+            val nc = cm.getNetworkCapabilities(network)
+            if (nc!!.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) hasInternet = true
+        }
+    }
+    return hasInternet
 }

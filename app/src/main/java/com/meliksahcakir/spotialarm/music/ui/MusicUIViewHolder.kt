@@ -2,7 +2,6 @@ package com.meliksahcakir.spotialarm.music.ui
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.databinding.AlbumItemBinding
 import com.meliksahcakir.spotialarm.databinding.ArtistItemBinding
@@ -16,6 +15,7 @@ import com.meliksahcakir.spotialarm.music.api.ArtistImageSize
 import com.meliksahcakir.spotialarm.music.api.GenreImageSize
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.music.api.PlaylistImageSize
+import com.meliksahcakir.spotialarm.setImageUrl
 import com.meliksahcakir.spotialarm.tracks.TrackListener
 
 abstract class MusicUIViewHolder(view: View, private var listener: MusicUIModelListener? = null) :
@@ -38,12 +38,12 @@ class TrackViewHolder(
         val track = (model as MusicUIModel.TrackItem).track
         binding.trackTextView.text = track.name
         binding.artistTextView.text = track.artistName
-        Glide
-            .with(binding.root.context)
-            .load(NapsterService.createAlbumImageUrl(track.albumId, AlbumImageSize.SIZE_200X200))
-            .centerCrop()
-            .placeholder(R.drawable.alarm_background)
-            .into(binding.imageView)
+        binding.imageView.setImageUrl(
+            NapsterService.createAlbumImageUrl(
+                track.albumId,
+                AlbumImageSize.SIZE_200X200
+            )
+        )
         binding.favImageView.setOnClickListener {
             track.favorite = !track.favorite
             if (track.favorite) {
@@ -100,12 +100,12 @@ class AlbumViewHolder(private val binding: AlbumItemBinding, listener: MusicUIMo
         val album = (model as MusicUIModel.AlbumItem).album
         binding.albumTextView.text = album.name
         binding.artistTextView.text = album.artistName
-        Glide
-            .with(binding.root.context)
-            .load(NapsterService.createAlbumImageUrl(album.id, AlbumImageSize.SIZE_200X200))
-            .centerCrop()
-            .placeholder(R.drawable.alarm_background)
-            .into(binding.imageView)
+        binding.imageView.setImageUrl(
+            NapsterService.createAlbumImageUrl(
+                album.id,
+                AlbumImageSize.SIZE_200X200
+            )
+        )
     }
 }
 
@@ -115,12 +115,12 @@ class ArtistViewHolder(private val binding: ArtistItemBinding, listener: MusicUI
         super.bind(model)
         val artist = (model as MusicUIModel.ArtistItem).artist
         binding.artistTextView.text = artist.name
-        Glide
-            .with(binding.root.context)
-            .load(NapsterService.createArtistImageUrl(artist.id, ArtistImageSize.SIZE_356X237))
-            .centerCrop()
-            .placeholder(R.drawable.alarm_background)
-            .into(binding.imageView)
+        binding.imageView.setImageUrl(
+            NapsterService.createArtistImageUrl(
+                artist.id,
+                ArtistImageSize.SIZE_356X237
+            )
+        )
     }
 }
 
@@ -130,12 +130,12 @@ class GenreViewHolder(private val binding: GenreItemBinding, listener: MusicUIMo
         super.bind(model)
         val genre = (model as MusicUIModel.GenreItem).genre
         binding.genreTextView.text = genre.name
-        Glide
-            .with(binding.root.context)
-            .load(NapsterService.createGenreImageUrl(genre.id, GenreImageSize.SIZE_240X160))
-            .centerCrop()
-            .placeholder(R.drawable.alarm_background)
-            .into(binding.imageView)
+        binding.imageView.setImageUrl(
+            NapsterService.createGenreImageUrl(
+                genre.id,
+                GenreImageSize.SIZE_240X160
+            )
+        )
     }
 }
 
@@ -145,12 +145,12 @@ class PlaylistViewHolder(private val binding: PlaylistItemBinding, listener: Mus
         super.bind(model)
         val list = (model as MusicUIModel.PlaylistItem).playlist
         binding.playlistTextView.text = list.name
-        Glide
-            .with(binding.root.context)
-            .load(NapsterService.createPlaylistImageUrl(list.id, PlaylistImageSize.SIZE_230X153))
-            .centerCrop()
-            .placeholder(R.drawable.alarm_background)
-            .into(binding.imageView)
+        binding.imageView.setImageUrl(
+            NapsterService.createPlaylistImageUrl(
+                list.id,
+                PlaylistImageSize.SIZE_230X153
+            )
+        )
     }
 }
 

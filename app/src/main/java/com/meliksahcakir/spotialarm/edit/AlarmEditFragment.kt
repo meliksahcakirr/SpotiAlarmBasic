@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.isInvisible
-import androidx.fragment.app.viewModels
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
@@ -20,6 +21,7 @@ import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
+import com.meliksahcakir.spotialarm.setImageUrl
 import com.meliksahcakir.spotialarm.setup
 import java.time.DayOfWeek
 import java.time.LocalTime
@@ -31,7 +33,7 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
     private val binding: FragmentAlarmEditBinding get() = _binding!!
     override var alphaAnimationForFragmentTransitionEnabled = false
 
-    private val editViewModel: EditViewModel by viewModels {
+    private val editViewModel: EditViewModel by activityViewModels {
         ServiceLocator.provideViewModelFactory(requireActivity().application)
     }
 
@@ -62,6 +64,20 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
             }
         }
 
+        editViewModel.track.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.musicGroup.isInvisible = false
+                binding.addMusicTextView.isVisible = false
+                binding.headerBackgroundImageView.setImageUrl(it.getImageUrl())
+                binding.imageView.setImageUrl(it.getImageUrl())
+                binding.songNameTextView.text = it.getTitle()
+                binding.singerNameTextView.text = it.getSubTitle()
+            } else {
+                binding.musicGroup.isInvisible = true
+                binding.addMusicTextView.isVisible = true
+            }
+        }
+
         editViewModel.goToMainPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
@@ -85,7 +101,6 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
         }
 
     private fun setupView(exists: Boolean, alarm: Alarm) {
-        binding.musicGroup.isInvisible = alarm.musicId == ""
         binding.setup(exists, alarm)
         binding.daysToggleGroup.addOnButtonCheckedListener(daysToggleGroupListener)
         binding.deleteFab.setOnClickListener {

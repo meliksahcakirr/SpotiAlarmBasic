@@ -17,7 +17,6 @@ import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.repository.MusicRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -27,6 +26,9 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
 
     private val _warningEvent = MutableLiveData<Event<Int>>()
     val warningEvent: LiveData<Event<Int>> get() = _warningEvent
+
+    private val _goToEditPageEvent = MutableLiveData<Event<String>>()
+    val goToEditPageEvent: LiveData<Event<String>> get() = _goToEditPageEvent
 
     private val _tracks = MutableLiveData<List<MusicUIModel.TrackItem>>(emptyList())
     val tracks: LiveData<List<MusicUIModel.TrackItem>> = _tracks
@@ -48,11 +50,15 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
 
     private val mediaPlayerRunnable = object : Runnable {
         override fun run() {
-            mediaPlayer?.let {
-                _mediaPlayerProgress.value = Pair(it.currentPosition, trackDuration)
-                if (it.isPlaying) {
-                    handler.postDelayed(this, TimeUnit.SECONDS.toMillis(1))
+            try {
+                mediaPlayer?.let {
+                    _mediaPlayerProgress.value = Pair(it.currentPosition, trackDuration)
+                    if (it.isPlaying) {
+                        handler.postDelayed(this, TimeUnit.SECONDS.toMillis(1))
+                    }
                 }
+            } catch (e: Exception) {
+                Timber.e(e)
             }
         }
     }
@@ -117,12 +123,6 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
                 mediaPlayer?.setOnPreparedListener(preparedListener)
                 mediaPlayer?.setOnCompletionListener(completionListener)
             }
-            startMediaPlayer(track)
-        }
-    }
-
-    private suspend fun startMediaPlayer(track: Track) {
-        coroutineScope {
             launch(Dispatchers.IO) {
                 try {
                     mediaPlayer?.let {
@@ -143,6 +143,15 @@ class TracksViewModel(private val repository: MusicRepository, private val app: 
             it.release()
         }
         mediaPlayer = null
+    }
+
+    fun onAddToAlarmButtonClicked() {
+        viewModelScope.launch {
+            _selectedTrack.value?.let {
+                repository.insertTrack(it)
+                _goToEditPageEvent.value = Event(it.id)
+            }
+        }
     }
 
     override fun onCleared() {

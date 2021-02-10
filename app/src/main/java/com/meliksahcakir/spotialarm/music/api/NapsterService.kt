@@ -5,6 +5,7 @@ import com.meliksahcakir.spotialarm.music.data.Artists
 import com.meliksahcakir.spotialarm.music.data.Genres
 import com.meliksahcakir.spotialarm.music.data.Playlists
 import com.meliksahcakir.spotialarm.music.data.SearchResult
+import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.data.Tracks
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -53,6 +54,10 @@ enum class TrackOptions {
 interface NapsterService {
 
     @Headers("apikey: $API_KEY")
+    @GET("v2.2/tracks/{id}")
+    suspend fun getTrack(@Path("id") trackId: String): Track
+
+    @Headers("apikey: $API_KEY")
     @GET("v2.2/artists/top")
     suspend fun getTopArtists(): Artists
 
@@ -70,39 +75,27 @@ interface NapsterService {
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/artists/{id}/tracks/top")
-    suspend fun getArtistTopTracks(
-        @Path("id") artistId: String
-    ): Tracks
+    suspend fun getArtistTopTracks(@Path("id") artistId: String): Tracks
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/albums/{id}/tracks")
-    suspend fun getAlbumTracks(
-        @Path("id") albumId: String
-    ): Tracks
+    suspend fun getAlbumTracks(@Path("id") albumId: String): Tracks
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/genres/{id}/tracks/top")
-    suspend fun getGenreTopTracks(
-        @Path("id") genreId: String
-    ): Tracks
+    suspend fun getGenreTopTracks(@Path("id") genreId: String): Tracks
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/playlists/{id}/tracks?limit=15")
-    suspend fun getPlaylistTracks(
-        @Path("id") playlistId: String
-    ): Tracks
+    suspend fun getPlaylistTracks(@Path("id") playlistId: String): Tracks
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/tags/{id}/playlists")
-    suspend fun getPlaylistsForTag(
-        @Path("id") tagId: String
-    ): Playlists
+    suspend fun getPlaylistsForTag(@Path("id") tagId: String): Playlists
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/search?type=track,artist,playlist,album&per_type_limit=7")
-    suspend fun search(
-        @Query("query") query: String
-    ): SearchResult
+    suspend fun search(@Query("query") query: String): SearchResult
 
     companion object {
         private const val BASE_URL = "https://api.napster.com/"

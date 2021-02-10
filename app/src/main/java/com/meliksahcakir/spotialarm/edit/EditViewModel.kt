@@ -11,13 +11,20 @@ import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
+import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.repository.AlarmRepository
+import com.meliksahcakir.spotialarm.repository.MusicRepository
 import com.meliksahcakir.spotialarm.schedule
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class EditViewModel(private val repository: AlarmRepository, app: Application) :
+class EditViewModel(
+    private val alarmRepository: AlarmRepository,
+    private val musicRepository: MusicRepository,
+    app: Application
+) :
     AndroidViewModel(app) {
 
     companion object {
@@ -39,6 +46,9 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
     var newAlarm = false
         private set
 
+    private val _track = MutableLiveData<Track?>()
+    val track: LiveData<Track?> = _track
+
     private val handler = Handler(Looper.getMainLooper())
 
     private val tickRunnable = object : Runnable {
@@ -49,6 +59,7 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
     }
 
     init {
+        Timber.d("EditViewModel init called")
         handler.postDelayed(tickRunnable, INITIAL_TIME_INTERVAL)
     }
 
@@ -59,7 +70,7 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
                 alarm = defaultAlarm()
                 newAlarm = true
             } else {
-                val result = repository.getAlarmById(alarmId)
+                val result = alarmRepository.getAlarmById(alarmId)
                 if (result is Result.Success) {
                     alarm = result.data
                     newAlarm = false
@@ -70,6 +81,12 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
             }
             _selectedAlarm.value = alarm.apply { enabled = true }
             _alarmDateTime.value = alarm.nearestDateTime()
+            if (alarm.trackId == "") {
+                _track.value = null
+            } else {
+                val result = musicRepository.getTrack(alarm.trackId)
+                _track.value = (result as? Result.Success)?.data
+            }
         }
     }
 
@@ -103,7 +120,7 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
         viewModelScope.launch {
             selectedAlarm.value?.let {
                 it.cancel(getApplication())
-                repository.deleteAlarm(it)
+                alarmRepository.deleteAlarm(it)
             }
             _goToMainPageEvent.value = Event(Unit)
         }
@@ -120,9 +137,9 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
         alarm.snooze = snooze
         viewModelScope.launch {
             if (newAlarm) {
-                repository.insertAlarm(alarm)
+                alarmRepository.insertAlarm(alarm)
             } else {
-                repository.updateAlarm(alarm)
+                alarmRepository.updateAlarm(alarm)
                 alarm.cancel(getApplication())
             }
             alarm.schedule(getApplication())
@@ -132,6 +149,20 @@ class EditViewModel(private val repository: AlarmRepository, app: Application) :
 
     fun onMusicFabClicked() {
         _goToMusicPageEvent.value = Event(Unit)
+    }
+
+    fun onTrackUpdated(trackId: String) {
+        viewModelScope.launch {
+            if (trackId == "") {
+                _track.value = null
+            } else {
+                val result = musicRepository.getTrack(trackId)
+                _track.value = (result as? Result.Success)?.data
+                _selectedAlarm.value?.trackId = trackId
+                _selectedAlarm.value?.trackUrl = _track.value?.previewURL ?: ""
+                _selectedAlarm.value?.albumId = _track.value?.albumId ?: ""
+            }
+        }
     }
 
     override fun onCleared() {

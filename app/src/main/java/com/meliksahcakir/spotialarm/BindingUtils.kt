@@ -4,12 +4,13 @@ import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.size
-import com.meliksahcakir.androidutils.drawable
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.ActivityActiveAlarmBinding
 import com.meliksahcakir.spotialarm.databinding.AlarmViewBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
+import com.meliksahcakir.spotialarm.music.api.AlbumImageSize
+import com.meliksahcakir.spotialarm.music.api.NapsterService
 import java.time.format.DateTimeFormatter
 
 fun AlarmViewBinding.bind(alarm: Alarm) {
@@ -22,8 +23,19 @@ fun AlarmViewBinding.bind(alarm: Alarm) {
     } else {
         alarmTimePeriodTextView.text = context.getString(R.string.am)
     }
-    val drawable = context.drawable(R.drawable.ic_round_alarm)
-    imageView.setImageDrawable(drawable)
+    if (alarm.albumId == "") {
+        imageView.isVisible = true
+        trackImageView.isVisible = false
+    } else {
+        imageView.isInvisible = true
+        trackImageView.isVisible = true
+        trackImageView.setImageUrl(
+            NapsterService.createAlbumImageUrl(
+                alarm.albumId,
+                AlbumImageSize.SIZE_200X200
+            )
+        )
+    }
     val days = alarm.days
     mondayTextView.isEnabled = (days and Alarm.MONDAY) > 0
     tuesdayTextView.isEnabled = (days and Alarm.TUESDAY) > 0

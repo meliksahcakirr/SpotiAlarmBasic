@@ -5,4 +5,6 @@
     <dimen name="music_ui_items_vertical_padding">8dp</dimen>
     <dimen name="music_ui_items_horizontal_padding">16dp</dimen>
     <dimen name="music_ui_image_size">50dp</dimen>
+    <dimen name="artist_image_view_size">90dp</dimen>
+    <dimen name="artist_image_view_round_size">45dp</dimen>
 </resources>

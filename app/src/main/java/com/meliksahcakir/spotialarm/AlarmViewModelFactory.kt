@@ -15,7 +15,7 @@ import com.meliksahcakir.spotialarm.repository.MusicRepository
 import com.meliksahcakir.spotialarm.tracks.TracksViewModel
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(
+class AlarmViewModelFactory(
     private val repository: AlarmRepository,
     private val application: Application
 ) : ViewModelProvider.Factory {
@@ -23,9 +23,6 @@ class ViewModelFactory(
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository, application) as T
-            }
-            modelClass.isAssignableFrom(EditViewModel::class.java) -> {
-                EditViewModel(repository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")
@@ -58,6 +55,24 @@ class MusicViewModelFactory(
             }
             modelClass.isAssignableFrom(GenresViewModel::class.java) -> {
                 GenresViewModel(repository, application) as T
+            }
+            else -> {
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class ViewModelFactory(
+    private val alarmRepository: AlarmRepository,
+    private val musicRepository: MusicRepository,
+    private val application: Application
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return when {
+            modelClass.isAssignableFrom(EditViewModel::class.java) -> {
+                EditViewModel(alarmRepository, musicRepository, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class")

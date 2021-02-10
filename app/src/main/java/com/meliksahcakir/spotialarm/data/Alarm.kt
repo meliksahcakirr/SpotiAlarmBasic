@@ -26,10 +26,12 @@ data class Alarm(
     var snooze: Boolean = true,
     @ColumnInfo(name = "description")
     var description: String = "",
-    @ColumnInfo(name = "musicId")
-    var musicId: String = "",
-    @ColumnInfo(name = "imageId")
-    var imageId: String = "",
+    @ColumnInfo(name = "track_url")
+    var trackUrl: String = "",
+    @ColumnInfo(name = "track_id")
+    var trackId: String = "",
+    @ColumnInfo(name = "album_id")
+    var albumId: String = "",
     @PrimaryKey
     @ColumnInfo(name = "alarmId")
     val alarmId: Int = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())).toInt()
@@ -55,8 +57,9 @@ data class Alarm(
         private const val EXTRA_VIBRATE = "VIBRATE"
         private const val EXTRA_SNOOZE = "SNOOZE"
         private const val EXTRA_DESCRIPTION = "DESCRIPTION"
-        private const val EXTRA_MUSIC_ID = "MUSIC_ID"
-        private const val EXTRA_IMAGE_ID = "IMAGE_ID"
+        private const val EXTRA_TRACK_URL = "TRACK_URL"
+        private const val EXTRA_TRACK_ID = "TRACK_ID"
+        private const val EXTRA_ALBUM_ID = "ALBUM_ID"
         private const val EXTRA_ALARM_ID = "ALARM_ID"
 
         fun fromBundle(bundle: Bundle?): Alarm? {
@@ -69,9 +72,10 @@ data class Alarm(
                 vibrate = bundle.getBoolean(EXTRA_VIBRATE, false),
                 snooze = bundle.getBoolean(EXTRA_SNOOZE, true),
                 description = bundle.getString(EXTRA_DESCRIPTION, ""),
-                musicId = bundle.getString(EXTRA_MUSIC_ID, ""),
-                imageId = bundle.getString(EXTRA_IMAGE_ID, ""),
-                alarmId = bundle.getInt(EXTRA_ALARM_ID, 0),
+                trackUrl = bundle.getString(EXTRA_TRACK_URL, ""),
+                trackId = bundle.getString(EXTRA_TRACK_ID, ""),
+                albumId = bundle.getString(EXTRA_ALBUM_ID, ""),
+                alarmId = bundle.getInt(EXTRA_ALARM_ID, 0)
             )
         }
     }
@@ -125,8 +129,9 @@ data class Alarm(
         bundle.putBoolean(EXTRA_VIBRATE, vibrate)
         bundle.putBoolean(EXTRA_SNOOZE, snooze)
         bundle.putString(EXTRA_DESCRIPTION, description)
-        bundle.putString(EXTRA_MUSIC_ID, musicId)
-        bundle.putString(EXTRA_IMAGE_ID, imageId)
+        bundle.putString(EXTRA_TRACK_URL, trackUrl)
+        bundle.putString(EXTRA_TRACK_ID, trackId)
+        bundle.putString(EXTRA_ALBUM_ID, albumId)
         bundle.putInt(EXTRA_ALARM_ID, alarmId)
         return bundle
     }

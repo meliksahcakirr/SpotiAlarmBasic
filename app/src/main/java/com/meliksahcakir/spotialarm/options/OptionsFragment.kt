@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -15,9 +16,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.androidutils.hideKeyboard
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
+import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentOptionsBinding
+import com.meliksahcakir.spotialarm.edit.EditViewModel
 import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
@@ -31,6 +34,10 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
 
     private val viewModel: OptionsViewModel by viewModels {
         ServiceLocator.provideMusicViewModelFactory(requireActivity().application)
+    }
+
+    private val editViewModel: EditViewModel by activityViewModels {
+        ServiceLocator.provideViewModelFactory(requireActivity().application)
     }
 
     private val adapter = OptionsAdapter(this, this)
@@ -54,6 +61,10 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
                 viewModel.search(binding.searchEditText.text.toString())
             }
             true
+        }
+
+        binding.addToAlarmButton.setOnClickListener {
+            viewModel.onAddToAlarmButtonClicked()
         }
 
         binding.recyclerView.adapter = adapter
@@ -105,6 +116,14 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
             EventObserver {
                 val directions = OptionsFragmentDirections.actionOptionsFragmentToGenresFragment()
                 findNavController().navigate(directions)
+            }
+        )
+
+        viewModel.goToEditPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                editViewModel.onTrackUpdated(it)
+                findNavController().popBackStack(R.id.alarmEditFragment, false)
             }
         )
     }

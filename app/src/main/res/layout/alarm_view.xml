@@ -26,6 +26,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/RoundedImageView" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/trackImageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/alarm_background"
+            android:contentDescription="@string/alarm_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            tools:src="@tools:sample/avatars"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/alarmTimeTextView"
             android:layout_width="wrap_content"

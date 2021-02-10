@@ -28,7 +28,7 @@ class MainFragment : Fragment(), AlarmListener {
     private val binding: FragmentMainBinding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() }) {
-        ServiceLocator.provideViewModelFactory(requireActivity().application)
+        ServiceLocator.provideAlarmViewModelFactory(requireActivity().application)
     }
 
     private val receiver = object : BroadcastReceiver() {

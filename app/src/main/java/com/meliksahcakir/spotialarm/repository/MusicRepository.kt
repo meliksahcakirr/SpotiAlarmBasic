@@ -23,6 +23,21 @@ class MusicRepository(private val napsterService: NapsterService, private val mu
         }
     }
 
+    suspend fun getTrack(id: String = ""): Result<Track> {
+        return try {
+            var track = musicDao.getTrackById(id)
+            if (track != null) {
+                Result.Success(track)
+            } else {
+                track = napsterService.getTrack(id)
+                musicDao.insertTrack(track)
+                Result.Success(track)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
     suspend fun getTracks(option: TrackOptions, id: String = ""): Result<Tracks> {
         return try {
             val obj = when (option) {
@@ -92,7 +107,7 @@ class MusicRepository(private val napsterService: NapsterService, private val mu
     }
 
     suspend fun insertTrack(track: Track) {
-        musicDao.insertOrUpdate(track)
+        musicDao.insertTrack(track)
     }
 
     suspend fun deleteTrack(track: Track) {

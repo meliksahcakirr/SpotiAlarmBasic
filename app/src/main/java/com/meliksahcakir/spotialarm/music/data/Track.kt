@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.meliksahcakir.spotialarm.music.api.AlbumImageSize
+import com.meliksahcakir.spotialarm.music.api.NapsterService
+import kotlinx.android.parcel.Parcelize
 
 data class Tracks(
     @SerializedName("tracks")
@@ -12,6 +15,7 @@ data class Tracks(
     val meta: Meta? = null
 )
 
+@Parcelize
 @Entity(tableName = "tracks")
 data class Track(
     val type: String,
@@ -27,7 +31,16 @@ data class Track(
     @SerializedName("isStreamable")
     val streamable: Boolean,
     var favorite: Boolean = false
-) {
+) : ITrackSource {
     @Ignore
     var isPlaying = false
+
+    override fun getSourceId() = id
+
+    override fun getTitle() = name
+
+    override fun getSubTitle() = artistName
+
+    override fun getImageUrl() =
+        NapsterService.createAlbumImageUrl(albumId, AlbumImageSize.SIZE_500X500)
 }

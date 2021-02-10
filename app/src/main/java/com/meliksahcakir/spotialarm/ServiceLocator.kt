@@ -67,9 +67,16 @@ object ServiceLocator {
         return db
     }
 
-    fun provideViewModelFactory(application: Application) =
-        ViewModelFactory(provideAlarmRepository(application), application)
+    fun provideAlarmViewModelFactory(application: Application) =
+        AlarmViewModelFactory(provideAlarmRepository(application), application)
 
     fun provideMusicViewModelFactory(application: Application) =
-        MusicViewModelFactory(provideMusicRepository(application.applicationContext), application)
+        MusicViewModelFactory(provideMusicRepository(application), application)
+
+    fun provideViewModelFactory(application: Application) =
+        ViewModelFactory(
+            provideAlarmRepository(application),
+            provideMusicRepository(application),
+            application
+        )
 }

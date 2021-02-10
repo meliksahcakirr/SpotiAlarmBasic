@@ -6,7 +6,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.meliksahcakir.spotialarm.music.data.Track
 
@@ -38,18 +37,4 @@ interface MusicDao {
 
     @Query("UPDATE tracks SET favorite = :favorite WHERE id = :trackId")
     suspend fun updateTrackFavoriteStatus(trackId: String, favorite: Boolean)
-
-    @Transaction
-    suspend fun insertOrUpdate(track: Track) {
-        val existingTrack = try {
-            getTrackById(track.id)
-        } catch (e: Exception) {
-            null
-        }
-        if (existingTrack == null) {
-            insertTrack(track)
-        } else {
-            updateTrack(track)
-        }
-    }
 }

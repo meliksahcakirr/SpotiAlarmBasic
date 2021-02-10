@@ -119,8 +119,9 @@ fun Alarm.snooze(context: Context) {
         vibrate,
         snooze,
         description,
-        musicId,
-        imageId,
+        trackUrl,
+        trackId,
+        albumId,
         alarmId
     )
     snoozed.schedule(context, true)

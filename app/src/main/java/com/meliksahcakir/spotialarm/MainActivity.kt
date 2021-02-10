@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var host: NavHostFragment
 
     private val viewModel: MainViewModel by viewModels {
-        ServiceLocator.provideViewModelFactory(application)
+        ServiceLocator.provideAlarmViewModelFactory(application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

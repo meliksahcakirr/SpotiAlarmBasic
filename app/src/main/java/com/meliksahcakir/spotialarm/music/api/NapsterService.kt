@@ -5,7 +5,6 @@ import com.meliksahcakir.spotialarm.music.data.Artists
 import com.meliksahcakir.spotialarm.music.data.Genres
 import com.meliksahcakir.spotialarm.music.data.Playlists
 import com.meliksahcakir.spotialarm.music.data.SearchResult
-import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.data.Tracks
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -54,10 +53,6 @@ enum class TrackOptions {
 interface NapsterService {
 
     @Headers("apikey: $API_KEY")
-    @GET("v2.2/tracks/{id}")
-    suspend fun getTrack(@Path("id") trackId: String): Track
-
-    @Headers("apikey: $API_KEY")
     @GET("v2.2/artists/top")
     suspend fun getTopArtists(): Artists
 
@@ -72,6 +67,10 @@ interface NapsterService {
     @Headers("apikey: $API_KEY")
     @GET("v2.2/genres")
     suspend fun getGenres(): Genres
+
+    @Headers("apikey: $API_KEY")
+    @GET("v2.2/tracks/{id}")
+    suspend fun getTracks(@Path("id") trackId: String): Tracks
 
     @Headers("apikey: $API_KEY")
     @GET("v2.2/artists/{id}/tracks/top")

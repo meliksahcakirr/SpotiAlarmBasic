@@ -29,9 +29,13 @@ class MusicRepository(private val napsterService: NapsterService, private val mu
             if (track != null) {
                 Result.Success(track)
             } else {
-                track = napsterService.getTrack(id)
-                musicDao.insertTrack(track)
-                Result.Success(track)
+                track = napsterService.getTracks(id).list.firstOrNull()
+                if (track != null) {
+                    musicDao.insertTrack(track)
+                    Result.Success(track)
+                } else {
+                    Result.Error(Exception("Track not found"))
+                }
             }
         } catch (e: Exception) {
             Result.Error(e)

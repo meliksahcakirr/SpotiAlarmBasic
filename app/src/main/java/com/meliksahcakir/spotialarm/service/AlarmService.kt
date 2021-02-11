@@ -47,7 +47,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         private const val FADE_INTERVAL = 250
         private const val Z_AXIS = 2
         private const val ACC_THRESHOLD = -9
-        private const val SPEECH_RATE = 0.7f
+        private const val SPEECH_RATE = 0.8f
     }
 
     private lateinit var mediaPlayer: MediaPlayer
@@ -103,6 +103,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
             AudioAttributes.USAGE_MEDIA
         }
         val attrs = AudioAttributes.Builder().setUsage(usage).build()
+        mediaPlayer.reset()
         mediaPlayer.setAudioAttributes(attrs)
         mediaPlayer.setOnPreparedListener(this)
         mediaPlayer.setOnErrorListener { _, what, extra ->
@@ -237,7 +238,6 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         if (enableTts) {
             tts?.stop()
             tts?.shutdown()
@@ -252,6 +252,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         mediaPlayer.stop()
         mediaPlayer.release()
         vibrator.cancel()
+        super.onDestroy()
     }
 
     override fun onBind(p0: Intent?): IBinder? {

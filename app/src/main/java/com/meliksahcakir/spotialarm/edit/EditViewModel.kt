@@ -3,12 +3,15 @@ package com.meliksahcakir.spotialarm.edit
 import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
+import com.meliksahcakir.spotialarm.R
+import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.music.data.Track
@@ -22,7 +25,7 @@ import java.time.LocalTime
 class EditViewModel(
     private val alarmRepository: AlarmRepository,
     private val musicRepository: MusicRepository,
-    app: Application
+    private val app: Application
 ) :
     AndroidViewModel(app) {
 
@@ -140,7 +143,12 @@ class EditViewModel(
                 alarmRepository.updateAlarm(alarm)
                 alarm.cancel(getApplication())
             }
-            alarm.schedule(getApplication())
+            val date = alarm.schedule(getApplication())
+            date?.let {
+                val text =
+                    app.getString(R.string.alarm_go_off) + " " + calculateDurationString(app, date)
+                Toast.makeText(app, text, Toast.LENGTH_SHORT).show()
+            }
             _goToMainPageEvent.value = Event(Unit)
         }
     }

@@ -90,8 +90,8 @@ fun Context.createPendingIntentToBroadcast(
     )
 }
 
-fun Alarm.schedule(context: Context, snoozed: Boolean = false) {
-    val date = nearestDateTime() ?: return
+fun Alarm.schedule(context: Context, snoozed: Boolean = false): LocalDateTime? {
+    val date = nearestDateTime() ?: return null
     val time = date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -100,9 +100,7 @@ fun Alarm.schedule(context: Context, snoozed: Boolean = false) {
 
     val alarmClockInfo = AlarmManager.AlarmClockInfo(time, showOperation)
     alarmManager.setAlarmClock(alarmClockInfo, sender)
-    val text =
-        context.getString(R.string.alarm_go_off) + " " + calculateDurationString(context, date)
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    return date
 }
 
 fun Alarm.cancel(context: Context) {
@@ -127,7 +125,12 @@ fun Alarm.snooze(context: Context) {
         albumId,
         alarmId
     )
-    snoozed.schedule(context, true)
+    val date = snoozed.schedule(context, true)
+    date?.let {
+        val text =
+            context.getString(R.string.alarm_go_off) + " " + calculateDurationString(context, it)
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
 }
 
 fun Activity.turnScreenOnAndKeyguardOff() {

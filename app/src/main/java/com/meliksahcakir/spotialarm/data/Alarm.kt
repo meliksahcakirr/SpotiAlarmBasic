@@ -84,10 +84,10 @@ data class Alarm(
 
     fun nearestDateTime(localDateTime: LocalDateTime? = null): LocalDateTime? {
         if (!enabled) return null
-        val time = (localDateTime ?: LocalDateTime.now()).withSecond(0)
-        var alarmDate = time.withHour(hour).withMinute(minute)
+        val time = localDateTime ?: LocalDateTime.now()
+        var alarmDate = time.withHour(hour).withMinute(minute).withSecond(0).withNano(0)
         if (days == 0) {
-            if (alarmDate.isBefore(time)) {
+            if (alarmDate.isBefore(time) || alarmDate.isEqual(time)) {
                 alarmDate = alarmDate.plusDays(1)
             }
             return alarmDate
@@ -113,7 +113,7 @@ data class Alarm(
         second: LocalDateTime
     ): Pair<LocalDateTime, Long> {
         var temp = LocalDateTime.from(second)
-        if (temp.isBefore(first)) {
+        if (temp.isBefore(first) || temp.isEqual(first)) {
             temp = temp.plusDays(DayOfWeek.values().size.toLong())
         }
         val timeDiff = first.until(temp, ChronoUnit.MINUTES)

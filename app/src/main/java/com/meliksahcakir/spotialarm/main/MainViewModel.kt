@@ -3,12 +3,15 @@ package com.meliksahcakir.spotialarm.main
 import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
+import com.meliksahcakir.spotialarm.R
+import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.repository.AlarmRepository
@@ -18,7 +21,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-class MainViewModel(private val repository: AlarmRepository, app: Application) :
+class MainViewModel(private val repository: AlarmRepository, private val app: Application) :
     AndroidViewModel(app) {
 
     companion object {
@@ -71,7 +74,7 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
     private fun findNearestAlarm(alarms: List<Alarm>): Alarm? {
         var nearestAlarm: Alarm? = null
         var minDiff = Long.MAX_VALUE
-        val now = LocalDateTime.now().withSecond(0)
+        val now = LocalDateTime.now()
         for (alarm in alarms) {
             if (!alarm.enabled) continue
             val dateTime = alarm.nearestDateTime(now)
@@ -88,7 +91,12 @@ class MainViewModel(private val repository: AlarmRepository, app: Application) :
         val alarm = _alarms.value?.find { it.alarmId == alarmId } ?: return
         alarm.enabled = enabled
         if (enabled) {
-            alarm.schedule(getApplication())
+            val date = alarm.schedule(getApplication())
+            date?.let {
+                val text =
+                    app.getString(R.string.alarm_go_off) + " " + calculateDurationString(app, date)
+                Toast.makeText(app, text, Toast.LENGTH_SHORT).show()
+            }
         } else {
             alarm.cancel(getApplication())
         }

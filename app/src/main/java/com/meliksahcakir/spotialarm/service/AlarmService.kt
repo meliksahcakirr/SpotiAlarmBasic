@@ -46,7 +46,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
         private const val VOLUME_FULL = 1f
         private const val FADE_INTERVAL = 250
         private const val Z_AXIS = 2
-        private const val ACC_THRESHOLD = -9
+        private const val ACC_THRESHOLD = 9
         private const val SPEECH_RATE = 0.8f
     }
 
@@ -62,17 +62,23 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
     private var enableTts = Preferences.readAlarmTimeLoud
 
     private val accelerometerListener = object : SensorEventListener {
+        private var isFaceUpCompleted = false
+
         override fun onAccuracyChanged(arg0: Sensor, arg1: Int) {}
 
         override fun onSensorChanged(arg0: SensorEvent) {
             val value = arg0.values[Z_AXIS]
-            if (value < ACC_THRESHOLD) {
+            if (value >= ACC_THRESHOLD) {
+                isFaceUpCompleted = true
+            } else if (isFaceUpCompleted && value <= -ACC_THRESHOLD) {
                 sensorManager.unregisterListener(this)
                 val intent = Intent(this@AlarmService, AlarmReceiver::class.java).apply {
                     action = AlarmReceiver.ACTION_SNOOZE
                     putExtra(AlarmReceiver.EXTRA_ALARM, alarm?.toBundle())
                 }
+                isFaceUpCompleted = false
                 sendBroadcast(intent)
+
             }
         }
     }

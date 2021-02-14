@@ -96,7 +96,6 @@ class OptionsAdapter(
     }
 
     var playedTrackId: String? = null
-        private set
     private var selectedTrackId: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicUIViewHolder {

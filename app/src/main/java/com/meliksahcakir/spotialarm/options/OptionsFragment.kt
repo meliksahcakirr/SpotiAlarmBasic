@@ -26,6 +26,7 @@ import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
 import com.meliksahcakir.spotialarm.music.ui.TrackViewHolder
 import com.meliksahcakir.spotialarm.tracks.TrackListener
+import timber.log.Timber
 
 class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
 
@@ -156,15 +157,23 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.mediaPlayerProgress.observe(viewLifecycleOwner) { pair ->
             val current = pair.first
             val duration = pair.second
-            val pos = adapter.currentList.indexOfFirst {
-                it is MusicUIModel.TrackItem && it.track.id == adapter.playedTrackId
-            }
-            val vh = binding.recyclerView.findViewHolderForAdapterPosition(pos) as TrackViewHolder
-            if (current == -1) {
-                vh.stop()
-            } else {
-                val progress = if (duration == 0) 0f else Utils.PROGRESS_FULL * current / duration
-                vh.updateProgress(progress)
+            Timber.d("MELIK mediaPlayerProgress current = $current  duration = $duration")
+            Timber.d("MELIK mediaPlayerProgress playedTrackId = ${adapter.playedTrackId}")
+            adapter.playedTrackId?.let { trackId ->
+                val pos = adapter.currentList.indexOfFirst {
+                    it is MusicUIModel.TrackItem && it.track.id == trackId
+                }
+                Timber.d("MELIK mediaPlayerProgress pos = $pos")
+                val vh =
+                    binding.recyclerView.findViewHolderForAdapterPosition(pos) as? TrackViewHolder
+                if (current == -1) {
+                    vh?.stop()
+                    adapter.playedTrackId = null
+                } else {
+                    val progress =
+                        if (duration == 0) 0f else Utils.PROGRESS_FULL * current / duration
+                    vh?.updateProgress(progress)
+                }
             }
         }
     }

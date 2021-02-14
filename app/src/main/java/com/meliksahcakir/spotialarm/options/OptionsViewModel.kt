@@ -87,7 +87,6 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
         private set
 
     private val completionListener = MediaPlayer.OnCompletionListener {
-        _mediaPlayerProgress.value = Pair(-1, trackDuration)
         stop()
     }
 
@@ -104,6 +103,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     fun search(query: String) {
         if (query == latestQuery) return
         latestQuery = query
+        stop()
         if (query == "") {
             prepareInitialOptions()
             return
@@ -168,6 +168,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     }
 
     fun onMusicUIModelClicked(model: MusicUIModel) {
+        stop()
         when (model) {
             is MusicUIModel.OptionItem -> onOptionItemSelected(model.option)
             is MusicUIModel.ArtistItem ->
@@ -237,7 +238,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     fun play(track: Track) {
         viewModelScope.launch {
             if (mediaPlayer == null || mediaPlayer?.isPlaying == true) {
-                stop()
+                stop(false)
                 mediaPlayer = MediaPlayer()
                 mediaPlayer?.setAudioAttributes(
                     AudioAttributes.Builder()
@@ -261,9 +262,13 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
         }
     }
 
-    fun stop() {
+    fun stop(completed: Boolean = true) {
+        Timber.d("MELIK stop $completed")
         handler.removeCallbacks(mediaPlayerRunnable)
         mediaPlayer?.let {
+            if (completed) {
+                _mediaPlayerProgress.value = Pair(-1, 0)
+            }
             it.stop()
             it.release()
         }
@@ -280,6 +285,7 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     }
 
     override fun onCleared() {
+        stop()
         super.onCleared()
         stop()
     }

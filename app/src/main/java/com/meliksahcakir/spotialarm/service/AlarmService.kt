@@ -78,7 +78,6 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                 }
                 isFaceUpCompleted = false
                 sendBroadcast(intent)
-
             }
         }
     }

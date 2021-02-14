@@ -81,14 +81,20 @@ class TrackViewHolder(
 
     fun play() {
         binding.playerImageView.setImageResource(R.drawable.ic_pause)
+        binding.progressBar.indeterminateMode = true
     }
 
     fun stop() {
         binding.playerImageView.setImageResource(R.drawable.ic_play)
+        binding.progressBar.indeterminateMode = false
         binding.progressBar.progress = 0f
     }
 
     fun updateProgress(progress: Float) {
+        if (binding.progressBar.indeterminateMode) {
+            binding.progressBar.indeterminateMode = false
+            binding.progressBar.progressDirection
+        }
         binding.progressBar.progress = progress
     }
 }

@@ -19,8 +19,9 @@
         </item>
     </style>
 
-    <style name="Base.Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.Theme.App" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="android:fontFamily">@font/montserrat</item>

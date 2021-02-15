@@ -192,4 +192,32 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="PreferenceSectionTextView" parent="">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="PreferenceSectionExplanationTextView" parent="">
+        <item name="android:textColor">@color/grayLight</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption
+        </item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="PreferenceSectionActionTextView" parent="">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
+        <item name="android:gravity">center_vertical|end</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

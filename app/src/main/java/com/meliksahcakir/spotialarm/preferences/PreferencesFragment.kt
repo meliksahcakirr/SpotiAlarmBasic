@@ -6,8 +6,10 @@ import android.content.Intent
 import android.content.res.Resources
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.judemanutd.autostarter.AutoStartPermissionHelper
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.Utils
@@ -23,6 +27,7 @@ import com.meliksahcakir.spotialarm.databinding.FragmentPreferencesBinding
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import timber.log.Timber
+import java.util.Locale
 
 @RuntimePermissions
 class PreferencesFragment : BaseBottomSheetDialogFragment() {
@@ -76,6 +81,34 @@ class PreferencesFragment : BaseBottomSheetDialogFragment() {
         binding.volumeSlider.value = Preferences.customVolume.toFloat()
         binding.fallbackValueTextView.text =
             getFallbackMusicName(Preferences.fallbackAudioContentUri?.toUri())
+        val autoStart =
+            AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(requireContext())
+        binding.autoStartSettingsTextView.setOnClickListener {
+            AutoStartPermissionHelper.getInstance().getAutoStartPermission(requireContext())
+        }
+        val lockScreen = try {
+            val brands = requireContext().resources.getStringArray(R.array.manufacturers).toList()
+            brands.any { Build.MANUFACTURER.toLowerCase(Locale.ENGLISH) == it }
+        } catch (e: Exception) {
+            false
+        }
+        binding.showOnLockScreenSettingsTextView.setOnClickListener {
+            startActivity(
+                Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                }
+            )
+        }
+        binding.lockScreenGroup.isVisible = lockScreen
+        binding.autoStartGroup.isVisible = autoStart
+        if (!autoStart && !lockScreen) {
+            binding.fallbackDivider.isVisible = false
+            binding.autoStartDivider.isVisible = false
+            binding.settingsTextView.isVisible = false
+        } else if (autoStart xor lockScreen) {
+            binding.autoStartDivider.isVisible = false
+        }
     }
 
     private fun setupListeners() {

@@ -27,6 +27,7 @@ object Versions {
     const val PERMS = "4.8.0"
     const val GLIDE = "4.12.0"
     const val PROGRESSBAR = "3.0.3"
+    const val AUTO_START = "1.0.8"
 }
 
 object BuildPluginsVersion {
@@ -73,6 +74,7 @@ object SupportLibs {
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
     const val PROGRESSBAR = "com.mikhaellopez:circularprogressbar:${Versions.PROGRESSBAR}"
+    const val AUTO_START = "com.github.judemanutd:autostarter:${Versions.AUTO_START}"
 }
 
 object TestingLib {

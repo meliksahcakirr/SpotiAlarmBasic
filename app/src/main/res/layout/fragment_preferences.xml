@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,6 +10,7 @@
         android:id="@+id/bottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         app:behavior_hideable="false"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -36,11 +37,9 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/readAlarmSwitch"
+            style="@style/PreferenceSectionTextView"
             android:layout_width="0dp"
-            android:layout_height="48dp"
             android:text="@string/read_alarm_time_aloud"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/alarmsPreferenceTextView" />
@@ -56,12 +55,10 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/faceDownToSnoozeSwitch"
+            style="@style/PreferenceSectionTextView"
             android:layout_width="0dp"
-            android:layout_height="48dp"
             android:layout_marginTop="6dp"
             android:text="@string/face_phone_down_to_snooze"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/readAlarmSwitch" />
@@ -77,12 +74,10 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/slideToTurnOffSwitch"
+            style="@style/PreferenceSectionTextView"
             android:layout_width="0dp"
-            android:layout_height="48dp"
             android:layout_marginTop="6dp"
             android:text="@string/slide_to_turn_off_alarm"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/faceDownToSnoozeSwitch" />
@@ -98,26 +93,17 @@
 
         <TextView
             android:id="@+id/snoozeDurationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            style="@style/PreferenceSectionTextView"
             android:layout_marginTop="6dp"
-            android:gravity="center"
             android:text="@string/snooze_duration"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/slideToTurnOffSwitch" />
 
         <TextView
             android:id="@+id/snoozeValueTextView"
+            style="@style/PreferenceSectionActionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackgroundBorderless"
-            android:gravity="end"
-            android:paddingStart="20dp"
-            android:paddingEnd="12dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/green"
             app:layout_constraintBottom_toBottomOf="@id/snoozeDurationTextView"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintTop_toTopOf="@id/snoozeDurationTextView"
@@ -137,33 +123,24 @@
             style="@style/SubtitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="@string/audio"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/snoozeDurationTextView" />
 
         <TextView
             android:id="@+id/fadeDurationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            style="@style/PreferenceSectionTextView"
             android:layout_marginTop="6dp"
-            android:gravity="center"
             android:text="@string/fade_in_duration"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/audioPreferencesTextView" />
 
         <TextView
             android:id="@+id/fadeValueTextView"
+            style="@style/PreferenceSectionActionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackgroundBorderless"
-            android:gravity="end"
-            android:paddingStart="20dp"
-            android:paddingEnd="12dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/green"
             app:layout_constraintBottom_toBottomOf="@id/fadeDurationTextView"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintTop_toTopOf="@id/fadeDurationTextView"
@@ -180,25 +157,21 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/useAlarmVolumeSwitch"
+            style="@style/PreferenceSectionTextView"
             android:layout_width="0dp"
-            android:layout_height="48dp"
             android:layout_marginTop="6dp"
             android:text="@string/use_alarm_volume"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/fadeDurationTextView" />
 
         <TextView
             android:id="@+id/volumeTextView"
+            style="@style/PreferenceSectionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="center"
             android:text="@string/volume"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/useAlarmVolumeSwitch" />
 
@@ -228,12 +201,8 @@
 
         <TextView
             android:id="@+id/fallbackTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:gravity="center"
+            style="@style/PreferenceSectionTextView"
             android:text="@string/fallback_music"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/volumeSlider" />
 
@@ -258,15 +227,98 @@
 
         <TextView
             android:id="@+id/fallbackWarningTextView"
+            style="@style/PreferenceSectionExplanationTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="5dp"
             android:text="@string/fallback_music_warning"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:textColor="@color/grayLight"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@id/fallbackTextView" />
+
+        <View
+            android:id="@+id/fallbackDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/fallbackWarningTextView" />
+
+        <TextView
+            android:id="@+id/settingsTextView"
+            style="@style/SubtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/settings"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/fallbackWarningTextView" />
+
+        <TextView
+            android:id="@+id/autoStartTextView"
+            style="@style/PreferenceSectionTextView"
+            android:text="@string/auto_start"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/settingsTextView" />
+
+        <TextView
+            android:id="@+id/autoStartSettingsTextView"
+            style="@style/PreferenceSectionActionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_settings"
+            app:layout_constraintBottom_toBottomOf="@id/autoStartTextView"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintTop_toTopOf="@id/autoStartTextView" />
+
+        <TextView
+            android:id="@+id/autoStartWarningTextView"
+            style="@style/PreferenceSectionExplanationTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_start_warning"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/autoStartTextView" />
+
+        <View
+            android:id="@+id/autoStartDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/blueGrayDarker"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/autoStartWarningTextView" />
+
+        <TextView
+            android:id="@+id/showOnLockScreenTextView"
+            style="@style/PreferenceSectionTextView"
+            android:layout_marginTop="6dp"
+            android:text="@string/show_on_lock_screen"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/autoStartWarningTextView" />
+
+        <TextView
+            android:id="@+id/showOnLockScreenSettingsTextView"
+            style="@style/PreferenceSectionActionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_settings"
+            app:layout_constraintBottom_toBottomOf="@id/showOnLockScreenTextView"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintTop_toTopOf="@id/showOnLockScreenTextView" />
+
+        <TextView
+            android:id="@+id/showOnLockScreenTextViewWarningTextView"
+            style="@style/PreferenceSectionExplanationTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/show_on_lock_screen_warning"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@id/showOnLockScreenTextView" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/startGuideline"
@@ -282,5 +334,17 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="20dp" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/autoStartGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="autoStartSettingsTextView,autoStartTextView,autoStartWarningTextView" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/lockScreenGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="showOnLockScreenTextView,showOnLockScreenSettingsTextView,showOnLockScreenTextViewWarningTextView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

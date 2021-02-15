@@ -79,6 +79,7 @@ dependencies {
     implementation(SupportLibs.GLIDE)
     kapt(SupportLibs.GLIDE_COMPILER)
     implementation(SupportLibs.PROGRESSBAR)
+    implementation(SupportLibs.AUTO_START)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

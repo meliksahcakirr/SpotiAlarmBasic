@@ -46,7 +46,7 @@
     <string name="once">Once</string>
     <string name="preferences">Preferences</string>
     <string name="alarms">Alarms</string>
-    <string name="read_alarm_time_aloud">Read alarm time aloud</string>
+    <string name="read_alarm_time_aloud">Read alarm time</string>
     <string name="face_phone_down_to_snooze">Face phone down to snooze</string>
     <string name="slide_to_turn_off_alarm">Slide to turn off alarm</string>
     <string name="snooze_duration">Snooze duration</string>
@@ -116,4 +116,6 @@
     <string name="auto_start">Auto Start</string>
     <string name="show_on_lock_screen">Show on Lock Screen</string>
     <string name="show_on_lock_screen_warning">SpotiAlarm needs this permission to be shown on Lock Screen when the alarm goes off.</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="listen_offline">Listen Offline</string>
 </resources>

@@ -11,4 +11,5 @@ object Preferences : KotprefModel() {
     var useDeviceAlarmVolume by booleanPref(default = true)
     var customVolume by intPref(default = 50)
     var fallbackAudioContentUri by nullableStringPref(default = null)
+    var listenOffline by booleanPref(default = false)
 }

@@ -4,6 +4,7 @@ SpotiAlarm is an application that allows you to play your favorite musics for yo
     <img src="screenshots/main_page.png" width="20%"/>
     <img src="screenshots/edit_page.png" width="20%"/>
     <img src="screenshots/preferences_page.png" width="20%"/>
+    <img src="screenshots/alarm_page.png" width="20%"/>
 </p>
 
 <p align="center">

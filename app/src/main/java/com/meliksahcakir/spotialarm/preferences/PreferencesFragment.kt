@@ -58,10 +58,10 @@ class PreferencesFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun setupViews() {
-        //binding.readAlarmSwitch.isChecked = Preferences.readAlarmTimeLoud
+        // binding.readAlarmSwitch.isChecked = Preferences.readAlarmTimeLoud
         binding.faceDownToSnoozeSwitch.isChecked = Preferences.faceDownToSnooze
         binding.slideToTurnOffSwitch.isChecked = Preferences.slideToTurnOff
-        //binding.listenOfflineSwitch.isChecked = Preferences.listenOffline
+        // binding.listenOfflineSwitch.isChecked = Preferences.listenOffline
         val snoozeItems = requireContext().resources.getStringArray(R.array.snooze_intervals)
         val fadeItems = requireContext().resources.getStringArray(R.array.fade_intervals)
         val snoozePos = Preferences.snoozeDuration / STEP_VALUE - 1

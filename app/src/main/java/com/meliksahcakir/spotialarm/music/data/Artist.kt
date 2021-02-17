@@ -1,10 +1,12 @@
 package com.meliksahcakir.spotialarm.music.data
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import com.meliksahcakir.spotialarm.music.api.ArtistImageSize
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 data class Artists(
     @SerializedName("artists")
     val list: List<Artist>,
@@ -12,6 +14,7 @@ data class Artists(
     val meta: Meta? = null
 )
 
+@Keep
 @Parcelize
 data class Artist(
     val type: String,

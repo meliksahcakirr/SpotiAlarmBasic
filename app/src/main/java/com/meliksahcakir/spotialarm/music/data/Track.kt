@@ -1,5 +1,6 @@
 package com.meliksahcakir.spotialarm.music.data
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -8,6 +9,7 @@ import com.meliksahcakir.spotialarm.music.api.AlbumImageSize
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 data class Tracks(
     @SerializedName("tracks")
     var list: List<Track>,
@@ -15,6 +17,7 @@ data class Tracks(
     val meta: Meta? = null
 )
 
+@Keep
 @Parcelize
 @Entity(tableName = "tracks")
 data class Track(

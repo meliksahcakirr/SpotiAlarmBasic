@@ -1,5 +1,6 @@
 package com.meliksahcakir.spotialarm.music.api
 
+import androidx.annotation.Keep
 import com.meliksahcakir.spotialarm.music.data.Albums
 import com.meliksahcakir.spotialarm.music.data.Artists
 import com.meliksahcakir.spotialarm.music.data.Genres
@@ -41,6 +42,7 @@ enum class GenreImageSize(val value: String) {
     SIZE_240X160("240x160")
 }
 
+@Keep
 enum class TrackOptions {
     TOP_TRACKS,
     ARTIST_TRACKS,

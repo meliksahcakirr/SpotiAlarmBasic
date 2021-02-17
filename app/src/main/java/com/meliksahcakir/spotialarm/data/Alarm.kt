@@ -1,6 +1,7 @@
 package com.meliksahcakir.spotialarm.data
 
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,6 +11,7 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 
+@Keep
 @Entity(tableName = "alarms")
 data class Alarm(
     @ColumnInfo(name = "hour")

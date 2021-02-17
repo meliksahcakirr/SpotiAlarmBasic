@@ -1,7 +1,9 @@
 package com.meliksahcakir.spotialarm.music.data
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class SearchResult(
     @SerializedName("search")
     val search: Search,
@@ -19,6 +21,7 @@ data class SearchResult(
     }
 }
 
+@Keep
 data class Search(
     val query: String,
     val data: SearchData
@@ -29,6 +32,7 @@ data class Search(
     fun isAlbumsEmpty() = data.albums.isEmpty()
 }
 
+@Keep
 data class SearchData(
     val tracks: List<Track>,
     val artists: List<Artist>,

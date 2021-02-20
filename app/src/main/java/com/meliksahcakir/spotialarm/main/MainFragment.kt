@@ -10,16 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.androidutils.EventObserver
-import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import com.meliksahcakir.spotialarm.setNearestAlarm
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MainFragment : Fragment(), AlarmListener {
 
@@ -27,9 +26,7 @@ class MainFragment : Fragment(), AlarmListener {
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() }) {
-        ServiceLocator.provideAlarmViewModelFactory(requireActivity().application)
-    }
+    val viewModel: MainViewModel by sharedViewModel()
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {

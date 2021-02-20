@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
-import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.databinding.FragmentTracksBinding
 import com.meliksahcakir.spotialarm.edit.EditViewModel
@@ -24,19 +21,17 @@ import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
 import com.meliksahcakir.spotialarm.music.ui.TrackViewHolder
 import com.meliksahcakir.spotialarm.setImageUrl
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, TrackListener {
 
     private var _binding: FragmentTracksBinding? = null
     private val binding: FragmentTracksBinding get() = _binding!!
 
-    private val viewModel: TracksViewModel by viewModels {
-        ServiceLocator.provideMusicViewModelFactory(requireActivity().application)
-    }
+    private val viewModel: TracksViewModel by viewModel()
 
-    private val editViewModel: EditViewModel by activityViewModels {
-        ServiceLocator.provideViewModelFactory(requireActivity().application)
-    }
+    private val editViewModel: EditViewModel by sharedViewModel()
 
     private val adapter = TracksAdapter(this, this)
 

@@ -1,20 +1,18 @@
 package com.meliksahcakir.spotialarm
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.meliksahcakir.spotialarm.databinding.ActivityMainBinding
 import com.meliksahcakir.spotialarm.main.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var host: NavHostFragment
 
-    private val viewModel: MainViewModel by viewModels {
-        ServiceLocator.provideAlarmViewModelFactory(application)
-    }
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

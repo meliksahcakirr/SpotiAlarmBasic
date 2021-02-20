@@ -28,6 +28,7 @@ object Versions {
     const val GLIDE = "4.12.0"
     const val PROGRESSBAR = "3.0.3"
     const val AUTO_START = "1.0.8"
+    const val KOIN = "2.2.2"
 }
 
 object BuildPluginsVersion {
@@ -75,6 +76,9 @@ object SupportLibs {
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
     const val PROGRESSBAR = "com.mikhaellopez:circularprogressbar:${Versions.PROGRESSBAR}"
     const val AUTO_START = "com.github.judemanutd:autostarter:${Versions.AUTO_START}"
+    const val KOIN_ANDROID = "org.koin:koin-android:${Versions.KOIN}"
+    const val KOIN_VIEW_MODEL = "org.koin:koin-androidx-viewmodel:${Versions.KOIN}"
+    const val KOIN_SCOPE = "org.koin:koin-androidx-scope:${Versions.KOIN}"
 }
 
 object TestingLib {

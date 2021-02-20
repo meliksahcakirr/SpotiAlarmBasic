@@ -20,4 +20,6 @@ Navigation is set using Navigation components.
 
 Broadcast Receivers, Foreground Services, Notifications and Alarm Manager are used in the application.
 
+Koin is used for Dependency Injection.
+
 The data is provided by [Napster](https://developer.napster.com/)

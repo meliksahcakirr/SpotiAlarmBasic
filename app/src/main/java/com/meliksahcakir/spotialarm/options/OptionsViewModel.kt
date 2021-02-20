@@ -263,7 +263,6 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     }
 
     fun stop(completed: Boolean = true) {
-        Timber.d("MELIK stop $completed")
         handler.removeCallbacks(mediaPlayerRunnable)
         mediaPlayer?.let {
             if (completed) {
@@ -287,6 +286,5 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     override fun onCleared() {
         stop()
         super.onCleared()
-        stop()
     }
 }

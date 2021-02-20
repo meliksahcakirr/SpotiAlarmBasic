@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
@@ -16,13 +15,13 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
-import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
 import com.meliksahcakir.spotialarm.setImageUrl
 import com.meliksahcakir.spotialarm.setup
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -33,9 +32,7 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
     private val binding: FragmentAlarmEditBinding get() = _binding!!
     override var alphaAnimationForFragmentTransitionEnabled = false
 
-    private val editViewModel: EditViewModel by activityViewModels {
-        ServiceLocator.provideViewModelFactory(requireActivity().application)
-    }
+    private val editViewModel: EditViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -7,25 +7,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
-import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.databinding.FragmentPlaylistsBinding
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener {
 
     private var _binding: FragmentPlaylistsBinding? = null
     private val binding: FragmentPlaylistsBinding get() = _binding!!
 
-    private val viewModel: PlaylistsViewModel by viewModels {
-        ServiceLocator.provideMusicViewModelFactory(requireActivity().application)
-    }
+    private val viewModel: PlaylistsViewModel by viewModel()
 
     private val adapter = PlaylistsAdapter(this)
 

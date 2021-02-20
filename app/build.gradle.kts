@@ -81,6 +81,9 @@ dependencies {
     kapt(SupportLibs.GLIDE_COMPILER)
     implementation(SupportLibs.PROGRESSBAR)
     implementation(SupportLibs.AUTO_START)
+    implementation(SupportLibs.KOIN_ANDROID)
+    implementation(SupportLibs.KOIN_VIEW_MODEL)
+    implementation(SupportLibs.KOIN_SCOPE)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

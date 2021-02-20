@@ -99,25 +99,11 @@ interface NapsterService {
     suspend fun search(@Query("query") query: String): SearchResult
 
     companion object {
-        private const val BASE_URL = "https://api.napster.com/"
+        const val BASE_URL = "https://api.napster.com/"
         private const val API_KEY = "MGNjZGU0ODMtMmJjYi00Yjk0LTgwMDEtNjdkZGNjMTNlN2E5"
         const val SEARCH_LIMIT = 20
         const val MOODS_TAG = "tag.156763216"
         const val FEATURED_TAG = "tag.156763213"
-
-        fun create(): NapsterService {
-            val logger = HttpLoggingInterceptor()
-            logger.level = HttpLoggingInterceptor.Level.BASIC
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logger).build()
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(NapsterService::class.java)
-        }
 
         fun createArtistImageUrl(id: String, size: ArtistImageSize): String {
             return "${BASE_URL}imageserver/v2/artists/$id/images/${size.value}.jpg"

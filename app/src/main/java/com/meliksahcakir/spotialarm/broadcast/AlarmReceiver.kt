@@ -4,16 +4,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.meliksahcakir.spotialarm.ServiceLocator
 import com.meliksahcakir.spotialarm.data.Alarm
+import com.meliksahcakir.spotialarm.repository.AlarmRepository
 import com.meliksahcakir.spotialarm.schedule
 import com.meliksahcakir.spotialarm.service.AlarmService
 import com.meliksahcakir.spotialarm.snooze
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import java.time.LocalDateTime
 
-class AlarmReceiver : BroadcastReceiver() {
+@KoinApiExtension
+class AlarmReceiver : BroadcastReceiver(), KoinComponent {
 
     companion object {
         const val EXTRA_ALARM = "SPOTIALARM"
@@ -70,7 +74,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private suspend fun disableAlarm(context: Context, alarmId: Int) {
-        val repository = ServiceLocator.provideAlarmRepository(context.applicationContext)
+        val repository: AlarmRepository = get()
         repository.updateAlarm(alarmId, false)
     }
 

@@ -58,7 +58,7 @@ class TrackViewHolder(
                 stop()
                 trackListener.stop(track)
             } else {
-                play()
+                play(true)
                 trackListener.play(track)
             }
             track.isPlaying = !track.isPlaying
@@ -70,18 +70,21 @@ class TrackViewHolder(
         }
     }
 
-    fun updateView(selected: Boolean, playing: Boolean) {
+    fun updateView(selected: Boolean, playing: Boolean, progress: Float) {
         binding.trackCardView.isActivated = selected
         if (playing) {
             play()
+            updateProgress(progress)
         } else {
             stop()
         }
     }
 
-    fun play() {
+    private fun play(indeterminateMode: Boolean = false) {
         binding.playerImageView.setImageResource(R.drawable.ic_pause)
-        binding.progressBar.indeterminateMode = true
+        if (binding.progressBar.indeterminateMode != indeterminateMode) {
+            binding.progressBar.indeterminateMode = indeterminateMode
+        }
     }
 
     fun stop() {
@@ -93,7 +96,6 @@ class TrackViewHolder(
     fun updateProgress(progress: Float) {
         if (binding.progressBar.indeterminateMode) {
             binding.progressBar.indeterminateMode = false
-            binding.progressBar.progressDirection
         }
         binding.progressBar.progress = progress
     }

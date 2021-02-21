@@ -35,6 +35,7 @@ class TracksAdapter(
         override fun play(track: Track) {
             val prev = playedTrackId
             playedTrackId = track.id
+            playedTrackProgress = 0f
             notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
             notifyItemChanged(currentList.indexOfFirst { it.track.id == playedTrackId })
             trackListener.play(track)
@@ -43,6 +44,7 @@ class TracksAdapter(
         override fun stop(track: Track) {
             val prev = playedTrackId
             playedTrackId = null
+            playedTrackProgress = 0f
             notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
             trackListener.stop(track)
         }
@@ -53,7 +55,7 @@ class TracksAdapter(
     }
 
     var playedTrackId: String? = null
-        private set
+    var playedTrackProgress: Float = 0f
     private var selectedTrackId: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -69,7 +71,11 @@ class TracksAdapter(
         val trackItem = getItem(position)
         trackItem.track.isPlaying = trackItem.track.id == playedTrackId
         holder.bind(trackItem)
-        holder.updateView(trackItem.track.id == selectedTrackId, trackItem.track.isPlaying)
+        holder.updateView(
+            trackItem.track.id == selectedTrackId,
+            trackItem.track.isPlaying,
+            playedTrackProgress
+        )
     }
 }
 

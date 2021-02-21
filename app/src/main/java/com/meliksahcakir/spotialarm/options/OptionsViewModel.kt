@@ -168,7 +168,9 @@ class OptionsViewModel(private val repository: MusicRepository, private val app:
     }
 
     fun onMusicUIModelClicked(model: MusicUIModel) {
-        stop()
+        if (model !is MusicUIModel.TrackItem) {
+            stop()
+        }
         when (model) {
             is MusicUIModel.OptionItem -> onOptionItemSelected(model.option)
             is MusicUIModel.ArtistItem ->

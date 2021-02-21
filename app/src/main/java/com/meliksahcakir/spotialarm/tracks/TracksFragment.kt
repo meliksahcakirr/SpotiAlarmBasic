@@ -86,13 +86,22 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
         viewModel.mediaPlayerProgress.observe(viewLifecycleOwner) { pair ->
             val current = pair.first
             val duration = pair.second
-            val pos = adapter.currentList.indexOfFirst { it.track.id == adapter.playedTrackId }
-            val vh = binding.recyclerView.findViewHolderForAdapterPosition(pos) as TrackViewHolder
-            if (current == -1) {
-                vh.stop()
-            } else {
-                val progress = if (duration == 0) 0f else Utils.PROGRESS_FULL * current / duration
-                vh.updateProgress(progress)
+            adapter.playedTrackId?.let { trackId ->
+                val pos = adapter.currentList.indexOfFirst {
+                    it is MusicUIModel.TrackItem && it.track.id == trackId
+                }
+                val vh =
+                    binding.recyclerView.findViewHolderForAdapterPosition(pos) as? TrackViewHolder
+                if (current == -1) {
+                    vh?.stop()
+                    adapter.playedTrackId = null
+                    adapter.playedTrackProgress = 0f
+                } else {
+                    val progress =
+                        if (duration == 0) 0f else Utils.PROGRESS_FULL * current / duration
+                    vh?.updateProgress(progress)
+                    adapter.playedTrackProgress = progress
+                }
             }
         }
 

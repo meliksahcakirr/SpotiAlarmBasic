@@ -7,10 +7,6 @@ import com.meliksahcakir.spotialarm.music.data.Genres
 import com.meliksahcakir.spotialarm.music.data.Playlists
 import com.meliksahcakir.spotialarm.music.data.SearchResult
 import com.meliksahcakir.spotialarm.music.data.Tracks
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path

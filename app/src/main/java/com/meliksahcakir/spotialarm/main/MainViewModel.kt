@@ -42,6 +42,8 @@ class MainViewModel(private val repository: AlarmRepository, private val app: Ap
 
     private val handler = Handler(Looper.getMainLooper())
 
+    private var allAlarmsScheduled = false
+
     private val tickRunnable = object : Runnable {
         override fun run() {
             _nearestAlarm.value = findNearestAlarm(_alarms.value ?: emptyList())
@@ -69,6 +71,14 @@ class MainViewModel(private val repository: AlarmRepository, private val app: Ap
         }
         _alarms.value = list
         updateNearestDateTime()
+        if (!allAlarmsScheduled) {
+            allAlarmsScheduled = true
+            list.forEach {
+                if (it.enabled) {
+                    it.schedule(app)
+                }
+            }
+        }
     }
 
     private fun findNearestAlarm(alarms: List<Alarm>): Alarm? {

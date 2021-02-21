@@ -66,6 +66,7 @@ class OptionsAdapter(
         override fun play(track: Track) {
             val prev = playedTrackId
             playedTrackId = track.id
+            playedTrackProgress = 0f
             notifyItemChanged(
                 currentList.indexOfFirst {
                     it is MusicUIModel.TrackItem && it.track.id == prev
@@ -82,6 +83,7 @@ class OptionsAdapter(
         override fun stop(track: Track) {
             val prev = playedTrackId
             playedTrackId = null
+            playedTrackProgress = 0f
             notifyItemChanged(
                 currentList.indexOfFirst {
                     it is MusicUIModel.TrackItem && it.track.id == prev
@@ -96,6 +98,7 @@ class OptionsAdapter(
     }
 
     var playedTrackId: String? = null
+    var playedTrackProgress: Float = 0f
     private var selectedTrackId: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicUIViewHolder {
@@ -143,7 +146,8 @@ class OptionsAdapter(
             holder.bind(item)
             (holder as? TrackViewHolder)?.updateView(
                 item.track.id == selectedTrackId,
-                item.track.isPlaying
+                item.track.isPlaying,
+                playedTrackProgress
             )
         } else {
             holder.bind(item)

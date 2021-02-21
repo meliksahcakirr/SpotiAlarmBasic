@@ -3,8 +3,8 @@ const val PUBLISHING_GROUP = "com.meliksahcakir"
 object AppCoordinates {
     const val APP_ID = "com.meliksahcakir.spotialarm"
 
-    const val APP_VERSION_NAME = "1.0.1_rc3"
-    const val APP_VERSION_CODE = 1000003
+    const val APP_VERSION_NAME = "1.0.1"
+    const val APP_VERSION_CODE = 1000001
 }
 
 object LibraryAndroidCoordinates {

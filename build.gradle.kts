@@ -8,6 +8,8 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version BuildPluginsVersion.KTLINT
     id("com.github.ben-manes.versions") version BuildPluginsVersion.VERSIONS_PLUGIN
     id("androidx.navigation.safeargs.kotlin") version Versions.NAVIGATION apply false
+    id("com.google.gms.google-services") version BuildPluginsVersion.GOOGLE_SERVICES apply false
+    id("com.google.firebase.crashlytics") version BuildPluginsVersion.FIREBASE_CRASHLYTICS apply false
 }
 
 allprojects {

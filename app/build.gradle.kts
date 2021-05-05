@@ -5,6 +5,8 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -84,6 +86,9 @@ dependencies {
     implementation(SupportLibs.KOIN_ANDROID)
     implementation(SupportLibs.KOIN_VIEW_MODEL)
     implementation(SupportLibs.KOIN_SCOPE)
+    implementation(platform(SupportLibs.FIREBASE_BOM))
+    implementation(SupportLibs.FIREBASE_ANALYTICS_KTX)
+    implementation(SupportLibs.FIREBASE_CRASHLYTICS_KTX)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

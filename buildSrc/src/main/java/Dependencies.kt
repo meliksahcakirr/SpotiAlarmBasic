@@ -29,6 +29,7 @@ object Versions {
     const val PROGRESSBAR = "3.0.3"
     const val AUTO_START = "1.0.8"
     const val KOIN = "2.2.2"
+    const val FIREBASE_BOM = "27.1.0"
 }
 
 object BuildPluginsVersion {
@@ -37,6 +38,8 @@ object BuildPluginsVersion {
     const val KOTLIN = "1.4.10"
     const val KTLINT = "9.4.1"
     const val VERSIONS_PLUGIN = "0.33.0"
+    const val GOOGLE_SERVICES = "4.3.5"
+    const val FIREBASE_CRASHLYTICS = "2.5.2"
 }
 
 object SupportLibs {
@@ -79,6 +82,13 @@ object SupportLibs {
     const val KOIN_ANDROID = "org.koin:koin-android:${Versions.KOIN}"
     const val KOIN_VIEW_MODEL = "org.koin:koin-androidx-viewmodel:${Versions.KOIN}"
     const val KOIN_SCOPE = "org.koin:koin-androidx-scope:${Versions.KOIN}"
+    const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
+    const val FIREBASE_ANALYTICS_KTX = "com.google.firebase:firebase-analytics-ktx"
+    const val FIREBASE_CRASHLYTICS_KTX = "com.google.firebase:firebase-crashlytics-ktx"
+    const val FIREBASE_FIRESTORE_KTX = "com.google.firebase:firebase-firestore-ktx"
+    const val FIREBASE_AUTHENTICATION_KTX = "com.google.firebase:firebase-auth-ktx"
+    const val FIREBASE_IN_APP_MESSAGING_DISPLAY_KTX = "com.google.firebase:firebase-inappmessaging-display-ktx"
+    const val FIREBASE_REMOTE_CONFIG_KTX = "com.google.firebase:firebase-config-ktx"
 }
 
 object TestingLib {

@@ -8,13 +8,13 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.databinding.FragmentArtistsBinding
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
+import com.meliksahcakir.spotialarm.navigate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ArtistsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener {
@@ -65,12 +65,12 @@ class ArtistsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener {
         viewModel.goToTracksPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions =
+                val direction =
                     ArtistsFragmentDirections.actionArtistsFragmentToTracksFragment(
                         it.first,
                         it.second
                     )
-                findNavController().navigate(directions)
+                navigate(direction)
             }
         )
 

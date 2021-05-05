@@ -22,6 +22,7 @@ import com.meliksahcakir.spotialarm.music.data.Track
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModel
 import com.meliksahcakir.spotialarm.music.ui.MusicUIModelListener
 import com.meliksahcakir.spotialarm.music.ui.TrackViewHolder
+import com.meliksahcakir.spotialarm.navigate
 import com.meliksahcakir.spotialarm.tracks.TrackListener
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -73,44 +74,44 @@ class OptionsFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, T
         viewModel.goToTracksPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions = OptionsFragmentDirections.actionOptionsFragmentToTracksFragment(
+                val direction = OptionsFragmentDirections.actionOptionsFragmentToTracksFragment(
                     it.first,
                     it.second
                 )
-                findNavController().navigate(directions)
+                navigate(direction)
             }
         )
 
         viewModel.goToPlayListsPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions =
+                val direction =
                     OptionsFragmentDirections.actionOptionsFragmentToPlaylistsFragment(it)
-                findNavController().navigate(directions)
+                navigate(direction)
             }
         )
 
         viewModel.goToAlbumsPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions = OptionsFragmentDirections.actionOptionsFragmentToAlbumsFragment()
-                findNavController().navigate(directions)
+                val direction = OptionsFragmentDirections.actionOptionsFragmentToAlbumsFragment()
+                navigate(direction)
             }
         )
 
         viewModel.goToArtistsPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions = OptionsFragmentDirections.actionOptionsFragmentToArtistsFragment()
-                findNavController().navigate(directions)
+                val direction = OptionsFragmentDirections.actionOptionsFragmentToArtistsFragment()
+                navigate(direction)
             }
         )
 
         viewModel.goToGenresPageEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                val directions = OptionsFragmentDirections.actionOptionsFragmentToGenresFragment()
-                findNavController().navigate(directions)
+                val direction = OptionsFragmentDirections.actionOptionsFragmentToGenresFragment()
+                navigate(direction)
             }
         )
 

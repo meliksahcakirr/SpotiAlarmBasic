@@ -9,7 +9,6 @@ import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.meliksahcakir.androidutils.EventObserver
@@ -19,6 +18,7 @@ import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.databinding.FragmentAlarmEditBinding
+import com.meliksahcakir.spotialarm.navigate
 import com.meliksahcakir.spotialarm.setImageUrl
 import com.meliksahcakir.spotialarm.setup
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -175,12 +175,12 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
 
     private fun navigateToMainFragment() {
         val direction = AlarmEditFragmentDirections.actionAlarmEditFragmentToMainFragment()
-        findNavController().navigate(direction)
+        navigate(direction)
     }
 
     private fun navigateToOptionsFragment() {
         val direction = AlarmEditFragmentDirections.actionAlarmEditFragmentToOptionsFragment()
-        findNavController().navigate(direction)
+        navigate(direction)
     }
 
     override fun onDestroyView() {

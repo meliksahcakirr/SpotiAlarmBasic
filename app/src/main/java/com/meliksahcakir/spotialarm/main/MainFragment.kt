@@ -11,12 +11,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
+import com.meliksahcakir.spotialarm.navigate
 import com.meliksahcakir.spotialarm.setNearestAlarm
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -38,7 +38,7 @@ class MainFragment : Fragment(), AlarmListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMainBinding.inflate(inflater)
         requireActivity().registerReceiver(receiver, IntentFilter(AlarmReceiver.ACTION_FINISH))
         return binding.root
@@ -103,12 +103,12 @@ class MainFragment : Fragment(), AlarmListener {
 
     private fun navigateToEditFragment(id: Int) {
         val direction = MainFragmentDirections.actionMainFragmentToAlarmEditFragment(id)
-        findNavController().navigate(direction)
+        navigate(direction)
     }
 
     private fun navigateToPreferencesFragment() {
         val direction = MainFragmentDirections.actionMainFragmentToPreferencesFragment()
-        findNavController().navigate(direction)
+        navigate(direction)
     }
 
     override fun onDestroyView() {

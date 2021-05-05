@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.lifecycle.observe
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.meliksahcakir.androidutils.EventObserver
@@ -38,7 +37,7 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAlarmEditBinding.inflate(inflater)
         return binding.root
     }

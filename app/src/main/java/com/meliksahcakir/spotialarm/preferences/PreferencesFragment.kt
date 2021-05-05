@@ -46,7 +46,7 @@ class PreferencesFragment : BaseBottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPreferencesBinding.inflate(inflater)
         return binding.root
     }

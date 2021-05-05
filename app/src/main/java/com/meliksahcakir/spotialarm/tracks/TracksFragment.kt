@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.meliksahcakir.androidutils.EventObserver
@@ -39,7 +38,7 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTracksBinding.inflate(inflater)
         return binding.root
     }
@@ -121,11 +120,11 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
                 return@let
             }
             binding.headerGroup.isVisible = true
-            binding.headerBackgroundImageView.setImageUrl(args.source.getImageUrl())
-            binding.headerImageView.setImageUrl(args.source.getImageUrl())
-            binding.headerTitleTextView.text = args.source.getTitle()
-            binding.headerSubTitleTextView.text = args.source.getSubTitle()
-            binding.headerSubTitleTextView.isVisible = args.source.getSubTitle() != null
+            binding.headerBackgroundImageView.setImageUrl(args.source!!.getImageUrl())
+            binding.headerImageView.setImageUrl(args.source!!.getImageUrl())
+            binding.headerTitleTextView.text = args.source!!.getTitle()
+            binding.headerSubTitleTextView.text = args.source!!.getSubTitle()
+            binding.headerSubTitleTextView.isVisible = args.source!!.getSubTitle() != null
         }
     }
 

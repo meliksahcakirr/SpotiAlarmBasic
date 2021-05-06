@@ -42,7 +42,6 @@
             tools:targetApi="o_mr1" />
 
         <service android:name=".service.AlarmService" />
-        <service android:name=".service.RescheduleAlarmsService" />
 
         <receiver
             android:name=".broadcast.AlarmReceiver"

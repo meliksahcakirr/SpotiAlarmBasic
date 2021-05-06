@@ -3,8 +3,10 @@ package com.meliksahcakir.spotialarm.broadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import com.meliksahcakir.spotialarm.service.RescheduleAlarmsService
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.meliksahcakir.spotialarm.worker.RescheduleWorker
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -15,11 +17,9 @@ class BootReceiver : BroadcastReceiver() {
     }
 
     private fun startRescheduleAlarmsService(context: Context) {
-        val intent = Intent(context.applicationContext, RescheduleAlarmsService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(intent)
-        } else {
-            context.startService(intent)
-        }
+        val workRequest = OneTimeWorkRequestBuilder<RescheduleWorker>()
+            .build()
+        WorkManager.getInstance(context)
+            .enqueueUniqueWork(RescheduleWorker.UNIQUE_NAME, ExistingWorkPolicy.KEEP, workRequest)
     }
 }

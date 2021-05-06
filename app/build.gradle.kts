@@ -89,6 +89,7 @@ dependencies {
     implementation(platform(SupportLibs.FIREBASE_BOM))
     implementation(SupportLibs.FIREBASE_ANALYTICS_KTX)
     implementation(SupportLibs.FIREBASE_CRASHLYTICS_KTX)
+    implementation(SupportLibs.WORK_RUNTIME_KTX)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

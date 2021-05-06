@@ -14,6 +14,9 @@ interface MusicDao {
     @Query("SELECT * FROM tracks")
     fun observeTracks(): LiveData<List<Track>>
 
+    @Query("SELECT * FROM tracks WHERE favorite = 1")
+    fun observeFavoriteTracks(): LiveData<List<Track>>
+
     @Query("SELECT * FROM tracks")
     suspend fun getTracks(): List<Track>
 

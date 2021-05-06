@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val mainViewModelModule = module {
     viewModel {
-        MainViewModel(get(), androidApplication())
+        MainViewModel(get(), get(), androidApplication())
     }
 }
 

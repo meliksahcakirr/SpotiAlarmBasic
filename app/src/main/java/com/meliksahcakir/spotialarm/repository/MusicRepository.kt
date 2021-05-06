@@ -127,4 +127,6 @@ class MusicRepository(private val napsterService: NapsterService, private val mu
             Result.Error(e)
         }
     }
+
+    fun observeFavoriteTracks() = musicDao.observeFavoriteTracks()
 }

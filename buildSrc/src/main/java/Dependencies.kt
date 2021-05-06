@@ -17,6 +17,7 @@ object Versions {
     const val NAVIGATION = "2.3.3"
     const val LIFECYCLE = "2.2.0"
     const val COROUTINE = "1.3.9"
+    const val COROUTINE_PLAY_SERVICE = "1.1.1"
     const val ROOM = "2.3.0-alpha04"
     const val FRAGMENT = "1.2.5"
     const val TIMBER = "4.7.1"
@@ -67,6 +68,8 @@ object SupportLibs {
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}"
     const val COROUTINES_ANDROID =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
+    const val COROUTINES_PLAY_SERVICE =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.COROUTINE_PLAY_SERVICE}"
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
     const val DESUGAR = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}"
     const val RETROFIT2 = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
@@ -87,7 +90,7 @@ object SupportLibs {
     const val FIREBASE_ANALYTICS_KTX = "com.google.firebase:firebase-analytics-ktx"
     const val FIREBASE_CRASHLYTICS_KTX = "com.google.firebase:firebase-crashlytics-ktx"
     const val FIREBASE_FIRESTORE_KTX = "com.google.firebase:firebase-firestore-ktx"
-    const val FIREBASE_AUTHENTICATION_KTX = "com.google.firebase:firebase-auth-ktx"
+    const val FIREBASE_AUTH_KTX = "com.google.firebase:firebase-auth-ktx"
     const val FIREBASE_IN_APP_MESSAGING_DISPLAY_KTX = "com.google.firebase:firebase-inappmessaging-display-ktx"
     const val FIREBASE_REMOTE_CONFIG_KTX = "com.google.firebase:firebase-config-ktx"
     const val WORK_RUNTIME_KTX = "androidx.work:work-runtime-ktx:${Versions.WORK_RUNTIME_KTX}"

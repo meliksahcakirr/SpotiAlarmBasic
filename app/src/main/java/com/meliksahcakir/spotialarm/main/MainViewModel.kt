@@ -15,14 +15,18 @@ import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.repository.AlarmRepository
+import com.meliksahcakir.spotialarm.repository.MusicRepository
 import com.meliksahcakir.spotialarm.schedule
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-class MainViewModel(private val repository: AlarmRepository, private val app: Application) :
-    AndroidViewModel(app) {
+class MainViewModel(
+    private val alarmRepository: AlarmRepository,
+    private val musicRepository: MusicRepository,
+    private val app: Application
+) : AndroidViewModel(app) {
 
     companion object {
         private const val TIME_INTERVAL = 10000L
@@ -36,6 +40,8 @@ class MainViewModel(private val repository: AlarmRepository, private val app: Ap
 
     private val _alarms = MutableLiveData<List<Alarm>>()
     val alarms: LiveData<List<Alarm>> get() = _alarms
+
+    val favoriteTracks = musicRepository.observeFavoriteTracks()
 
     private val _nearestAlarm = MutableLiveData<Alarm?>()
     val nearestAlarm: LiveData<Alarm?> get() = _nearestAlarm
@@ -63,7 +69,7 @@ class MainViewModel(private val repository: AlarmRepository, private val app: Ap
     }
 
     private suspend fun refreshDataInternal() {
-        val result = repository.getAlarms()
+        val result = alarmRepository.getAlarms()
         val list = if (result is Result.Success) {
             result.data
         } else {
@@ -112,7 +118,7 @@ class MainViewModel(private val repository: AlarmRepository, private val app: Ap
         }
         updateNearestDateTime()
         viewModelScope.launch {
-            repository.updateAlarm(alarm.alarmId, enabled)
+            alarmRepository.updateAlarm(alarm.alarmId, enabled)
         }
     }
 

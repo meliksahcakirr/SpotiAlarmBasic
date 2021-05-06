@@ -26,8 +26,7 @@ class EditViewModel(
     private val alarmRepository: AlarmRepository,
     private val musicRepository: MusicRepository,
     private val app: Application
-) :
-    AndroidViewModel(app) {
+) : AndroidViewModel(app) {
 
     companion object {
         private const val INITIAL_TIME_INTERVAL = 3000L

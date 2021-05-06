@@ -18,6 +18,8 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import androidx.core.net.toUri
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.meliksahcakir.spotialarm.NOTIFICATION_ID
 import com.meliksahcakir.spotialarm.NotificationUtil
 import com.meliksahcakir.spotialarm.R
@@ -25,9 +27,12 @@ import com.meliksahcakir.spotialarm.Utils
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.createPendingIntentToActivity
 import com.meliksahcakir.spotialarm.data.Alarm
+import com.meliksahcakir.spotialarm.firebase.FireStoreHelper
 import com.meliksahcakir.spotialarm.isConnectedToInternet
 import com.meliksahcakir.spotialarm.preferences.Preferences
 import com.meliksahcakir.spotialarm.setLanguageOrDefault
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -157,6 +162,17 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                 @Suppress("DEPRECATION")
                 vibrator.vibrate(pattern, 0)
             }
+        }
+        GlobalScope.launch {
+            FireStoreHelper.uid = Firebase.auth.currentUser?.uid ?: ""
+            FireStoreHelper.fetchStatistics()
+            FireStoreHelper.statistics?.apply {
+                numberOfAlarmWentOff++
+                if (!alarmTracks.contains(alarm.trackId)) {
+                    alarmTracks.add(alarm.trackId)
+                }
+            }
+            FireStoreHelper.updateRemoteStatistics()
         }
         setupMediaPlayerDataAndStart(alarm.trackUrl)
         val time = alarm.alarmTime

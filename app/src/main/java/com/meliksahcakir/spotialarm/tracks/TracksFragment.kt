@@ -120,11 +120,11 @@ class TracksFragment : BaseBottomSheetDialogFragment(), MusicUIModelListener, Tr
                 return@let
             }
             binding.headerGroup.isVisible = true
-            binding.headerBackgroundImageView.setImageUrl(args.source!!.getImageUrl())
-            binding.headerImageView.setImageUrl(args.source!!.getImageUrl())
-            binding.headerTitleTextView.text = args.source!!.getTitle()
-            binding.headerSubTitleTextView.text = args.source!!.getSubTitle()
-            binding.headerSubTitleTextView.isVisible = args.source!!.getSubTitle() != null
+            binding.headerBackgroundImageView.setImageUrl(args.source.getImageUrl())
+            binding.headerImageView.setImageUrl(args.source.getImageUrl())
+            binding.headerTitleTextView.text = args.source.getTitle()
+            binding.headerSubTitleTextView.text = args.source.getSubTitle()
+            binding.headerSubTitleTextView.isVisible = args.source.getSubTitle() != null
         }
     }
 

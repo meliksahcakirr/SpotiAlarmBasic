@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.meliksahcakir.spotialarm.music.api.AlbumImageSize
 import com.meliksahcakir.spotialarm.music.api.NapsterService
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Keep
@@ -35,6 +36,7 @@ data class Track(
     val streamable: Boolean,
     var favorite: Boolean = false
 ) : ITrackSource {
+    @IgnoredOnParcel
     @Ignore
     var isPlaying = false
 

@@ -45,6 +45,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=org.koin.core.component.KoinApiExtension"
     }
 
     buildFeatures {

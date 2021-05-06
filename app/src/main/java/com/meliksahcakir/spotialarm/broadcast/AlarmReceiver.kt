@@ -58,7 +58,7 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
             alarm.days == Alarm.ONCE -> {
                 startAlarmService(context, alarm)
                 GlobalScope.launch {
-                    disableAlarm(context, alarm.alarmId)
+                    disableAlarm(alarm.alarmId)
                 }
             }
             isSnoozed -> {
@@ -73,7 +73,7 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
         }
     }
 
-    private suspend fun disableAlarm(context: Context, alarmId: Int) {
+    private suspend fun disableAlarm(alarmId: Int) {
         val repository: AlarmRepository = get()
         repository.updateAlarm(alarmId, false)
     }

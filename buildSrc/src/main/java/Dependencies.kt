@@ -22,7 +22,7 @@ object Versions {
     const val TIMBER = "4.7.1"
     const val DESUGAR = "1.0.9"
     const val RETROFIT = "2.7.2"
-    const val OK_HTTP = "4.0.0"
+    const val OK_HTTP = "4.4.0"
     const val KOT_PREF = "2.13.0"
     const val PERMS = "4.8.0"
     const val GLIDE = "4.12.0"

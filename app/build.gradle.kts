@@ -90,8 +90,9 @@ dependencies {
     implementation(platform(SupportLibs.FIREBASE_BOM))
     implementation(SupportLibs.FIREBASE_ANALYTICS_KTX)
     implementation(SupportLibs.FIREBASE_CRASHLYTICS_KTX)
-    implementation(SupportLibs.FIREBASE_AUTH_KTX)
     implementation(SupportLibs.FIREBASE_FIRESTORE_KTX)
+    implementation(SupportLibs.FIREBASE_AUTH_KTX)
+    implementation(SupportLibs.FIREBASE_MESSAGING_KTX)
     implementation(SupportLibs.COROUTINES_PLAY_SERVICE)
     implementation(SupportLibs.WORK_RUNTIME_KTX)
 

@@ -118,4 +118,10 @@
     <string name="show_on_lock_screen_warning">SpotiAlarm needs this permission to be shown on Lock Screen when the alarm goes off.</string>
     <string name="upcoming">Upcoming</string>
     <string name="listen_offline">Listen Offline</string>
+    <string name="fcm_notification_channel_id" translatable="false">SpotiAlarmFCM</string>
+    <string name="notification_channel_id" translatable="false">SpotiAlarm</string>
+    <string name="fcm_notification_channel_name" translatable="false">General</string>
+    <string name="notification_channel_name" translatable="false">SpotiAlarm</string>
+    <string name="fcm_notification_channel_desc" translatable="false">General Notifications</string>
+    <string name="notification_channel_desc" translatable="false">Alarm Notifications</string>
 </resources>

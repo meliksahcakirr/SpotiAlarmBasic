@@ -91,6 +91,7 @@ object SupportLibs {
     const val FIREBASE_CRASHLYTICS_KTX = "com.google.firebase:firebase-crashlytics-ktx"
     const val FIREBASE_FIRESTORE_KTX = "com.google.firebase:firebase-firestore-ktx"
     const val FIREBASE_AUTH_KTX = "com.google.firebase:firebase-auth-ktx"
+    const val FIREBASE_MESSAGING_KTX = "com.google.firebase:firebase-messaging-ktx"
     const val FIREBASE_IN_APP_MESSAGING_DISPLAY_KTX = "com.google.firebase:firebase-inappmessaging-display-ktx"
     const val FIREBASE_REMOTE_CONFIG_KTX = "com.google.firebase:firebase-config-ktx"
     const val WORK_RUNTIME_KTX = "androidx.work:work-runtime-ktx:${Versions.WORK_RUNTIME_KTX}"

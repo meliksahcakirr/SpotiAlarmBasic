@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="quarter_grid_size">2dp</dimen>
+    <dimen name="half_grid_size">4dp</dimen>
     <dimen name="base_grid_size">8dp</dimen>
+    <dimen name="mid_grid_size">12dp</dimen>
     <dimen name="doub_grid_size">16dp</dimen>
+    <dimen name="x4_grid_size">32dp</dimen>
     <dimen name="music_ui_items_vertical_padding">8dp</dimen>
     <dimen name="music_ui_items_horizontal_padding">16dp</dimen>
+    <dimen name="icon_image_size">24dp</dimen>
     <dimen name="music_ui_image_size">50dp</dimen>
     <dimen name="artist_image_view_size">90dp</dimen>
     <dimen name="artist_image_view_round_size">45dp</dimen>

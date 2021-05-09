@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -26,6 +27,7 @@ class MainFragment : Fragment(), AlarmListener {
     private val binding: FragmentMainBinding get() = _binding!!
 
     val viewModel: MainViewModel by sharedViewModel()
+
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {

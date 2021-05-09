@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blueGrayDark"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <com.meliksahcakir.spotialarm.view.SimpleCardView
+        android:id="@+id/preferencesCardView"
+        style="@style/MusicCardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/doub_grid_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:scvDrawable="@drawable/ic_settings"
+        app:scvText="@string/settings" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/quarter_grid_size"
+        android:background="@color/blueGrayDarker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preferencesCardView" />
+
+    <com.meliksahcakir.spotialarm.view.SimpleCardView
+        android:id="@+id/disableCardView"
+        style="@style/MusicCardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_grid_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preferencesCardView"
+        app:scvDrawable="@drawable/ic_alarm_off"
+        app:scvText="@string/disable_all_alarms" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/quarter_grid_size"
+        android:background="@color/blueGrayDarker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/disableCardView" />
+
+    <com.meliksahcakir.spotialarm.view.SimpleCardView
+        android:id="@+id/deleteCardView"
+        style="@style/MusicCardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_grid_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/disableCardView"
+        app:scvDrawable="@drawable/ic_delete"
+        app:scvText="@string/delete_all_alarms" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/quarter_grid_size"
+        android:background="@color/blueGrayDarker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteCardView" />
+
+    <TextView
+        android:id="@+id/appInfoTextView"
+        style="@style/CaptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/doub_grid_size"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/feedbackTitleTextView"
+        style="@style/SubtitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/doub_grid_size"
+        android:layout_marginBottom="@dimen/base_grid_size"
+        android:text="@string/comments"
+        app:layout_constraintBottom_toTopOf="@id/feedbackCardView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.meliksahcakir.spotialarm.view.SimpleCardView
+        android:id="@+id/feedbackCardView"
+        style="@style/MusicCardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half_grid_size"
+        app:layout_constraintBottom_toTopOf="@id/googlePlayReviewCardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:scvDrawable="@drawable/ic_message"
+        app:scvText="@string/give_us_feedback" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/quarter_grid_size"
+        android:background="@color/blueGrayDarker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feedbackCardView" />
+
+    <com.meliksahcakir.spotialarm.view.SimpleCardView
+        android:id="@+id/googlePlayReviewCardView"
+        style="@style/MusicCardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x4_grid_size"
+        app:layout_constraintBottom_toTopOf="@id/appInfoTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:scvDrawable="@drawable/ic_thumb_up"
+        app:scvText="@string/google_play_review" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/quarter_grid_size"
+        android:background="@color/blueGrayDarker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/googlePlayReviewCardView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

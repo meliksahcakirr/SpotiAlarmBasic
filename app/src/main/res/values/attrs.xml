@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SimpleCardView">
+        <attr name="scvText" format="string" />
+        <attr name="scvDrawable" format="reference|color" />
+    </declare-styleable>
+</resources>

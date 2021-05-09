@@ -120,7 +120,7 @@ class EditViewModel(
         viewModelScope.launch {
             selectedAlarm.value?.let {
                 it.cancel(getApplication())
-                alarmRepository.deleteAlarm(it)
+                alarmRepository.deleteAlarms(it)
             }
             _goToMainPageEvent.value = Event(Unit)
         }

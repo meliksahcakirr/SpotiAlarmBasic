@@ -134,6 +134,23 @@ class MainViewModel(
         _goToPreferencesPageEvent.value = Event(Unit)
     }
 
+    fun onDisableButtonClicked() {
+        viewModelScope.launch {
+            alarmRepository.disableAllAlarms()
+            refreshDataInternal()
+            _alarms.value?.forEach {
+                it.cancel(app)
+            }
+        }
+    }
+
+    fun onDeleteAllButtonClicked() {
+        viewModelScope.launch {
+            alarmRepository.deleteAllAlarms()
+            refreshDataInternal()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         handler.removeCallbacks(tickRunnable)

@@ -1,6 +1,5 @@
 package com.meliksahcakir.spotialarm.edit
 
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,8 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
@@ -151,25 +152,25 @@ class AlarmEditFragment : BaseBottomSheetDialogFragment() {
 
     private fun openTimePicker() {
         val now = editViewModel.alarmDateTime.value?.toLocalTime() ?: LocalTime.now()
-        val picker = TimePickerDialog(
-            requireContext(),
-            R.style.TimePickerDialogTheme,
-            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                val formatter = DateTimeFormatter.ofPattern("hh:mm")
-                val time = LocalTime.of(hour, minute)
-                binding.alarmTimeTextView.text = time.format(formatter)
-                if (hour >= Utils.NOON) {
-                    binding.alarmTimePeriodTextView.text = context?.getString(R.string.pm)
-                } else {
-                    binding.alarmTimePeriodTextView.text = context?.getString(R.string.am)
-                }
-                editViewModel.updateAlarmTime(hour, minute)
-            },
-            now.hour,
-            now.minute,
-            false
-        )
-        picker.show()
+        val picker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_12H)
+            .setTitleText(R.string.select_alarm_time)
+            .setHour(now.hour)
+            .setMinute(now.minute)
+            .build()
+
+        picker.addOnPositiveButtonClickListener {
+            val formatter = DateTimeFormatter.ofPattern("hh:mm")
+            val time = LocalTime.of(picker.hour, picker.minute)
+            binding.alarmTimeTextView.text = time.format(formatter)
+            if (picker.hour >= Utils.NOON) {
+                binding.alarmTimePeriodTextView.text = context?.getString(R.string.pm)
+            } else {
+                binding.alarmTimePeriodTextView.text = context?.getString(R.string.am)
+            }
+            editViewModel.updateAlarmTime(picker.hour, picker.minute)
+        }
+        picker.show(requireFragmentManager(), "tag")
     }
 
     private fun navigateToMainFragment() {

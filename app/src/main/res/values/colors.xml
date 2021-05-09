@@ -11,6 +11,7 @@
     <!--<color name="redLight">#cf6679</color>-->
     <color name="redDark">#C62828</color>
     <color name="grayLight">#C0C0C0</color>
+    <color name="grayWhite">#EEEEEE</color>
     <color name="grayTransparent">#40C0C0C0</color>
     <!--<color name="grayDark">#202020</color>-->
     <!--<color name="black">#FF000000</color>-->

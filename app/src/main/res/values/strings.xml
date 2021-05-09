@@ -134,6 +134,7 @@
     <string name="give_us_feedback">Give us feedback</string>
     <string name="comments">Comments</string>
     <string name="menu">Menu</string>
+    <string name="delete_all_warning">Are you sure you want to delete all alarms?</string>
     <string name="warning">Warning</string>
     <string name="select_alarm_time">Select Alarm Time</string>
 </resources>

@@ -8,12 +8,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meliksahcakir.androidutils.EventObserver
+import com.meliksahcakir.spotialarm.BuildConfig
+import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import com.meliksahcakir.spotialarm.navigate
@@ -28,6 +31,7 @@ class MainFragment : Fragment(), AlarmListener {
 
     val viewModel: MainViewModel by sharedViewModel()
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
@@ -88,10 +92,16 @@ class MainFragment : Fragment(), AlarmListener {
             viewModel.onAlarmSelected()
         }
 
-        binding.preferencesButton.setOnClickListener {
-            viewModel.onPreferencesButtonClicked()
+        binding.menuButton.setOnClickListener {
+            if (!binding.drawerLayout.isOpen) {
+                binding.drawerLayout.open()
+            } else {
+                binding.drawerLayout.close()
+            }
         }
         viewModel.refreshData()
+
+        setupDrawerLayout()
     }
 
     override fun onClick(alarmId: Int) {
@@ -110,6 +120,36 @@ class MainFragment : Fragment(), AlarmListener {
     private fun navigateToPreferencesFragment() {
         val direction = MainFragmentDirections.actionMainFragmentToPreferencesFragment()
         navigate(direction)
+    }
+
+    private fun setupDrawerLayout() {
+        val sb = StringBuilder()
+        sb.append(getString(R.string.app_name)).append(" ").append(BuildConfig.VERSION_NAME)
+        binding.drawerContentView.appInfoTextView.text = sb.toString()
+
+        binding.drawerContentView.preferencesCardView.setOnClickListener {
+            viewModel.onPreferencesButtonClicked()
+            binding.drawerLayout.close()
+        }
+        binding.drawerContentView.disableCardView.setOnClickListener {
+            binding.drawerLayout.close()
+            viewModel.onDisableButtonClicked()
+        }
+        binding.drawerContentView.deleteCardView.setOnClickListener {
+            binding.drawerLayout.close()
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setCancelable(true)
+                .setTitle(R.string.warning)
+                .setMessage(getString(R.string.delete_all_warning))
+                .setPositiveButton(R.string.delete_all) { dialog, _ ->
+                    dialog.cancel()
+                    viewModel.onDeleteAllButtonClicked()
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    dialog.cancel()
+                }.create()
+            dialog.show()
+        }
     }
 
     override fun onDestroyView() {

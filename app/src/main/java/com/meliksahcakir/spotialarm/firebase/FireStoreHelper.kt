@@ -41,4 +41,14 @@ object FireStoreHelper {
             userRef?.set(statistics)
         }
     }
+
+    suspend fun sendFeedback(feedback: Feedback): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val document = Firebase.firestore.collection("feedbacks").document()
+            document.set(feedback).await()
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
 }

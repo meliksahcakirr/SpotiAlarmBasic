@@ -14,6 +14,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     open var alphaAnimationForFragmentTransitionEnabled = true
+    open var draggable = true
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -32,6 +33,7 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
             bs.layoutParams.height = height
             with(BottomSheetBehavior.from(bs)) {
                 peekHeight = height
+                isDraggable = draggable
             }
         }
     }

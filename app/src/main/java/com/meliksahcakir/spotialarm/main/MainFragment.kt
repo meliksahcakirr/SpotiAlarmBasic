@@ -88,6 +88,13 @@ class MainFragment : Fragment(), AlarmListener {
             }
         )
 
+        viewModel.goToFeedbackPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navigateToFeedbackFragment()
+            }
+        )
+
         binding.fab.setOnClickListener {
             viewModel.onAlarmSelected()
         }
@@ -122,6 +129,11 @@ class MainFragment : Fragment(), AlarmListener {
         navigate(direction)
     }
 
+    private fun navigateToFeedbackFragment() {
+        val direction = MainFragmentDirections.actionMainFragmentToFeedbackFragment()
+        navigate(direction)
+    }
+
     private fun setupDrawerLayout() {
         val sb = StringBuilder()
         sb.append(getString(R.string.app_name)).append(" ").append(BuildConfig.VERSION_NAME)
@@ -149,6 +161,10 @@ class MainFragment : Fragment(), AlarmListener {
                     dialog.cancel()
                 }.create()
             dialog.show()
+        }
+        binding.drawerContentView.feedbackCardView.setOnClickListener {
+            viewModel.onFeedbackButtonClicked()
+            binding.drawerLayout.close()
         }
     }
 

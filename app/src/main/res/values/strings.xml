@@ -137,4 +137,14 @@
     <string name="delete_all_warning">Are you sure you want to delete all alarms?</string>
     <string name="warning">Warning</string>
     <string name="select_alarm_time">Select Alarm Time</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_explanation">We would like to hear your opinions!</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="feedback_message">Please share your experience with us so we can make sure to
+        improve it both for you and for other users.\n\nYou can also tell us new features that you\'d want to see in the app.</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="empty_message">The message cannot be empty.</string>
+    <string name="feedback_received">Thank you for sharing your feedback.</string>
+    <string name="wait_couple_seconds">Please wait a couple of seconds</string>
 </resources>

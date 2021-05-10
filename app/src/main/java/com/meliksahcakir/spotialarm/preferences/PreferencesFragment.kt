@@ -3,7 +3,6 @@ package com.meliksahcakir.spotialarm.preferences
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Resources
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
@@ -18,7 +17,6 @@ import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.judemanutd.autostarter.AutoStartPermissionHelper
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.R
@@ -161,19 +159,6 @@ class PreferencesFragment : BaseBottomSheetDialogFragment() {
         binding.snoozeValueTextView.setOnClickListener { snoozePopupWindow.show() }
         binding.fadeValueTextView.setOnClickListener { fadePopupWindow.show() }
         binding.fallbackValueTextView.setOnClickListener { requestAudioFilesWithPermissionCheck() }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val height =
-            (Resources.getSystem().displayMetrics.heightPixels * Utils.HEIGHT_RATIO).toInt()
-        dialog?.let {
-            val bs = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)!!
-            bs.layoutParams.height = height
-            with(BottomSheetBehavior.from(bs)) {
-                peekHeight = height
-            }
-        }
     }
 
     private fun getFallbackMusicName(uri: Uri?): String {

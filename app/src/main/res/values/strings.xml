@@ -126,8 +126,6 @@
     <string name="notification_channel_name" translatable="false">SpotiAlarm</string>
     <string name="fcm_notification_channel_desc" translatable="false">General Notifications</string>
     <string name="notification_channel_desc" translatable="false">Alarm Notifications</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="disable_all_alarms">Disable all alarms</string>
     <string name="delete_all_alarms">Delete all alarms</string>
     <string name="google_play_review">Rate us in Google Play</string>

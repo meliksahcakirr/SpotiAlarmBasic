@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/mid_grid_size"
-    android:background="@color/blueGrayDark">
+    android:padding="@dimen/mid_grid_size" >
 
     <ImageView
         android:id="@+id/scvImageView"

@@ -2,6 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.MyApp" parent="Base.Theme.MyApp" />
 
+    <style name="BackgroundStyle" parent="Theme.MyApp">
+        <item name="android:background">@color/blueGrayDark</item>
+    </style>
+
     <style name="Base.Theme.MyApp" parent="Base.Theme.App">
         <item name="colorPrimary">@color/blueGrayDark</item>
         <item name="colorPrimaryVariant">@color/blueGrayDarkVariant</item>

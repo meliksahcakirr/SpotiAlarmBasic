@@ -81,8 +81,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/x4_grid_size"
-        android:text="@string/send_feedback"
-        app:icon="@drawable/ic_send"
+        android:text="@string/send"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/endGuideline"
         app:layout_constraintStart_toStartOf="@id/startGuideline" />

@@ -1,9 +1,13 @@
 package com.meliksahcakir.spotialarm
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
@@ -61,6 +65,22 @@ class MainActivity : AppCompatActivity() {
                     FireStoreHelper.statistics?.favoriteTracks?.addAll(newList)
                 }
                 FireStoreHelper.updateRemoteStatistics()
+            }
+        }
+    }
+
+    fun Activity.inAppReview() {
+        val r = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+        if (r == ConnectionResult.SUCCESS) {
+            val manager = ReviewManagerFactory.create(this)
+            val request = manager.requestReviewFlow()
+            request.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val reviewInfo = task.result
+                    val flow = manager.launchReviewFlow(this, reviewInfo)
+                    flow.addOnCompleteListener { _ ->
+                    }
+                }
             }
         }
     }

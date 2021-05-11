@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:scvDrawable="@drawable/ic_message"
-        app:scvText="@string/give_us_feedback" />
+        app:scvText="@string/share_feedback" />
 
     <View
         android:layout_width="0dp"

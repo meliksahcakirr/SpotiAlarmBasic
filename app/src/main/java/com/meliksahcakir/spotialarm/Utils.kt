@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.view.WindowManager
@@ -19,7 +20,7 @@ import com.meliksahcakir.spotialarm.active.ActiveAlarmActivity
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.data.Alarm
 import com.meliksahcakir.spotialarm.preferences.Preferences
-import java.time.Duration
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Locale
@@ -30,35 +31,6 @@ object Utils {
     const val ENABLED_ALPHA = 1f
     const val NOON = 12
     const val PROGRESS_FULL = 100f
-}
-
-fun calculateDurationString(
-    context: Context,
-    alarm: LocalDateTime,
-    now: LocalDateTime = LocalDateTime.now()
-): String {
-    val resources = context.resources
-    var duration = Duration.between(now.withSecond(0), alarm)
-    if (duration.nano > 0) {
-        duration = duration.plusSeconds(1)
-    }
-    val days = duration.toDays().toInt()
-    duration = duration.minusDays(days.toLong())
-    val hours = duration.toHours().toInt()
-    duration = duration.minusHours(hours.toLong())
-    val minutes = duration.toMinutes().toInt()
-    val dayStr = resources.getQuantityString(R.plurals.number_of_days, days, days)
-    val hourStr = resources.getQuantityString(R.plurals.number_of_hours, hours, hours)
-    val minuteStr = resources.getQuantityString(R.plurals.number_of_minutes, minutes, minutes)
-    return when {
-        days > 0 ->
-            context.getString(R.string.in_days_hours, dayStr, hourStr)
-        hours > 0 ->
-            context.getString(R.string.in_hours_minutes, hourStr, minuteStr)
-        minutes > 0 ->
-            context.getString(R.string.in_minutes, minuteStr)
-        else -> context.getString(R.string.now)
-    }
 }
 
 fun Context.createPendingIntentToActivity(alarm: Alarm): PendingIntent {
@@ -204,4 +176,17 @@ fun Context.isConnectedToInternet(): Boolean {
         }
     }
     return hasInternet
+}
+
+fun Context.rateApp() {
+    try {
+        val uri = Uri.parse(getString(R.string.url_playstore_app) + packageName)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        var flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        flags = flags or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+        intent.addFlags(flags)
+        startActivity(intent)
+    } catch (e: Exception) {
+        Timber.e(e)
+    }
 }

@@ -95,6 +95,7 @@ dependencies {
     implementation(SupportLibs.FIREBASE_MESSAGING_KTX)
     implementation(SupportLibs.COROUTINES_PLAY_SERVICE)
     implementation(SupportLibs.WORK_RUNTIME_KTX)
+    implementation(SupportLibs.GOOGLE_PLAY_KTX)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

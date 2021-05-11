@@ -32,6 +32,7 @@ object Versions {
     const val KOIN = "2.2.2"
     const val FIREBASE_BOM = "27.1.0"
     const val WORK_RUNTIME_KTX = "2.5.0"
+    const val GOOGLE_PLAY_KTX = "1.8.1"
 }
 
 object BuildPluginsVersion {
@@ -92,9 +93,11 @@ object SupportLibs {
     const val FIREBASE_FIRESTORE_KTX = "com.google.firebase:firebase-firestore-ktx"
     const val FIREBASE_AUTH_KTX = "com.google.firebase:firebase-auth-ktx"
     const val FIREBASE_MESSAGING_KTX = "com.google.firebase:firebase-messaging-ktx"
-    const val FIREBASE_IN_APP_MESSAGING_DISPLAY_KTX = "com.google.firebase:firebase-inappmessaging-display-ktx"
+    const val FIREBASE_IN_APP_MESSAGING_DISPLAY_KTX =
+        "com.google.firebase:firebase-inappmessaging-display-ktx"
     const val FIREBASE_REMOTE_CONFIG_KTX = "com.google.firebase:firebase-config-ktx"
     const val WORK_RUNTIME_KTX = "androidx.work:work-runtime-ktx:${Versions.WORK_RUNTIME_KTX}"
+    const val GOOGLE_PLAY_KTX = "com.google.android.play:core-ktx:${Versions.GOOGLE_PLAY_KTX}"
 }
 
 object TestingLib {

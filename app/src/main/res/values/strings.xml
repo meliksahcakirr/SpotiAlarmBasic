@@ -146,4 +146,10 @@
     <string name="feedback_received">Thank you for sharing your feedback.</string>
     <string name="wait_couple_seconds">Please wait a couple of seconds</string>
     <string name="url_playstore_app" translatable="false">https://play.google.com/store/apps/details?id=</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="rating_explanation">How did you find SpotiAlarm?</string>
+    <string name="thanks_for_rating">Thank you for rating us!</string>
+    <string name="review_explanation">Would you like to review us in Google Play, too?</string>
+    <string name="submit">Submit</string>
+    <string name="not_now">Not now</string>
 </resources>

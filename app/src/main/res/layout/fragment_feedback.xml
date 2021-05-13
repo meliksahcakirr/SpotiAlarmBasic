@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     app:behavior_draggable="false"
     app:behavior_hideable="false"
-
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <TextView

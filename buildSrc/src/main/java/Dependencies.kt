@@ -33,6 +33,7 @@ object Versions {
     const val FIREBASE_BOM = "27.1.0"
     const val WORK_RUNTIME_KTX = "2.5.0"
     const val GOOGLE_PLAY_KTX = "1.8.1"
+    const val SMILEY_RATING = "1.6.8"
 }
 
 object BuildPluginsVersion {
@@ -98,6 +99,7 @@ object SupportLibs {
     const val FIREBASE_REMOTE_CONFIG_KTX = "com.google.firebase:firebase-config-ktx"
     const val WORK_RUNTIME_KTX = "androidx.work:work-runtime-ktx:${Versions.WORK_RUNTIME_KTX}"
     const val GOOGLE_PLAY_KTX = "com.google.android.play:core-ktx:${Versions.GOOGLE_PLAY_KTX}"
+    const val SMILEY_RATING = "com.github.sujithkanna:smileyrating:${Versions.SMILEY_RATING}"
 }
 
 object TestingLib {

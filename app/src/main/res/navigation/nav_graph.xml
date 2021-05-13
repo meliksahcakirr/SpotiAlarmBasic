@@ -21,6 +21,10 @@
             android:id="@+id/action_mainFragment_to_feedbackFragment"
             app:destination="@id/feedbackFragment"
             app:enterAnim="@anim/slide_up" />
+        <action
+            android:id="@+id/action_mainFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment"
+            app:enterAnim="@anim/slide_up" />
     </fragment>
     <dialog
         android:id="@+id/alarmEditFragment"
@@ -131,4 +135,9 @@
         android:name="com.meliksahcakir.spotialarm.feedback.FeedbackFragment"
         android:label="FeedbackFragment"
         tools:layout="@layout/fragment_feedback"/>
+    <dialog
+        android:id="@+id/ratingFragment"
+        android:name="com.meliksahcakir.spotialarm.rate.RatingFragment"
+        android:label="RatingFragment"
+        tools:layout="@layout/fragment_rating"/>
 </navigation>

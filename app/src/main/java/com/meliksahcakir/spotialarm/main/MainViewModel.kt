@@ -8,18 +8,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.meliksahcakir.androidutils.Event
 import com.meliksahcakir.androidutils.Result
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.calculateDurationString
 import com.meliksahcakir.spotialarm.cancel
 import com.meliksahcakir.spotialarm.data.Alarm
-import com.meliksahcakir.spotialarm.firebase.Feedback
-import com.meliksahcakir.spotialarm.firebase.FireStoreHelper
-import com.meliksahcakir.spotialarm.firebase.diffInSeconds
 import com.meliksahcakir.spotialarm.repository.AlarmRepository
 import com.meliksahcakir.spotialarm.repository.MusicRepository
 import com.meliksahcakir.spotialarm.schedule
@@ -36,7 +30,6 @@ class MainViewModel(
 
     companion object {
         private const val TIME_INTERVAL = 10000L
-        private const val FB_INTERVAL = 10L
     }
 
     private val _goToEditPageEvent = MutableLiveData<Event<Int>>()
@@ -47,6 +40,9 @@ class MainViewModel(
 
     private val _goToFeedbackPageEvent = MutableLiveData<Event<Unit>>()
     val goToFeedbackPageEvent: LiveData<Event<Unit>> get() = _goToFeedbackPageEvent
+
+    private val _goToReviewPageEvent = MutableLiveData<Event<Unit>>()
+    val goToReviewPageEvent: LiveData<Event<Unit>> get() = _goToReviewPageEvent
 
     private val _warningEvent = MutableLiveData<Event<String>>()
     val warningEvent: LiveData<Event<String>> get() = _warningEvent
@@ -69,8 +65,6 @@ class MainViewModel(
             handler.postDelayed(this, TIME_INTERVAL)
         }
     }
-
-    private var fbTimestamp: Timestamp? = null
 
     init {
         // refreshData()
@@ -149,22 +143,8 @@ class MainViewModel(
         _goToFeedbackPageEvent.value = Event(Unit)
     }
 
-    fun onFeedbackSendButtonClicked(name: String, email: String, message: String) {
-        if (message.isBlank()) {
-            _warningEvent.value = Event(app.getString(R.string.empty_message))
-            return
-        }
-        val uid = Firebase.auth.currentUser?.uid ?: ""
-        val feedback = Feedback(uid, name, email, message)
-        if (fbTimestamp == null || feedback.timestamp.diffInSeconds(fbTimestamp!!) >= FB_INTERVAL) {
-            fbTimestamp = feedback.timestamp
-            viewModelScope.launch {
-                FireStoreHelper.sendFeedback(feedback)
-                _warningEvent.value = Event(app.getString(R.string.feedback_received))
-            }
-        } else {
-            _warningEvent.value = Event(app.getString(R.string.wait_couple_seconds))
-        }
+    fun onReviewButtonClicked() {
+        _goToReviewPageEvent.value = Event(Unit)
     }
 
     fun onDisableButtonClicked() {

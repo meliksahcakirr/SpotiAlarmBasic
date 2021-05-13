@@ -120,7 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:scvDrawable="@drawable/ic_thumb_up"
-        app:scvText="@string/google_play_review" />
+        app:scvText="@string/rate_us" />
 
     <View
         android:layout_width="0dp"

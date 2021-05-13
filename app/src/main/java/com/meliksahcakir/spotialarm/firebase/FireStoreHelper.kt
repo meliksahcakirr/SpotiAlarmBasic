@@ -51,4 +51,14 @@ object FireStoreHelper {
             Result.Error(e)
         }
     }
+
+    suspend fun sendRating(rating: Rating): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val document = Firebase.firestore.collection("ratings").document()
+            document.set(rating).await()
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
 }

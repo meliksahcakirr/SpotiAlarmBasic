@@ -8,15 +8,14 @@ import android.widget.Toast
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BaseBottomSheetDialogFragment
 import com.meliksahcakir.spotialarm.databinding.FragmentFeedbackBinding
-import com.meliksahcakir.spotialarm.main.MainViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedbackFragment : BaseBottomSheetDialogFragment() {
 
     private var _binding: FragmentFeedbackBinding? = null
     private val binding: FragmentFeedbackBinding get() = _binding!!
 
-    val viewModel: MainViewModel by sharedViewModel()
+    val viewModel: FeedbackViewModel by viewModel()
 
     override var alphaAnimationForFragmentTransitionEnabled = false
     override var draggable = false

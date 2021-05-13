@@ -5,11 +5,13 @@ import androidx.room.Room
 import com.meliksahcakir.spotialarm.albums.AlbumsViewModel
 import com.meliksahcakir.spotialarm.artists.ArtistsViewModel
 import com.meliksahcakir.spotialarm.edit.EditViewModel
+import com.meliksahcakir.spotialarm.feedback.FeedbackViewModel
 import com.meliksahcakir.spotialarm.genres.GenresViewModel
 import com.meliksahcakir.spotialarm.main.MainViewModel
 import com.meliksahcakir.spotialarm.music.api.NapsterService
 import com.meliksahcakir.spotialarm.options.OptionsViewModel
 import com.meliksahcakir.spotialarm.playlists.PlaylistsViewModel
+import com.meliksahcakir.spotialarm.rate.RatingViewModel
 import com.meliksahcakir.spotialarm.repository.AlarmDao
 import com.meliksahcakir.spotialarm.repository.AlarmRepository
 import com.meliksahcakir.spotialarm.repository.MusicDao
@@ -70,6 +72,18 @@ val genresViewModelModule = module {
 val editViewModelModule = module {
     viewModel {
         EditViewModel(get(), get(), androidApplication())
+    }
+}
+
+val ratingViewModelModule = module {
+    viewModel {
+        RatingViewModel(androidApplication())
+    }
+}
+
+val feedbackViewModelModule = module {
+    viewModel {
+        FeedbackViewModel(androidApplication())
     }
 }
 
@@ -135,6 +149,8 @@ val modules = listOf(
     artistsViewModelModule,
     genresViewModelModule,
     editViewModelModule,
+    feedbackViewModelModule,
+    ratingViewModelModule,
     alarmRepositoryModule,
     musicRepositoryModule,
     apiModule,

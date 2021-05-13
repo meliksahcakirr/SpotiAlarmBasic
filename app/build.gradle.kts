@@ -96,6 +96,7 @@ dependencies {
     implementation(SupportLibs.COROUTINES_PLAY_SERVICE)
     implementation(SupportLibs.WORK_RUNTIME_KTX)
     implementation(SupportLibs.GOOGLE_PLAY_KTX)
+    implementation(SupportLibs.SMILEY_RATING)
 
     testImplementation(TestingLib.JUNIT)
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

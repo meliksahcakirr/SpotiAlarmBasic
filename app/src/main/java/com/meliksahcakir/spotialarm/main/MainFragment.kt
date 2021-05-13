@@ -13,17 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.meliksahcakir.androidutils.EventObserver
 import com.meliksahcakir.spotialarm.BuildConfig
 import com.meliksahcakir.spotialarm.R
 import com.meliksahcakir.spotialarm.broadcast.AlarmReceiver
 import com.meliksahcakir.spotialarm.databinding.FragmentMainBinding
 import com.meliksahcakir.spotialarm.navigate
-import com.meliksahcakir.spotialarm.rateApp
 import com.meliksahcakir.spotialarm.setNearestAlarm
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -99,6 +95,13 @@ class MainFragment : Fragment(), AlarmListener {
             }
         )
 
+        viewModel.goToReviewPageEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navigateToRatingFragment()
+            }
+        )
+
         binding.fab.setOnClickListener {
             viewModel.onAlarmSelected()
         }
@@ -138,6 +141,11 @@ class MainFragment : Fragment(), AlarmListener {
         navigate(direction)
     }
 
+    private fun navigateToRatingFragment() {
+        val direction = MainFragmentDirections.actionMainFragmentToRatingFragment()
+        navigate(direction)
+    }
+
     private fun setupDrawerLayout() {
         val sb = StringBuilder()
         sb.append(getString(R.string.app_name)).append(" ").append(BuildConfig.VERSION_NAME)
@@ -171,26 +179,8 @@ class MainFragment : Fragment(), AlarmListener {
             binding.drawerLayout.close()
         }
         binding.drawerContentView.googlePlayReviewCardView.setOnClickListener {
+            viewModel.onReviewButtonClicked()
             binding.drawerLayout.close()
-            requireContext().rateApp()
-        }
-    }
-
-    private fun rateInGooglePlay() {
-        val r = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext())
-        if (r == ConnectionResult.SUCCESS) {
-            val manager = ReviewManagerFactory.create(requireContext())
-            val request = manager.requestReviewFlow()
-            request.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val reviewInfo = task.result
-                    val flow = manager.launchReviewFlow(requireActivity(), reviewInfo)
-                    flow.addOnCompleteListener { _ ->
-                    }
-                } else {
-                    requireContext().rateApp()
-                }
-            }
         }
     }
 

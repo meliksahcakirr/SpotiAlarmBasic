@@ -41,13 +41,13 @@ class RatingFragment : BottomSheetDialogFragment() {
         viewModel.currentState.observe(viewLifecycleOwner) {
             when (it) {
                 ReviewState.RATING_SELECTION -> {
-                    binding.ratingTextView.isVisible = true
+                    binding.ratingTextView.text = getString(R.string.rating_explanation)
                     binding.smileRating.isVisible = true
                     binding.requestReviewTextView.isVisible = false
                     binding.submitButton.text = getString(R.string.submit)
                 }
                 ReviewState.GOOGLE_PLAY_REVIEW_REQUEST -> {
-                    binding.ratingTextView.isVisible = false
+                    binding.ratingTextView.text = getString(R.string.thanks_for_rating)
                     binding.smileRating.isInvisible = true
                     binding.requestReviewTextView.isVisible = true
                     binding.submitButton.text = getString(R.string.google_play_review)

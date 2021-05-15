@@ -66,7 +66,7 @@ class OptionsAdapter(
         override fun play(track: Track) {
             val prev = playedTrackId
             playedTrackId = track.id
-            playedTrackProgress = 0f
+            playedTrackProgress = -1f
             notifyItemChanged(
                 currentList.indexOfFirst {
                     it is MusicUIModel.TrackItem && it.track.id == prev

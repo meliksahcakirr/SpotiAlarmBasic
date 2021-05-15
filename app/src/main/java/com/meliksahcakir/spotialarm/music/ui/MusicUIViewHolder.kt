@@ -94,10 +94,12 @@ class TrackViewHolder(
     }
 
     fun updateProgress(progress: Float) {
-        if (binding.progressBar.indeterminateMode) {
+        if (progress == -1f) {
+            binding.progressBar.indeterminateMode = true
+        } else {
             binding.progressBar.indeterminateMode = false
+            binding.progressBar.progress = progress
         }
-        binding.progressBar.progress = progress
     }
 }
 

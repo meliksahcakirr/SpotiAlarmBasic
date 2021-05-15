@@ -35,7 +35,7 @@ class TracksAdapter(
         override fun play(track: Track) {
             val prev = playedTrackId
             playedTrackId = track.id
-            playedTrackProgress = 0f
+            playedTrackProgress = -1f
             notifyItemChanged(currentList.indexOfFirst { it.track.id == prev })
             notifyItemChanged(currentList.indexOfFirst { it.track.id == playedTrackId })
             trackListener.play(track)
